@@ -1,6 +1,7 @@
 # PlanCatalyst Data Dashboard
 An interactive data insights dashboard for PlanCatalyst’s redesigned website for stakeholders to explore global development indicators.
 ## Development Team
+_Built by Tech for Social Impact (TSI)_<br>
 * __Project Managers__: Thomas Llamzon, Anthony Lam
 * __Developers__: TBD
 ## Tech Stack
