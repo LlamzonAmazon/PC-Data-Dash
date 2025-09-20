@@ -1,4 +1,4 @@
-# PC-Data-Dash
+# PlanCatalyst Data Dashboard
 An interactive data insights dashboard for PlanCatalyst’s redesigned website for stakeholders to explore global development indicators.
 ## Development Team
 * __Project Managers__: Thomas Llamzon, Anthony Lam
