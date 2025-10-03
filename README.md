@@ -10,4 +10,5 @@ _Built by Tech for Social Impact (TSI)_<br>
   * Must integrate with Wix
 * __Data Processing__: Python (Pandas/NumPy/Scikit-learn)
 * __Dataset Sources (Public APIs)__: World Bank, UN,
-  
+* __Automated Refreshing__: GitHub Actions/AWS Lambda
+* __Storage__: AWS S3/Google Drive/Microsoft OneDrive
