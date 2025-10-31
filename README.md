@@ -22,4 +22,4 @@ This dashboard features live and predictive data insights using __composite inde
 This dashboard is made by __[Tech for Social Impact](https://www.uwotsi.com) (TSI)__.
 
 * __Project Managers__: Thomas Llamzon, Anthony Lam
-* __Developers__: Adeline Lue Sang, Caroline Shen, Christina Li, Kayden Jaffer, Tyler Asai
+* __Developers__: Adeline Lue Sang, Caroline Shen, Christina Wong, Kayden Jaffer, Tyler Asai
