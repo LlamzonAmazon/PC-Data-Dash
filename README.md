@@ -40,9 +40,7 @@ PC-Data-Dash/
 │   │   └── settings.yaml
 │   │
 │   └── aws/                      # AWS (S3 storage, Lambda automation, etc.)
-│       ├── s3_upload.py
-│       ├── lambda_trigger.py
-│       └── glue.py
+│       ├── 
 │
 ├── notebooks/                    # Model testing/analysis?
 │   ├── EDA_un_sdg.ipynb
