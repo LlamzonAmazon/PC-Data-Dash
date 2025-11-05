@@ -1,12 +1,11 @@
 # PlanCatalyst Data Dashboard
-__🌍 Check out [PlanCatalyst](https://www.PlanCatalyst.org) today!__
 
-We're building an interactive dashboard for PlanCatalyst’s redesigned website that models country-level development progress such as:
+We're building an interactive dashboard for [PlanCatalyst](https://www.PlanCatalyst.org)’s redesigned website that forecasts country-level development progress on:
 * __UN SDGs__ (United Nations Sustainable Development Goals) – Human Rights & Gender Equity
 * __ND-GAIN__ (Notre Dame Global Adaptation Index) – Climate Change Resilience
 * __World Bank Data__ – Financial Capacity
 
-This dashboard features live and predictive data insights using __composite indexes__ and __regression for development forecasting__ to emphasize the organization's committment to data-driven decicsion making.
+This dashboard uses **regression** tools (`scikit-learn`/`XGBoost`/`Random Forest`) to forecast country development and uses `NumPy` for **composite indexes**. This product also uses **AWS** to automatically fetch raw data and store processed data. The frontend component is handled by **Microsoft PowerBI**.
 
 ## 🏙️ Code Structure
 ***The structure of this project is still being designed.***
@@ -39,7 +38,7 @@ PC-Data-Dash/
 │   ├── config/                   # Config files (API keys, URLs, paths)
 │   │   └── settings.yaml
 │   │
-│   └── aws/                      # AWS (S3 storage, Lambda automation, etc.)
+│   └── aws/                      # AWS (S3 storage? Lambda automation?)
 │       ├── 
 │
 ├── notebooks/                    # Model testing/analysis?
