@@ -12,32 +12,51 @@ This dashboard features live and predictive data insights using __composite inde
 ***The structure of this project is still being designed.***
 ```
 PC-Data-Dash/
-├── data/                         # Datasets (stored data, additional CSV files)
-├── src/
-│   ├── data_fetch/               # Fetch, clean, and structure data
-│   |   ├── un_sdg_fetch.py
-│   |   ├── nd_gain_fetch.py
-│   |   ├── world_bank_fetch.py
-│   ├── data_sources/             # Maintaining sources of data (API/CSV)
-│   |   ├── un_sdg_src.py
-│   |   ├── nd_gain_srcs.py
-│   |   ├── world_bank_srcs.py
-│   ├── model/                    # Data modelling scripts (scikit-learn)
-│   ├── powerbi/                  # Pipelining processed data into PowerBI
-│   ├── aws/                      # AWS (S3 storage, Lambda automation)
-├── requirements.txt              # Install dependencies
-├── README.md
+├── data/                         # DATA
+│   ├── raw/                      # Unmodified API/CSV outputs
+│   ├── interim/                  # Cleaned/intermediate data
+│   └── processed/                # Final data for PowerBI
+│
+├── src/                          # SOURCE CODE
+│   ├── fetch/                    # Data fetching (APIs, CSV ingestion)
+│   │   ├── un_sdg_fetch.py
+│   │   ├── nd_gain_fetch.py
+│   │   └── world_bank_fetch.py
+│   │
+│   ├── transform/                # Cleaning + structuring scripts
+│   │   ├── clean_un_sdg.py
+│   │   ├── clean_nd_gain.py
+│   │   └── clean_world_bank.py
+│   │
+│   ├── models/                   # Data modeling (ML/indices, scikit-learn, XGBoost?)
+│   │   ├── regression.py
+│   │   └── forecasting.py
+│   │
+│   ├── pipeline/                 # Handling data pipeline flow
+│   │   ├── run_pipeline.py       
+│   │   └── utils.py              # Helpers? (logging, config, etc.)
+│   │
+│   ├── config/                   # Config files (API keys, URLs, paths)
+│   │   └── settings.yaml
+│   │
+│   └── aws/                      # AWS (S3 storage, Lambda automation, etc.)
+│       ├── s3_upload.py
+│       ├── lambda_trigger.py
+│       └── glue.py
+│
+├── notebooks/                    # Model testing/analysis?
+│   ├── EDA_un_sdg.ipynb
+│   └── EDA_world_bank.ipynb
+│
+├── powerbi/                      # POWERBI
+│   ├── data_export.py
+│   └── schema_definition.json
+│
+├── requirements.txt              # venv dependencies
+├── dockerfile                    # 🐳
+├── README.md                     
 └── LICENSE
 ```
-
-## 📝 Environment Setup
-We are using a Python Virtual Environment to ensure all team members' development environments are synced. All team members will have to:
-1. Create your own virtual environment with `python3 -m venv venv`
-2. Activate venv with `source venv/bin/activate` (MacOS) or `venv\Scripts\Activate.ps1` (Windows)
-3. Install dependencies from `requirements.txt` with `pip install -r requirements.txt`
-4. Verify Setup with `pip list`
-
-**Important Note**: the venv folder is NEVER pushed to the public repo as it exposes sensitive machine configuration data.
 
 ## 🌐 Team
 This dashboard is made by __[Tech for Social Impact](https://www.uwotsi.com) (TSI)__.
