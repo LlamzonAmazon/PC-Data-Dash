@@ -87,15 +87,3 @@ df_goals, df_targets, df_indicators = goals_list_to_dataframes(un_sdg_data)
 print(f"=== GOALS ===\n\n {df_goals.head()}\n")
 print(f"=== TARGETS ===\n\n {df_targets.head()}\n")
 print(f"=== INDICATORS ===\n\n {df_indicators.head()}\n")
-
-'''
-========== ND-GAIN ==========
-'''
-
-''' ========== END ========== '''
-
-''' 
-========== World Bank ========== 
-
-'''
-''' ========== END ========== '''
