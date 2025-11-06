@@ -54,6 +54,11 @@ PC-Data-Dash/
 ├── README.md                     
 └── LICENSE
 ```
+## 📌 References/Resources
+* [UN SDG API V5](https://unstats.un.org/sdgs/UNSDGAPIV5/swagger/index.html) – UN SDGs, indicators, and targets data API
+* [UN SDG Data Commons](https://unstats.un.org/UNSDWebsite/undatacommons/sdgs) – Shows SDG progress by goal, indicator, and country.
+  * Can also be used to see REST V2 API request code for a query
+* 
 
 ## 🌐 Team
 This dashboard is made by __[Tech for Social Impact](https://www.uwotsi.com) (TSI)__.
