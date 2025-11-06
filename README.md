@@ -58,6 +58,8 @@ PC-Data-Dash/
 * [UN SDG API V5](https://unstats.un.org/sdgs/UNSDGAPIV5/swagger/index.html) – UN SDGs, indicators, and targets data API
 * [UN SDG Data Commons](https://unstats.un.org/UNSDWebsite/undatacommons/sdgs) – Shows SDG progress by goal, indicator, and country.
   * Can also be used to see REST V2 API request code for a query
+* [ND-GAIN Kaggle](https://www.kaggle.com/datasets/shabou/ndgain-country-index/data/code)
+* [ND-GAIN CSV](https://gain.nd.edu/our-work/country-index/download-data/)
 * 
 
 ## 🌐 Team
