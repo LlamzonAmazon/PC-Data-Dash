@@ -54,13 +54,28 @@ PC-Data-Dash/
 ├── README.md                     
 └── LICENSE
 ```
+
 ## 📌 References/Resources
-* [UN SDG API V5](https://unstats.un.org/sdgs/UNSDGAPIV5/swagger/index.html) – UN SDGs, indicators, and targets data API
-* [UN SDG Data Commons](https://unstats.un.org/UNSDWebsite/undatacommons/sdgs) – Shows SDG progress by goal, indicator, and country.
-  * Can also be used to see REST V2 API request code for a query
-* [ND-GAIN Kaggle](https://www.kaggle.com/datasets/shabou/ndgain-country-index/data/code)
-* [ND-GAIN CSV](https://gain.nd.edu/our-work/country-index/download-data/)
-* 
+### UN SDGs
+* [UN SDG **API** V1](https://unstats.un.org/sdgapi/swagger/#!/)
+* [UN SDG **API** V5](https://unstats.un.org/sdgs/UNSDGAPIV5/swagger/index.html) 
+* [UN Statistics Division](https://unstats.un.org/UNSDWebsite/#) – **Gateway** to UN SDG data
+  * Provides lots of background on the goals, indicators, methodology, statistics, etc.
+* [UN SDG Data Commons](https://unstats.un.org/UNSDWebsite/undatacommons/sdgs) – **Resource** that shows SDG progress by goal, indicator, and country
+  * Can be used to preview API request for a given query
+  * Features interactive maps (good reference)
+* [UN SDG Indicators Home](https://unstats.un.org/sdgs/) – **Gateway** to UN SDG data resources
+  * Provides background on lots of SDG information as well 
+* [UN SDG Data Portal](https://unstats.un.org/sdgs/dataportal) – **Database** of all indicator data
+* So much data... 😵‍💫😵‍💫
+### ND-GAIN Index
+* [ND-GAIN Kaggle](https://www.kaggle.com/datasets/shabou/ndgain-country-index/data/code) – ND-GAIN scores dataset (can use for modelling climate risk/adaptive capacity)
+* [ND-GAIN CSV](https://gain.nd.edu/our-work/country-index/download-data/) – Official University of Notre Dame source for downloading the latest ND-GAIN Country Index in CSV format
+### World Bank Group
+* [World Bank Open Data](https://data.worldbank.org/) – Repo of global development & economic indicators
+  * Features an interactive map (good reference)
+* [World Bank DataBank](https://databank.worldbank.org/home.aspx) – Browser tool; helps define API parameters to use before making API calls
+* [World Bank API Documentation](https://documents.worldbank.org/en/publication/documents-reports/api) – API guide
 
 ## 🌐 Team
 This dashboard is made by __[Tech for Social Impact](https://www.uwotsi.com) (TSI)__.
