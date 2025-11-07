@@ -1,0 +1,1682 @@
+[
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2024",
+    "value": 75.8532992905187,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2023",
+    "value": 71.0755405509113,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2022",
+    "value": 70.6060973782971,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2021",
+    "value": 68.8052246830253,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2020",
+    "value": 68.6961548470609,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2019",
+    "value": 62.790505078946,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2018",
+    "value": 60.2183479381776,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2017",
+    "value": 59.4843092973742,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2016",
+    "value": 62.1940069633522,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2015",
+    "value": 66.8297006475728,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2014",
+    "value": 66.028510394056,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2013",
+    "value": 64.2305738283777,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2012",
+    "value": 62.5192932018235,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2011",
+    "value": 58.0784911062018,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2010",
+    "value": 52.764657630443,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2024",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2023",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2022",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2021",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2020",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2019",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2018",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2017",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2016",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2015",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2014",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2013",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2012",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2011",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2010",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2024",
+    "value": 194.165996844811,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2023",
+    "value": 189.606708989308,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2022",
+    "value": 181.785162429715,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2021",
+    "value": 173.554518720488,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2020",
+    "value": 179.104100221958,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2019",
+    "value": 162.207566232758,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2018",
+    "value": 154.991560224764,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2017",
+    "value": 152.089747458443,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2016",
+    "value": 153.192761827313,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2015",
+    "value": 149.628832038708,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2014",
+    "value": 137.623726308462,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2013",
+    "value": 131.939045697462,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2012",
+    "value": 126.819734509975,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2011",
+    "value": 121.167093127879,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2010",
+    "value": 124.425608463989,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2024",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2023",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2022",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2021",
+    "value": 50.1421581396983,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2020",
+    "value": 54.5052902460387,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2019",
+    "value": 50.7424617406439,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2018",
+    "value": 50.3381627463062,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2017",
+    "value": 48.7940213990706,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2016",
+    "value": 49.1012254191449,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2015",
+    "value": 51.8675240772049,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2014",
+    "value": 51.8821873589628,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2013",
+    "value": 52.385709516972,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2012",
+    "value": 51.8885076473464,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2011",
+    "value": 51.2892331325447,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2010",
+    "value": 50.5553749785224,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2024",
+    "value": 34.6539050825782,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2023",
+    "value": 33.2369362044555,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2022",
+    "value": 34.2597422077016,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2021",
+    "value": 35.0570605491873,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2020",
+    "value": 36.932589757811,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2019",
+    "value": 35.5851864870933,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2018",
+    "value": 33.6152178165449,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2017",
+    "value": 34.3431256723362,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2016",
+    "value": 32.9508423866166,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2015",
+    "value": 30.8304978658063,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2014",
+    "value": 28.1836821045396,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2013",
+    "value": 27.8590593255176,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2012",
+    "value": 24.9270563840333,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2011",
+    "value": 23.5848328356452,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2010",
+    "value": 22.3237750289598,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2024",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2023",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2022",
+    "value": 12.9574673117641,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2021",
+    "value": 13.4494491647875,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2020",
+    "value": 12.1318506028341,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2019",
+    "value": 11.1575566541912,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2018",
+    "value": 10.2465813012399,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2017",
+    "value": 12.8520298076198,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2016",
+    "value": 14.6080388563102,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2015",
+    "value": 13.0786844773698,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2014",
+    "value": 13.2970053767392,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2013",
+    "value": 11.5332149415284,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2012",
+    "value": 10.6047037712344,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2011",
+    "value": 11.0436296114106,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2010",
+    "value": 13.490742840586,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2024",
+    "value": 198.226502993254,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2023",
+    "value": 192.589445972937,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2022",
+    "value": 187.970100405874,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2021",
+    "value": 220.381317178271,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2020",
+    "value": 217.855590337027,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2019",
+    "value": 194.735258917444,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2018",
+    "value": 183.054001756212,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2017",
+    "value": 194.090996653847,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2016",
+    "value": 186.327051044306,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2015",
+    "value": 183.632163440252,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2014",
+    "value": 184.794021331949,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2013",
+    "value": 184.162921715823,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2012",
+    "value": 175.443843579456,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2011",
+    "value": 174.474559125538,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "FS.AST.PRVT.GD.ZS",
+      "value": "Domestic credit to private sector (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2010",
+    "value": 181.920666527452,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  }
+]

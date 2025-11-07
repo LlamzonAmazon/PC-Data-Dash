@@ -1,0 +1,59 @@
+# ===========================
+# PlanCatalyst Data Dashboard
+# World Bank fetch configuration
+# ===========================
+
+world_bank:
+  # ISO-3 country codes to query in ONE request (semicolon-joined in the API call).
+  # You can add/remove codes (e.g., "GBR", "FRA"). Regions like "WLD" (world) also work,
+  # but mixing countries + regions may complicate modeling/visuals later.
+  countries: ["CAN", "USA", "MEX", "IND", "CHN", "NGA", "BRA"]
+
+  # Inclusive start/end year for the World Bank "date" filter, e.g. date=2010:2024
+  # Not all indicators have values for every year; nulls are expected.
+  start_year: 2010
+  end_year: 2024
+
+  # Indicators to fetch. "code" is the official WB indicator id;
+  # "alias" is the clean, BI-friendly name used in outputs ("indicator" column).
+  indicators:
+    - { code: "NY.GDP.PCAP.CD", alias: "gdp_per_capita_usd" }           # GDP per capita (current US$)
+    - { code: "GC.TAX.TOTL.GD.ZS", alias: "tax_revenue_pct_gdp" }       # Tax revenue (% of GDP)
+    - { code: "FS.AST.PRVT.GD.ZS", alias: "domestic_credit_private_pct_gdp" } # Domestic credit to private sector (% of GDP)
+
+paths:
+  # Where to store raw, untouched API JSON for auditability and re-processing.
+  data_raw: "data/raw/world_bank"
+
+  # Where to store cleaned “tidy” data produced by the fetch step (still general-purpose).
+  data_interim: "data/interim/world_bank"
+
+  # Where to store polished, model-ready or Power BI–ready outputs (optional).
+  data_processed: "data/processed/world_bank"
+
+  # Main combined tidy CSV (columns: country, iso3, indicator, year, value).
+  # This is what Power BI or downstream transforms will typically ingest.
+  interim_csv: "data/interim/world_bank/world_bank_interim.csv"
+
+runtime:
+  # If true: write raw JSON and the interim CSV to disk (paths above).
+  # If false: only print a console preview (useful for quick testing).
+  write_files: true
+
+  # Page size for World Bank API pagination. 1000 is a good max that reduces round-trips.
+  # The client will auto-paginate until all pages are fetched.
+  per_page: 1000
+
+  # Maximum number of retry attempts for transient network/server errors
+  # during API calls. Used with exponential backoff to improve resilience.
+  #
+  # How it works (with tenacity/backoff in code):
+  # 1) Attempt the request.
+  # 2) If it fails with a retryable error (timeout, 5xx, connection reset), wait a short time.
+  # 3) Try again, increasing the wait (exponential backoff) until attempts == max_retries.
+  #
+  # Practical guidance:
+  # - Keep 3–5 in most environments.
+  # - Increase if your network is flaky or if the WB API rate-limits/briefly blips.
+  # - Decrease in CI if you want faster failures.
+  max_retries: 4
