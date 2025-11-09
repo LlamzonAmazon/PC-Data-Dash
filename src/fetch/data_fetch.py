@@ -1,9 +1,11 @@
 from __future__ import annotations
+
 from pathlib import Path
 import sys, yaml, pandas as pd
 
-# Import helper modules and classes
-from src.fetch.world_bank_fetch import WorldBankClient, save_raw_json, save_interim_csv
+# Import data clients
+from src.fetch.world_bank_fetch import WorldBankClient
+from src.fetch.un_sdg_fetch import UNSDGClient
 from src.pipeline.utils import project_root, setup_logger
 
 
@@ -21,10 +23,38 @@ def main():
 
     # Load configuration from YAML file
     cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8"))
+
+
+    ''' ########## UN SDG Data Fetching ########### '''
+    
+    base_url = f"{cfg['un_sdg']['api_paths']['base']}"
+
+    unsdgClient = UNSDGClient(api_url=base_url)
+    goals_data = unsdgClient.fetch("/Goal/List", parameters={
+        "includeChildren": "true"
+        })
+    df_goals, df_targets, df_indicators = unsdgClient._goals_list_to_dataframes(goals_data)
+    
+    print("\n=== UN SDG Goals Data (preview) ===")
+    print(df_goals.head())
+    print(f"\nTotal Goals: {len(df_goals)}")
+
+    print("\n=== UN SDG Targets Data (preview) ===")
+    print(df_targets.head())
+    print(f"\nTotal Targets: {len(df_targets)}")
+
+    print("\n=== UN SDG Indicators Data (preview) ===")
+    print(df_indicators.head())
+    print(f"\nTotal Indicators: {len(df_indicators)}")
+    print("\n")
+    
+
+    ''' ########## World Bank Data Fetching ########### '''
+
     wb, paths, runtime = cfg["world_bank"], cfg["paths"], cfg["runtime"]
 
     # Initialize API client with per_page setting from config
-    client = WorldBankClient(per_page=runtime.get("per_page", 1000))
+    wbClient = WorldBankClient(per_page=runtime.get("per_page", 1000))
     frames = []  # List to store dataframes for each indicator
 
     # Loop through each indicator and fetch its data
@@ -32,18 +62,18 @@ def main():
         code, alias = item["code"], item.get("alias", item["code"])
 
         # Fetch all records (2010–2024, multiple countries)
-        recs = client.fetch_indicator(code, wb["countries"], wb["start_year"], wb["end_year"])
+        recs = wbClient.fetch_indicator(code, wb["countries"], wb["start_year"], wb["end_year"])
 
         # Save raw JSON output if enabled
         if runtime.get("write_files", True):
-            save_raw_json(
+            wbClient.save_raw_json(
                 recs,
                 project_root() / paths["data_raw"],
                 f"{alias}_{wb['start_year']}_{wb['end_year']}.json"
             )
 
         # Normalize JSON → DataFrame and add to list
-        frames.append(client.normalize(recs, alias))
+        frames.append(wbClient.normalize(recs, alias))
 
     # Combine all indicator dataframes
     if frames:
@@ -55,7 +85,8 @@ def main():
 
         # Save cleaned combined CSV if enabled
         if runtime.get("write_files", True):
-            save_interim_csv(combined, project_root() / paths["interim_csv"])
+            wbClient.save_interim_csv(combined, project_root() / paths["interim_csv"])
+    
 
 
 # Run main() only if this file is executed directly

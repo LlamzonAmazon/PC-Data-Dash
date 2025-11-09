@@ -1,89 +1,82 @@
-import requests
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
+from __future__ import annotations
 
-''' 
-========== UN SDGs (Public APIs)========== 
-API Documentation: https://unstats.un.org/SDGAPI/swagger/
-Indicators Documentation: https://unstats.un.org/sdgs/indicators/indicators-list/
+from typing import Optional
+import requests, pandas as pd
 
-A goal is a broad primary outcome. Each goal has a unique code and title.
-A target is a specific objective within a goal. Each target has a unique code and title.
-An indicator is a specific metric used to measure progress towards a target. Each indicator has a unique code and description.
-A series is a specific measurement method for an indicator. An indicator can have multiple series.
-'''
+from .base_fetch import DataClient 
 
-# /v1/sdg/Goal/List
-UN_SDG_GOAL_API_URL = "https://unstats.un.org/SDGAPI/v1/sdg/Goal/List"
-# v1/sdg/Goal/{goalCode}/Target/List
-UN_SDG_TARGET_PER_GOAL_API_URL = "https://unstats.un.org/SDGAPI/v1/sdg/Goal/{goalCode}/Target/List"
-# v1/sdg/Goal/Data
-UN_SDG_GOAL_DATA_API_URL = "https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data"
-# v1/sdg/Indicator/List
-UN_SDG_INDICATOR_API_URL = "https://unstats.un.org/SDGAPI/v1/sdg/Indicator/List"
-#v1/sdg/Indicator/{indicatorCode}/Series/List
-UN_SDG_INDICATOR_SERIES_API_URL = "https://unstats.un.org/SDGAPI/v1/sdg/Indicator/{indicatorCode}/Series/List"
-# v1/sdg/Indicator/Data
-UN_SDG_INDICATOR_DATA_API_URL = "https://unstats.un.org/SDGAPI/v1/sdg/Indicator/Data"
-# v1/sdg/Indicator/PivotData
-UN_SDG_INDICATOR_PIVOT_DATA_API_URL = "https://unstats.un.org/SDGAPI/v1/sdg/Indicator/PivotData"
+class UNSDGClient(DataClient):
+    """
+    UN SDG API data fetching client
+    """
 
-''' ========== END ========== '''
+    def __init__(self, api_url: str, credentials: Optional[dict] = None):
+        # Initialize base class and base API URL (currently https://unstats.un.org/SDGAPI/v1/sdg)
+        
+        super().__init__(api_url, credentials)
+        self.base_url = f"{self.api_url}"
 
-'''
-########## FETCH UN SDG DATA ##########
-'''
-def un_sdg_fetch_data(api_url, params):
-    response = requests.get(api_url, params=params)
-    response.raise_for_status()  # Raise an error for bad responses
-    return response.json()
+    def fetch(self, endpoint, parameters) -> pd.DataFrame:
+        # Makes the request to the specified endpoint and returns raw JSON response
+        
+        self._log_fetch_start()
+        url = f"{self.base_url}{endpoint}"
+        response = requests.get(url, params=parameters)
+        response.raise_for_status()
+        self._log_fetch_complete(len(response.json()))
+        
+        return response.json()
 
-''' 
-########## STRUCTURE GOALS LIST ##########
-@ param goals_data: List of goals with nested targets and indicators
-@ return: Three DataFrames - goals, targets, indicators
-'''
-def goals_list_to_dataframes(goals_data):
-    goal_rows = []
-    target_rows = []
-    indicator_rows = []
+    def validate(self) -> bool:
+        # Validates fetched UN SDG data
+        
+        # Validate non-empty DataFrame
+        if not self.data:
+            self.logger.warning("No UN SDG data fetched to validate.")
+            return False
 
-    for goal in goals_data:
-        goal_rows.append({
-            "goal_code": goal["code"],
-            "goal_title": goal["title"],
-            "goal_description": goal.get("description", "")
-        })
+        # Validate each DataFrame in self.data dictionary
+        for key, df in self.data.items():
+            if df.empty:
+                self.logger.warning(f"{key} DataFrame is empty.")
+                return False
+        return True
 
-        for target in goal.get("targets", []):
-            target_rows.append({
+
+    """ ################################# 
+    CLIENT-SPECIFIC METHODS 
+    ################################# """
+    
+    def _goals_list_to_dataframes(self, goals_data):
+        # Transforms nested JSON into tidy DataFrames
+        
+        goal_rows, target_rows, indicator_rows = [], [], []
+
+        for goal in goals_data:
+            goal_rows.append({
                 "goal_code": goal["code"],
-                "target_code": target["code"],
-                "target_title": target["title"]
+                "goal_title": goal["title"],
+                "goal_description": goal.get("description", "")
             })
 
-            for indicator in target.get("indicators", []):
-                indicator_rows.append({
+            for target in goal.get("targets", []):
+                target_rows.append({
                     "goal_code": goal["code"],
                     "target_code": target["code"],
-                    "indicator_code": indicator["code"],
-                    "indicator_description": indicator["description"]
+                    "target_title": target["title"]
                 })
 
-    # Convert dictionaries into DataFrames
-    df_goals = pd.DataFrame(goal_rows)
-    df_targets = pd.DataFrame(target_rows)
-    df_indicators = pd.DataFrame(indicator_rows)
+                for indicator in target.get("indicators", []):
+                    indicator_rows.append({
+                        "goal_code": goal["code"],
+                        "target_code": target["code"],
+                        "indicator_code": indicator["code"],
+                        "indicator_description": indicator.get("description", "")
+                    })
 
-    return df_goals, df_targets, df_indicators
+        df_goals = pd.DataFrame(goal_rows)
+        df_targets = pd.DataFrame(target_rows)
+        df_indicators = pd.DataFrame(indicator_rows)
 
+        return df_goals, df_targets, df_indicators
 
-# Fetch & Print UN SDG Goals List
-un_sdg_data = un_sdg_fetch_data(UN_SDG_GOAL_API_URL, {"includeChildren": "true"})
-df_goals, df_targets, df_indicators = goals_list_to_dataframes(un_sdg_data)
-
-# Display summaries
-print(f"=== GOALS ===\n\n {df_goals.head()}\n")
-print(f"=== TARGETS ===\n\n {df_targets.head()}\n")
-print(f"=== INDICATORS ===\n\n {df_indicators.head()}\n")
