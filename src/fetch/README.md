@@ -1,8 +1,8 @@
-# Data Fetchign Module
+# Data Fetching Module
 These scripts are used to fetch data from the UN SDG, ND-GAIN, and World Bank APIs.
 
 # How to Run 
-* Run `python3 -m src.fetch.data_fetch` from `/` (root).
+* Run `python3 -m src.fetch.data_fetch` from project root.
 
 # Module Status
 * UN SDG and World Bank fetching done, interim CSV files written to `data/interim/`.
