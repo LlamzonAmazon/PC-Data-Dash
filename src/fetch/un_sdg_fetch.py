@@ -1,7 +1,10 @@
 from __future__ import annotations
 
-from typing import Optional
-import requests, pandas as pd
+from pathlib import Path
+from typing import Any, Dict, Iterable, List, Optional
+import json, requests, pandas as pd
+
+from src.pipeline.utils import ensure_dir
 
 from .base_fetch import DataClient 
 
@@ -41,6 +44,20 @@ class UNSDGClient(DataClient):
                 self.logger.warning(f"{key} DataFrame is empty.")
                 return False
         return True
+    
+    def save_raw_json(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
+        """
+        Saves the unmodified API response to JSON (raw data).
+        """
+        ensure_dir(out_dir)
+        (out_dir / filename).write_text(json.dumps(records, indent=2), encoding="utf-8")
+
+    def save_interim_csv(self, df: pd.DataFrame, out_path: Path) -> None:
+        """
+        Saves the tidy DataFrame as a CSV file.
+        """
+        ensure_dir(out_path.parent)
+        df.to_csv(out_path, index=False)
 
 
     """ ################################# 

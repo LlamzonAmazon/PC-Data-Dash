@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Dict, Iterable, List
 import json, requests, pandas as pd
+
 from tenacity import retry, stop_after_attempt, wait_exponential
 from src.pipeline.utils import setup_logger, ensure_dir
 
@@ -53,6 +54,18 @@ class WorldBankClient(DataClient):
         
         return True
 
+    def save_raw_json(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
+        # Saves the unmodified API response to JSON (raw data).
+
+        ensure_dir(out_dir)
+        (out_dir / filename).write_text(json.dumps(records, indent=2), encoding="utf-8")
+
+    def save_interim_csv(self, df: pd.DataFrame, out_path: Path) -> None:
+        """
+        Saves the tidy DataFrame as a CSV file.
+        """
+        ensure_dir(out_path.parent)
+        df.to_csv(out_path, index=False)
 
     """ ################################# 
     CLIENT-SPECIFIC METHODS 
@@ -122,15 +135,3 @@ class WorldBankClient(DataClient):
         df = pd.DataFrame(rows, columns=["country","iso3","indicator","year","value"])
         return df.sort_values(["indicator","iso3","year"], ascending=[True,True,False], na_position="last")
 
-    def save_raw_json(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
-        # Saves the unmodified API response to JSON (raw data).
-
-        ensure_dir(out_dir)
-        (out_dir / filename).write_text(json.dumps(records, indent=2), encoding="utf-8")
-
-    def save_interim_csv(self, df: pd.DataFrame, out_path: Path) -> None:
-        """
-        Saves the tidy DataFrame as a CSV file.
-        """
-        ensure_dir(out_path.parent)
-        df.to_csv(out_path, index=False)

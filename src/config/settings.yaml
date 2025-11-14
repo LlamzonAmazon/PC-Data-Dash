@@ -1,5 +1,7 @@
 # Data source configurations
 
+# ===== World Bank API Settings =====
+
 world_bank:
   # ISO-3 country codes to query in ONE request (semicolon-joined in the API call).
   # You can add/remove codes (e.g., "GBR", "FRA"). Regions like "WLD" (world) also work,
@@ -18,6 +20,34 @@ world_bank:
     - { code: "GC.TAX.TOTL.GD.ZS", alias: "tax_revenue_pct_gdp" }       # Tax revenue (% of GDP)
     - { code: "FS.AST.PRVT.GD.ZS", alias: "domestic_credit_private_pct_gdp" } # Domestic credit to private sector (% of GDP)
 
+# ===== UN SDG API Endpoints =====
+
+un_sdg:
+
+  api_paths: 
+    # Base URL for UN SDG API
+    base: "https://unstats.un.org/SDGAPI/v1/sdg"
+    indicator_list_endpoint: "/Indicator/List"
+    indicator_data_endpoint: "/Indicator/Data"
+    indicator_pivot_data_endpoint: "/Indicator/PivotData"
+    goals_endpoint: "/Goal"
+    goal_data_endpoint: "/Goal/Data"
+
+  indicators:
+    # Proportion of population below the international poverty line
+    - { code: "1.1.1", alias: "poverty_headcount_ratio" }        
+    # Prevalence of undernourishment
+    - { code: "2.1.1", alias: "undernourishment_prevalence" }    
+    # Maternal mortality ratio
+    - { code: "3.1.1", alias: "maternal_mortality_ratio" }
+
+  settings:
+    request_timeout: 30  # in seconds
+    max_retries: 3
+    retry_backoff_factor: 0.3
+
+# ===== General Settings =====
+
 paths:
   # Where to store raw, untouched API JSON for auditability and re-processing.
   data_raw: "data/raw/world_bank"
@@ -29,8 +59,10 @@ paths:
   data_processed: "data/processed/world_bank"
 
   # Main combined tidy CSV (columns: country, iso3, indicator, year, value).
-  # This is what Power BI or downstream transforms will typically ingest.
-  interim_csv: "data/interim/world_bank/world_bank_interim.csv"
+  # This is what Power BI or downstream transforms might ingest. (possibly during development)
+  wb_interim_csv: "data/interim/world_bank/world_bank_interim.csv"
+  unsdg_interim_csv: "data/interim/un_sdg/un_sdg_interim.csv"
+  ndgain_interim_csv: "data/interim/ndgain/ndgain_interim.csv"
 
 runtime:
   # If true: write raw JSON and the interim CSV to disk (paths above).
@@ -55,39 +87,3 @@ runtime:
   # - Decrease in CI if you want faster failures.
   max_retries: 4
 
-# ===== UN SDG API Endpoints =====
-
-un_sdg:
-
-  api_paths: 
-
-    # Base URL for UN SDG API
-    base: "https://unstats.un.org/SDGAPI/v1/sdg"
-
-    indicator_list_endpoint: "/Indicator/List"
-
-    indicator_data_endpoint: "/Indicator/Data"
-
-    indicator_pivot_data_endpoint: "/Indicator/PivotData"
-
-    goals_endpoint: "/Goal"
-
-    goal_data_endpoint: "/Goal/Data"
-
-  indicators:
-
-    # Proportion of population below the international poverty line
-    - { code: "1.1.1", alias: "poverty_headcount_ratio" }        
-
-    # Prevalence of undernourishment
-    - { code: "2.1.1", alias: "undernourishment_prevalence" }    
-
-    # Maternal mortality ratio
-    - { code: "3.1.1", alias: "maternal_mortality_ratio" }
-
-  settings:
-    request_timeout: 30  # in seconds
-
-    max_retries: 3
-
-    retry_backoff_factor: 0.3

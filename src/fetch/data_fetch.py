@@ -23,31 +23,36 @@ def main():
 
     # Load configuration from YAML file
     cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8"))
-
+    print("\nLoaded configuration from", cfg_path)
 
     ''' ########## UN SDG Data Fetching ########### '''
     
     base_url = f"{cfg['un_sdg']['api_paths']['base']}"
 
     unsdgClient = UNSDGClient(api_url=base_url)
+    print("Fetching UN SDG Goals data...")
     goals_data = unsdgClient.fetch("/Goal/List", parameters={
         "includeChildren": "true"
         })
+    
+    # 3 DATAFRAMES: GOALS, TARGETS, INDICATORS
     df_goals, df_targets, df_indicators = unsdgClient._goals_list_to_dataframes(goals_data)
     
-    print("\n=== UN SDG Goals Data (preview) ===")
-    print(df_goals.head())
-    print(f"\nTotal Goals: {len(df_goals)}")
-
-    print("\n=== UN SDG Targets Data (preview) ===")
-    print(df_targets.head())
-    print(f"\nTotal Targets: {len(df_targets)}")
+    temp = df_indicators.copy()
+    for col in temp.columns:
+        if temp[col].dtype == "object":
+            # TRUNCATING LONG TEXT FIELDS FOR BETTER DISPLAY
+            temp[col] = temp[col].astype(str).str.slice(0, 20)
 
     print("\n=== UN SDG Indicators Data (preview) ===")
-    print(df_indicators.head())
-    print(f"\nTotal Indicators: {len(df_indicators)}")
-    print("\n")
+    print(temp.head(50).to_string(index=False))
     
+    # Export indicators DataFrame to CSV for now
+    if cfg["runtime"].get("write_files", True):
+        unsdgClient.save_interim_csv(
+            df_indicators,
+            project_root() / cfg["paths"]["unsdg_interim_csv"]
+        )
 
     ''' ########## World Bank Data Fetching ########### '''
 
@@ -58,6 +63,7 @@ def main():
     frames = []  # List to store dataframes for each indicator
 
     # Loop through each indicator and fetch its data
+    print("Fetching World Bank indicator data...")
     for item in wb["indicators"]:
         code, alias = item["code"], item.get("alias", item["code"])
 
@@ -85,7 +91,7 @@ def main():
 
         # Save cleaned combined CSV if enabled
         if runtime.get("write_files", True):
-            wbClient.save_interim_csv(combined, project_root() / paths["interim_csv"])
+            wbClient.save_interim_csv(combined, project_root() / paths["wb_interim_csv"])
     
 
 
