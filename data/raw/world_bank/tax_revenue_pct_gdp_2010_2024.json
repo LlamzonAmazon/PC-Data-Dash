@@ -1,0 +1,1682 @@
+[
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2024",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2023",
+    "value": 14.041862416944,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2022",
+    "value": 14.7258479184963,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2021",
+    "value": 14.1366751329603,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2020",
+    "value": 12.7193878561953,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2019",
+    "value": 13.7376948371937,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2018",
+    "value": 13.9401079937096,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2017",
+    "value": 13.6052285149994,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2016",
+    "value": 13.7104309800754,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2015",
+    "value": 13.6296293660896,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2014",
+    "value": 13.4900745188201,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2013",
+    "value": 14.1253057440862,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2012",
+    "value": 14.3324110913977,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2011",
+    "value": 14.85129878353,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "BR",
+      "value": "Brazil"
+    },
+    "countryiso3code": "BRA",
+    "date": "2010",
+    "value": 14.249575957302,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2024",
+    "value": 14.2453671814569,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2023",
+    "value": 14.089801316377,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2022",
+    "value": 13.736451836938,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2021",
+    "value": 13.996294680919,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2020",
+    "value": 13.5185987464231,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2019",
+    "value": 12.7416889014909,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2018",
+    "value": 13.0576846693075,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2017",
+    "value": 12.6120166809848,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2016",
+    "value": 12.496562633144,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2015",
+    "value": 12.3898109063213,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2014",
+    "value": 11.8083790792206,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2013",
+    "value": 11.6235045990299,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2012",
+    "value": 11.6644273631038,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2011",
+    "value": 11.8039212812623,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CA",
+      "value": "Canada"
+    },
+    "countryiso3code": "CAN",
+    "date": "2010",
+    "value": 11.7328092981826,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2024",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2023",
+    "value": 7.6382330077989,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2022",
+    "value": 7.51799464421188,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2021",
+    "value": 7.79829641266187,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2020",
+    "value": 7.92409749807608,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2019",
+    "value": 8.32942550168391,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2018",
+    "value": 8.89089034445248,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2017",
+    "value": 9.24872439343925,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2016",
+    "value": 8.94556190414739,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2015",
+    "value": 9.19468038601503,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2014",
+    "value": 9.49826837509792,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2013",
+    "value": 9.7321625039509,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2012",
+    "value": 10.0894667610088,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2011",
+    "value": 10.1512000219484,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "CN",
+      "value": "China"
+    },
+    "countryiso3code": "CHN",
+    "date": "2010",
+    "value": 10.0382796577366,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2024",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2023",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2022",
+    "value": 6.73444285965496,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2021",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2020",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2019",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2018",
+    "value": 12.0174277483166,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2017",
+    "value": 11.3874439798131,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2016",
+    "value": 11.1477384183764,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2015",
+    "value": 10.5697090519718,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2014",
+    "value": 9.98465419071312,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2013",
+    "value": 11.0016256942917,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2012",
+    "value": 10.8367717209692,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2011",
+    "value": 10.1773871997608,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "IN",
+      "value": "India"
+    },
+    "countryiso3code": "IND",
+    "date": "2010",
+    "value": 10.3880397905312,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2024",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2023",
+    "value": 14.2293414351689,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2022",
+    "value": 13.408403759922,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2021",
+    "value": 13.411262121913,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2020",
+    "value": 13.8975134527584,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2019",
+    "value": 12.787748609973,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2018",
+    "value": 12.7121572984277,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2017",
+    "value": 12.6874317280509,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2016",
+    "value": 13.1237856071941,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2015",
+    "value": 12.3459757808372,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2014",
+    "value": 10.2428550424697,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2013",
+    "value": 9.88361012140901,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2012",
+    "value": 9.35241106361326,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2011",
+    "value": 9.61707214507843,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "MX",
+      "value": "Mexico"
+    },
+    "countryiso3code": "MEX",
+    "date": "2010",
+    "value": 9.67531745462168,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2024",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2023",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2022",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2021",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2020",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2019",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2018",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2017",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2016",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2015",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2014",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2013",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2012",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2011",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "NG",
+      "value": "Nigeria"
+    },
+    "countryiso3code": "NGA",
+    "date": "2010",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2024",
+    "value": null,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2023",
+    "value": 10.6459127722888,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2022",
+    "value": 12.5989036829582,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2021",
+    "value": 11.394678497951,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2020",
+    "value": 10.1534220235407,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2019",
+    "value": 9.88478959731721,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2018",
+    "value": 9.92953894064227,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2017",
+    "value": 11.5038867327939,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2016",
+    "value": 10.8545149876524,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2015",
+    "value": 11.1828279598944,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2014",
+    "value": 10.8997481732594,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2013",
+    "value": 10.4602254541478,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2012",
+    "value": 9.76391736911044,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2011",
+    "value": 9.53892861749163,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  },
+  {
+    "indicator": {
+      "id": "GC.TAX.TOTL.GD.ZS",
+      "value": "Tax revenue (% of GDP)"
+    },
+    "country": {
+      "id": "US",
+      "value": "United States"
+    },
+    "countryiso3code": "USA",
+    "date": "2010",
+    "value": 8.56322203026373,
+    "unit": "",
+    "obs_status": "",
+    "decimal": 1
+  }
+]

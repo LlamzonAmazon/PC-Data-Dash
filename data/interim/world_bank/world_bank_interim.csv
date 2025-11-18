@@ -1,0 +1,316 @@
+country,iso3,indicator,year,value
+Brazil,BRA,gdp_per_capita_usd,2024,10280.3148624429
+Brazil,BRA,gdp_per_capita_usd,2023,10377.5892792557
+Brazil,BRA,gdp_per_capita_usd,2022,9281.33334441234
+Brazil,BRA,gdp_per_capita_usd,2021,7972.5366498646
+Brazil,BRA,gdp_per_capita_usd,2020,7074.19378337644
+Brazil,BRA,gdp_per_capita_usd,2019,9029.83326681073
+Brazil,BRA,gdp_per_capita_usd,2018,9300.66164923219
+Brazil,BRA,gdp_per_capita_usd,2017,10080.5092819305
+Brazil,BRA,gdp_per_capita_usd,2016,8836.28652735657
+Brazil,BRA,gdp_per_capita_usd,2015,8936.19661712113
+Brazil,BRA,gdp_per_capita_usd,2014,12274.9939689363
+Brazil,BRA,gdp_per_capita_usd,2013,12458.8912138813
+Brazil,BRA,gdp_per_capita_usd,2012,12521.7213519966
+Brazil,BRA,gdp_per_capita_usd,2011,13396.6243562986
+Brazil,BRA,gdp_per_capita_usd,2010,11403.2821278747
+Canada,CAN,gdp_per_capita_usd,2024,54282.6176051733
+Canada,CAN,gdp_per_capita_usd,2023,54220.3285039875
+Canada,CAN,gdp_per_capita_usd,2022,56256.8007264015
+Canada,CAN,gdp_per_capita_usd,2021,52886.6616372703
+Canada,CAN,gdp_per_capita_usd,2020,43537.839298904
+Canada,CAN,gdp_per_capita_usd,2019,46352.8693445211
+Canada,CAN,gdp_per_capita_usd,2018,46539.1761570405
+Canada,CAN,gdp_per_capita_usd,2017,45129.628116623
+Canada,CAN,gdp_per_capita_usd,2016,42314.0615817218
+Canada,CAN,gdp_per_capita_usd,2015,43594.1941045394
+Canada,CAN,gdp_per_capita_usd,2014,50960.8431174661
+Canada,CAN,gdp_per_capita_usd,2013,52638.1187235237
+Canada,CAN,gdp_per_capita_usd,2012,52670.3447335415
+Canada,CAN,gdp_per_capita_usd,2011,52223.8588398531
+Canada,CAN,gdp_per_capita_usd,2010,47560.6666009406
+China,CHN,gdp_per_capita_usd,2024,13303.1481543868
+China,CHN,gdp_per_capita_usd,2023,12951.1782397043
+China,CHN,gdp_per_capita_usd,2022,12970.6056414327
+China,CHN,gdp_per_capita_usd,2021,12887.4357242941
+China,CHN,gdp_per_capita_usd,2020,10627.4637989619
+China,CHN,gdp_per_capita_usd,2019,10342.9009524335
+China,CHN,gdp_per_capita_usd,2018,10085.6638148819
+China,CHN,gdp_per_capita_usd,2017,8979.67652709856
+China,CHN,gdp_per_capita_usd,2016,8254.86859320357
+China,CHN,gdp_per_capita_usd,2015,8175.33285077393
+China,CHN,gdp_per_capita_usd,2014,7781.06597484974
+China,CHN,gdp_per_capita_usd,2013,7147.03518622344
+China,CHN,gdp_per_capita_usd,2012,6405.0574241349
+China,CHN,gdp_per_capita_usd,2011,5703.76027973346
+China,CHN,gdp_per_capita_usd,2010,4629.24551710077
+India,IND,gdp_per_capita_usd,2024,2696.66389984463
+India,IND,gdp_per_capita_usd,2023,2530.12031278204
+India,IND,gdp_per_capita_usd,2022,2347.44829434623
+India,IND,gdp_per_capita_usd,2021,2239.61384367482
+India,IND,gdp_per_capita_usd,2020,1907.04251637669
+India,IND,gdp_per_capita_usd,2019,2041.42863698585
+India,IND,gdp_per_capita_usd,2018,1966.25455171679
+India,IND,gdp_per_capita_usd,2017,1950.10468280866
+India,IND,gdp_per_capita_usd,2016,1707.50892912243
+India,IND,gdp_per_capita_usd,2015,1583.99815907985
+India,IND,gdp_per_capita_usd,2014,1553.88396075118
+India,IND,gdp_per_capita_usd,2013,1432.84397512195
+India,IND,gdp_per_capita_usd,2012,1429.32199520032
+India,IND,gdp_per_capita_usd,2011,1445.46127486037
+India,IND,gdp_per_capita_usd,2010,1347.51939071367
+Mexico,MEX,gdp_per_capita_usd,2024,14157.9445835849
+Mexico,MEX,gdp_per_capita_usd,2023,13826.1306570122
+Mexico,MEX,gdp_per_capita_usd,2022,11402.1410374782
+Mexico,MEX,gdp_per_capita_usd,2021,10314.0506725979
+Mexico,MEX,gdp_per_capita_usd,2020,8841.2707511328
+Mexico,MEX,gdp_per_capita_usd,2019,10369.5553585271
+Mexico,MEX,gdp_per_capita_usd,2018,10084.7937553679
+Mexico,MEX,gdp_per_capita_usd,2017,9649.27816772402
+Mexico,MEX,gdp_per_capita_usd,2016,9097.92397674769
+Mexico,MEX,gdp_per_capita_usd,2015,10021.2386124039
+Mexico,MEX,gdp_per_capita_usd,2014,11391.3773510244
+Mexico,MEX,gdp_per_capita_usd,2013,11216.800851866
+Mexico,MEX,gdp_per_capita_usd,2012,10744.1335229686
+Mexico,MEX,gdp_per_capita_usd,2011,10664.4944046282
+Mexico,MEX,gdp_per_capita_usd,2010,9728.80078237782
+Nigeria,NGA,gdp_per_capita_usd,2024,806.945695055244
+Nigeria,NGA,gdp_per_capita_usd,2023,1596.63696129001
+Nigeria,NGA,gdp_per_capita_usd,2022,2139.37478476974
+Nigeria,NGA,gdp_per_capita_usd,2021,2017.27486481527
+Nigeria,NGA,gdp_per_capita_usd,2020,2019.65706326224
+Nigeria,NGA,gdp_per_capita_usd,2019,2265.15520863056
+Nigeria,NGA,gdp_per_capita_usd,2018,2057.87944554011
+Nigeria,NGA,gdp_per_capita_usd,2017,1876.34027111773
+Nigeria,NGA,gdp_per_capita_usd,2016,2070.4127339595
+Nigeria,NGA,gdp_per_capita_usd,2015,2585.73360671797
+Nigeria,NGA,gdp_per_capita_usd,2014,3088.72131316169
+Nigeria,NGA,gdp_per_capita_usd,2013,2872.79083379398
+Nigeria,NGA,gdp_per_capita_usd,2012,2633.19734671361
+Nigeria,NGA,gdp_per_capita_usd,2011,2418.41316975875
+Nigeria,NGA,gdp_per_capita_usd,2010,2202.25672957344
+United States,USA,gdp_per_capita_usd,2024,85809.9003846356
+United States,USA,gdp_per_capita_usd,2023,82304.6204272866
+United States,USA,gdp_per_capita_usd,2022,77860.9112908848
+United States,USA,gdp_per_capita_usd,2021,71307.4017277218
+United States,USA,gdp_per_capita_usd,2020,64401.5074354212
+United States,USA,gdp_per_capita_usd,2019,65227.9565911038
+United States,USA,gdp_per_capita_usd,2018,62875.6661382728
+United States,USA,gdp_per_capita_usd,2017,60047.7190728307
+United States,USA,gdp_per_capita_usd,2016,57976.628204291
+United States,USA,gdp_per_capita_usd,2015,56849.4697923159
+United States,USA,gdp_per_capita_usd,2014,55153.3940182967
+United States,USA,gdp_per_capita_usd,2013,53297.3862901595
+United States,USA,gdp_per_capita_usd,2012,51708.3940614082
+United States,USA,gdp_per_capita_usd,2011,50024.8812320773
+United States,USA,gdp_per_capita_usd,2010,48642.6312088213
+Brazil,BRA,tax_revenue_pct_gdp,2024,
+Brazil,BRA,tax_revenue_pct_gdp,2023,14.041862416944
+Brazil,BRA,tax_revenue_pct_gdp,2022,14.7258479184963
+Brazil,BRA,tax_revenue_pct_gdp,2021,14.1366751329603
+Brazil,BRA,tax_revenue_pct_gdp,2020,12.7193878561953
+Brazil,BRA,tax_revenue_pct_gdp,2019,13.7376948371937
+Brazil,BRA,tax_revenue_pct_gdp,2018,13.9401079937096
+Brazil,BRA,tax_revenue_pct_gdp,2017,13.6052285149994
+Brazil,BRA,tax_revenue_pct_gdp,2016,13.7104309800754
+Brazil,BRA,tax_revenue_pct_gdp,2015,13.6296293660896
+Brazil,BRA,tax_revenue_pct_gdp,2014,13.4900745188201
+Brazil,BRA,tax_revenue_pct_gdp,2013,14.1253057440862
+Brazil,BRA,tax_revenue_pct_gdp,2012,14.3324110913977
+Brazil,BRA,tax_revenue_pct_gdp,2011,14.85129878353
+Brazil,BRA,tax_revenue_pct_gdp,2010,14.249575957302
+Canada,CAN,tax_revenue_pct_gdp,2024,14.2453671814569
+Canada,CAN,tax_revenue_pct_gdp,2023,14.089801316377
+Canada,CAN,tax_revenue_pct_gdp,2022,13.736451836938
+Canada,CAN,tax_revenue_pct_gdp,2021,13.996294680919
+Canada,CAN,tax_revenue_pct_gdp,2020,13.5185987464231
+Canada,CAN,tax_revenue_pct_gdp,2019,12.7416889014909
+Canada,CAN,tax_revenue_pct_gdp,2018,13.0576846693075
+Canada,CAN,tax_revenue_pct_gdp,2017,12.6120166809848
+Canada,CAN,tax_revenue_pct_gdp,2016,12.496562633144
+Canada,CAN,tax_revenue_pct_gdp,2015,12.3898109063213
+Canada,CAN,tax_revenue_pct_gdp,2014,11.8083790792206
+Canada,CAN,tax_revenue_pct_gdp,2013,11.6235045990299
+Canada,CAN,tax_revenue_pct_gdp,2012,11.6644273631038
+Canada,CAN,tax_revenue_pct_gdp,2011,11.8039212812623
+Canada,CAN,tax_revenue_pct_gdp,2010,11.7328092981826
+China,CHN,tax_revenue_pct_gdp,2024,
+China,CHN,tax_revenue_pct_gdp,2023,7.6382330077989
+China,CHN,tax_revenue_pct_gdp,2022,7.51799464421188
+China,CHN,tax_revenue_pct_gdp,2021,7.79829641266187
+China,CHN,tax_revenue_pct_gdp,2020,7.92409749807608
+China,CHN,tax_revenue_pct_gdp,2019,8.32942550168391
+China,CHN,tax_revenue_pct_gdp,2018,8.89089034445248
+China,CHN,tax_revenue_pct_gdp,2017,9.24872439343925
+China,CHN,tax_revenue_pct_gdp,2016,8.94556190414739
+China,CHN,tax_revenue_pct_gdp,2015,9.19468038601503
+China,CHN,tax_revenue_pct_gdp,2014,9.49826837509792
+China,CHN,tax_revenue_pct_gdp,2013,9.7321625039509
+China,CHN,tax_revenue_pct_gdp,2012,10.0894667610088
+China,CHN,tax_revenue_pct_gdp,2011,10.1512000219484
+China,CHN,tax_revenue_pct_gdp,2010,10.0382796577366
+India,IND,tax_revenue_pct_gdp,2024,
+India,IND,tax_revenue_pct_gdp,2023,
+India,IND,tax_revenue_pct_gdp,2022,6.73444285965496
+India,IND,tax_revenue_pct_gdp,2021,
+India,IND,tax_revenue_pct_gdp,2020,
+India,IND,tax_revenue_pct_gdp,2019,
+India,IND,tax_revenue_pct_gdp,2018,12.0174277483166
+India,IND,tax_revenue_pct_gdp,2017,11.3874439798131
+India,IND,tax_revenue_pct_gdp,2016,11.1477384183764
+India,IND,tax_revenue_pct_gdp,2015,10.5697090519718
+India,IND,tax_revenue_pct_gdp,2014,9.98465419071312
+India,IND,tax_revenue_pct_gdp,2013,11.0016256942917
+India,IND,tax_revenue_pct_gdp,2012,10.8367717209692
+India,IND,tax_revenue_pct_gdp,2011,10.1773871997608
+India,IND,tax_revenue_pct_gdp,2010,10.3880397905312
+Mexico,MEX,tax_revenue_pct_gdp,2024,
+Mexico,MEX,tax_revenue_pct_gdp,2023,14.2293414351689
+Mexico,MEX,tax_revenue_pct_gdp,2022,13.408403759922
+Mexico,MEX,tax_revenue_pct_gdp,2021,13.411262121913
+Mexico,MEX,tax_revenue_pct_gdp,2020,13.8975134527584
+Mexico,MEX,tax_revenue_pct_gdp,2019,12.787748609973
+Mexico,MEX,tax_revenue_pct_gdp,2018,12.7121572984277
+Mexico,MEX,tax_revenue_pct_gdp,2017,12.6874317280509
+Mexico,MEX,tax_revenue_pct_gdp,2016,13.1237856071941
+Mexico,MEX,tax_revenue_pct_gdp,2015,12.3459757808372
+Mexico,MEX,tax_revenue_pct_gdp,2014,10.2428550424697
+Mexico,MEX,tax_revenue_pct_gdp,2013,9.88361012140901
+Mexico,MEX,tax_revenue_pct_gdp,2012,9.35241106361326
+Mexico,MEX,tax_revenue_pct_gdp,2011,9.61707214507843
+Mexico,MEX,tax_revenue_pct_gdp,2010,9.67531745462168
+Nigeria,NGA,tax_revenue_pct_gdp,2024,
+Nigeria,NGA,tax_revenue_pct_gdp,2023,
+Nigeria,NGA,tax_revenue_pct_gdp,2022,
+Nigeria,NGA,tax_revenue_pct_gdp,2021,
+Nigeria,NGA,tax_revenue_pct_gdp,2020,
+Nigeria,NGA,tax_revenue_pct_gdp,2019,
+Nigeria,NGA,tax_revenue_pct_gdp,2018,
+Nigeria,NGA,tax_revenue_pct_gdp,2017,
+Nigeria,NGA,tax_revenue_pct_gdp,2016,
+Nigeria,NGA,tax_revenue_pct_gdp,2015,
+Nigeria,NGA,tax_revenue_pct_gdp,2014,
+Nigeria,NGA,tax_revenue_pct_gdp,2013,
+Nigeria,NGA,tax_revenue_pct_gdp,2012,
+Nigeria,NGA,tax_revenue_pct_gdp,2011,
+Nigeria,NGA,tax_revenue_pct_gdp,2010,
+United States,USA,tax_revenue_pct_gdp,2024,
+United States,USA,tax_revenue_pct_gdp,2023,10.6459127722888
+United States,USA,tax_revenue_pct_gdp,2022,12.5989036829582
+United States,USA,tax_revenue_pct_gdp,2021,11.394678497951
+United States,USA,tax_revenue_pct_gdp,2020,10.1534220235407
+United States,USA,tax_revenue_pct_gdp,2019,9.88478959731721
+United States,USA,tax_revenue_pct_gdp,2018,9.92953894064227
+United States,USA,tax_revenue_pct_gdp,2017,11.5038867327939
+United States,USA,tax_revenue_pct_gdp,2016,10.8545149876524
+United States,USA,tax_revenue_pct_gdp,2015,11.1828279598944
+United States,USA,tax_revenue_pct_gdp,2014,10.8997481732594
+United States,USA,tax_revenue_pct_gdp,2013,10.4602254541478
+United States,USA,tax_revenue_pct_gdp,2012,9.76391736911044
+United States,USA,tax_revenue_pct_gdp,2011,9.53892861749163
+United States,USA,tax_revenue_pct_gdp,2010,8.56322203026373
+Brazil,BRA,domestic_credit_private_pct_gdp,2024,75.8532992905187
+Brazil,BRA,domestic_credit_private_pct_gdp,2023,71.0755405509113
+Brazil,BRA,domestic_credit_private_pct_gdp,2022,70.6060973782971
+Brazil,BRA,domestic_credit_private_pct_gdp,2021,68.8052246830253
+Brazil,BRA,domestic_credit_private_pct_gdp,2020,68.6961548470609
+Brazil,BRA,domestic_credit_private_pct_gdp,2019,62.790505078946
+Brazil,BRA,domestic_credit_private_pct_gdp,2018,60.2183479381776
+Brazil,BRA,domestic_credit_private_pct_gdp,2017,59.4843092973742
+Brazil,BRA,domestic_credit_private_pct_gdp,2016,62.1940069633522
+Brazil,BRA,domestic_credit_private_pct_gdp,2015,66.8297006475728
+Brazil,BRA,domestic_credit_private_pct_gdp,2014,66.028510394056
+Brazil,BRA,domestic_credit_private_pct_gdp,2013,64.2305738283777
+Brazil,BRA,domestic_credit_private_pct_gdp,2012,62.5192932018235
+Brazil,BRA,domestic_credit_private_pct_gdp,2011,58.0784911062018
+Brazil,BRA,domestic_credit_private_pct_gdp,2010,52.764657630443
+Canada,CAN,domestic_credit_private_pct_gdp,2024,
+Canada,CAN,domestic_credit_private_pct_gdp,2023,
+Canada,CAN,domestic_credit_private_pct_gdp,2022,
+Canada,CAN,domestic_credit_private_pct_gdp,2021,
+Canada,CAN,domestic_credit_private_pct_gdp,2020,
+Canada,CAN,domestic_credit_private_pct_gdp,2019,
+Canada,CAN,domestic_credit_private_pct_gdp,2018,
+Canada,CAN,domestic_credit_private_pct_gdp,2017,
+Canada,CAN,domestic_credit_private_pct_gdp,2016,
+Canada,CAN,domestic_credit_private_pct_gdp,2015,
+Canada,CAN,domestic_credit_private_pct_gdp,2014,
+Canada,CAN,domestic_credit_private_pct_gdp,2013,
+Canada,CAN,domestic_credit_private_pct_gdp,2012,
+Canada,CAN,domestic_credit_private_pct_gdp,2011,
+Canada,CAN,domestic_credit_private_pct_gdp,2010,
+China,CHN,domestic_credit_private_pct_gdp,2024,194.165996844811
+China,CHN,domestic_credit_private_pct_gdp,2023,189.606708989308
+China,CHN,domestic_credit_private_pct_gdp,2022,181.785162429715
+China,CHN,domestic_credit_private_pct_gdp,2021,173.554518720488
+China,CHN,domestic_credit_private_pct_gdp,2020,179.104100221958
+China,CHN,domestic_credit_private_pct_gdp,2019,162.207566232758
+China,CHN,domestic_credit_private_pct_gdp,2018,154.991560224764
+China,CHN,domestic_credit_private_pct_gdp,2017,152.089747458443
+China,CHN,domestic_credit_private_pct_gdp,2016,153.192761827313
+China,CHN,domestic_credit_private_pct_gdp,2015,149.628832038708
+China,CHN,domestic_credit_private_pct_gdp,2014,137.623726308462
+China,CHN,domestic_credit_private_pct_gdp,2013,131.939045697462
+China,CHN,domestic_credit_private_pct_gdp,2012,126.819734509975
+China,CHN,domestic_credit_private_pct_gdp,2011,121.167093127879
+China,CHN,domestic_credit_private_pct_gdp,2010,124.425608463989
+India,IND,domestic_credit_private_pct_gdp,2024,
+India,IND,domestic_credit_private_pct_gdp,2023,
+India,IND,domestic_credit_private_pct_gdp,2022,
+India,IND,domestic_credit_private_pct_gdp,2021,50.1421581396983
+India,IND,domestic_credit_private_pct_gdp,2020,54.5052902460387
+India,IND,domestic_credit_private_pct_gdp,2019,50.7424617406439
+India,IND,domestic_credit_private_pct_gdp,2018,50.3381627463062
+India,IND,domestic_credit_private_pct_gdp,2017,48.7940213990706
+India,IND,domestic_credit_private_pct_gdp,2016,49.1012254191449
+India,IND,domestic_credit_private_pct_gdp,2015,51.8675240772049
+India,IND,domestic_credit_private_pct_gdp,2014,51.8821873589628
+India,IND,domestic_credit_private_pct_gdp,2013,52.385709516972
+India,IND,domestic_credit_private_pct_gdp,2012,51.8885076473464
+India,IND,domestic_credit_private_pct_gdp,2011,51.2892331325447
+India,IND,domestic_credit_private_pct_gdp,2010,50.5553749785224
+Mexico,MEX,domestic_credit_private_pct_gdp,2024,34.6539050825782
+Mexico,MEX,domestic_credit_private_pct_gdp,2023,33.2369362044555
+Mexico,MEX,domestic_credit_private_pct_gdp,2022,34.2597422077016
+Mexico,MEX,domestic_credit_private_pct_gdp,2021,35.0570605491873
+Mexico,MEX,domestic_credit_private_pct_gdp,2020,36.932589757811
+Mexico,MEX,domestic_credit_private_pct_gdp,2019,35.5851864870933
+Mexico,MEX,domestic_credit_private_pct_gdp,2018,33.6152178165449
+Mexico,MEX,domestic_credit_private_pct_gdp,2017,34.3431256723362
+Mexico,MEX,domestic_credit_private_pct_gdp,2016,32.9508423866166
+Mexico,MEX,domestic_credit_private_pct_gdp,2015,30.8304978658063
+Mexico,MEX,domestic_credit_private_pct_gdp,2014,28.1836821045396
+Mexico,MEX,domestic_credit_private_pct_gdp,2013,27.8590593255176
+Mexico,MEX,domestic_credit_private_pct_gdp,2012,24.9270563840333
+Mexico,MEX,domestic_credit_private_pct_gdp,2011,23.5848328356452
+Mexico,MEX,domestic_credit_private_pct_gdp,2010,22.3237750289598
+Nigeria,NGA,domestic_credit_private_pct_gdp,2024,
+Nigeria,NGA,domestic_credit_private_pct_gdp,2023,
+Nigeria,NGA,domestic_credit_private_pct_gdp,2022,12.9574673117641
+Nigeria,NGA,domestic_credit_private_pct_gdp,2021,13.4494491647875
+Nigeria,NGA,domestic_credit_private_pct_gdp,2020,12.1318506028341
+Nigeria,NGA,domestic_credit_private_pct_gdp,2019,11.1575566541912
+Nigeria,NGA,domestic_credit_private_pct_gdp,2018,10.2465813012399
+Nigeria,NGA,domestic_credit_private_pct_gdp,2017,12.8520298076198
+Nigeria,NGA,domestic_credit_private_pct_gdp,2016,14.6080388563102
+Nigeria,NGA,domestic_credit_private_pct_gdp,2015,13.0786844773698
+Nigeria,NGA,domestic_credit_private_pct_gdp,2014,13.2970053767392
+Nigeria,NGA,domestic_credit_private_pct_gdp,2013,11.5332149415284
+Nigeria,NGA,domestic_credit_private_pct_gdp,2012,10.6047037712344
+Nigeria,NGA,domestic_credit_private_pct_gdp,2011,11.0436296114106
+Nigeria,NGA,domestic_credit_private_pct_gdp,2010,13.490742840586
+United States,USA,domestic_credit_private_pct_gdp,2024,198.226502993254
+United States,USA,domestic_credit_private_pct_gdp,2023,192.589445972937
+United States,USA,domestic_credit_private_pct_gdp,2022,187.970100405874
+United States,USA,domestic_credit_private_pct_gdp,2021,220.381317178271
+United States,USA,domestic_credit_private_pct_gdp,2020,217.855590337027
+United States,USA,domestic_credit_private_pct_gdp,2019,194.735258917444
+United States,USA,domestic_credit_private_pct_gdp,2018,183.054001756212
+United States,USA,domestic_credit_private_pct_gdp,2017,194.090996653847
+United States,USA,domestic_credit_private_pct_gdp,2016,186.327051044306
+United States,USA,domestic_credit_private_pct_gdp,2015,183.632163440252
+United States,USA,domestic_credit_private_pct_gdp,2014,184.794021331949
+United States,USA,domestic_credit_private_pct_gdp,2013,184.162921715823
+United States,USA,domestic_credit_private_pct_gdp,2012,175.443843579456
+United States,USA,domestic_credit_private_pct_gdp,2011,174.474559125538
+United States,USA,domestic_credit_private_pct_gdp,2010,181.920666527452
