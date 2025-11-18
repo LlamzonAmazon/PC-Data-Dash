@@ -8,6 +8,35 @@ We're building an interactive dashboard for [PlanCatalyst](https://www.PlanCatal
 We are exploring ML **regression** techniques using scikit-learn to forecast country-level development, and NumPy to construct **composite indexes**. **AWS** automates data fetching and data storage, while **Microsoft Power BI** delivers the interactive frontend.
 
 
+## 🚀 Setup
+
+**Requirements:**
+- Python 3.9 - 3.12 (Python 3.12.6 recommended)
+- pip
+
+**Installation:**
+```bash
+# Create virtual environment with Python 3.12
+python -m venv venv
+
+# Activate virtual environment
+# On Windows (Command Prompt):
+venv\Scripts\activate.bat
+# On Windows (PowerShell):
+venv\Scripts\Activate.ps1
+# On macOS/Linux:
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+**Running the Data Fetch Script:**
+```bash
+python -m src.fetch.data_fetch
+```
+
+
 ## 📌 References/Resources
 ### UN SDGs
 * [UN SDG **API** V1](https://unstats.un.org/sdgapi/swagger/#!/)

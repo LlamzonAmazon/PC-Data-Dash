@@ -7,6 +7,7 @@ import sys, yaml, pandas as pd
 from src.fetch.world_bank_fetch import WorldBankClient
 from src.fetch.un_sdg_fetch import UNSDGClient
 from src.pipeline.utils import project_root, setup_logger
+from src.aws.s3_uploader import S3Uploader
 
 
 def main():
@@ -93,6 +94,15 @@ def main():
         if runtime.get("write_files", True):
             wbClient.save_interim_csv(combined, project_root() / paths["wb_interim_csv"])
     
+    
+    if cfg.get("aws", {}).get("s3", {}).get("bucket_name"):
+        try:
+            uploader = S3Uploader()
+            uploader.upload_directory("data/raw", "data/raw/")
+            uploader.upload_directory("data/interim", "data/interim/")
+            log.info("Data uploaded to S3 successfully")
+        except Exception as e:
+            log.error(f"S3 upload failed: {e}")
 
 
 # Run main() only if this file is executed directly

@@ -46,6 +46,17 @@ un_sdg:
     max_retries: 3
     retry_backoff_factor: 0.3
 
+# ===== AWS S3 Settings =====
+
+aws:
+  s3:
+    bucket_name: "amazon-s3-test-bucket-lambda" #da bucket 
+    region: "us-east-1"  # AWS development region
+    upload_paths:
+      raw: "data/raw/"
+      interim: "data/interim/"
+      processed: "data/processed/"
+
 # ===== General Settings =====
 
 paths:
