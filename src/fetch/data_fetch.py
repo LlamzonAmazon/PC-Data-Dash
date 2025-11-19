@@ -1,15 +1,16 @@
 from __future__ import annotations
 
-from pathlib import Path
-import sys, yaml, pandas as pd
+import sys, pandas as pd
 
-# Import data clients
-from src.fetch.world_bank_fetch import WorldBankClient
-from src.fetch.un_sdg_fetch import UNSDGClient
+from src.fetch.client_factory import DataClientFactory
 from src.pipeline.utils import project_root, setup_logger
 
 
+"""
+    Main script to run data fetching; `python3 -m src.fetch.data_fetch`
+"""
 def main():
+
     # Set up console logger for clean [INFO]/[ERROR] messages
     log = setup_logger()
 
@@ -21,40 +22,44 @@ def main():
         log.error("Missing config at %s", cfg_path)
         sys.exit(1)
 
-    # Load configuration from YAML file
-    cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8"))
-    print("\nLoaded configuration from", cfg_path)
-
-    ''' ########## UN SDG Data Fetching ########### '''
+    # Create Data Client Factory
+    client_factory = DataClientFactory(config_path=cfg_path)
     
-    base_url = f"{cfg['un_sdg']['api_paths']['base']}"
+    # Load full configuration file
+    cfg = client_factory.get_config()    
 
-    unsdgClient = UNSDGClient(api_url=base_url)
-    print("Fetching UN SDG Goals data...")
-    goals_data = unsdgClient.fetch("/Goal/List", parameters={
-        "includeChildren": "true"
+    """ ################################################################## 
+    ### UN SDG FETCHING ###
+    ################################################################## """
+    
+    unsdgClient = client_factory.create_client('unsdg')
+    
+    unsdg_indicator_data_endpoint = cfg['unsdg']['api_paths']['indicator_data_endpoint']
+    unsdg_indicator_codes = [indicator['code'] for indicator in cfg['unsdg']['indicators']]
+    
+    # Fetch indicator data for ALL countries and specified years
+    print("Fetching UN SDG data...")
+    indicator_data_df = unsdgClient.fetch_indicator_data(unsdg_indicator_data_endpoint, 
+        parameters={
+        "indicator": unsdg_indicator_codes,
+        # areaCode excluded; returns ALL if not specified
+        "timePeriodStart": cfg['unsdg']['start_year'], 
+        "timePeriodEnd": cfg['unsdg']['end_year'],
+        "page" : 1, # Page Number
+        "pageSize": 1000 # Number of Records per Page/Response
         })
     
-    # 3 DATAFRAMES: GOALS, TARGETS, INDICATORS
-    df_goals, df_targets, df_indicators = unsdgClient._goals_list_to_dataframes(goals_data)
-    
-    temp = df_indicators.copy()
-    for col in temp.columns:
-        if temp[col].dtype == "object":
-            # TRUNCATING LONG TEXT FIELDS FOR BETTER DISPLAY
-            temp[col] = temp[col].astype(str).str.slice(0, 20)
 
-    print("\n=== UN SDG Indicators Data (preview) ===")
-    print(temp.head(50).to_string(index=False))
-    
-    # Export indicators DataFrame to CSV for now
-    if cfg["runtime"].get("write_files", True):
+    # Send dataframe to /data/interim/ as CSV if enabled
+    if cfg['runtime'].get("write_files", True):
         unsdgClient.save_interim_csv(
-            df_indicators,
-            project_root() / cfg["paths"]["unsdg_interim_csv"]
+            indicator_data_df, 
+            project_root() / cfg['paths']['unsdg_interim_csv']
         )
-
-    ''' ########## World Bank Data Fetching ########### '''
+    
+    """ ################################################################## 
+    ### WORLD BANK FETCHING ###
+    ################################################################## """
 
     wb, paths, runtime = cfg["world_bank"], cfg["paths"], cfg["runtime"]
 
@@ -92,9 +97,14 @@ def main():
         # Save cleaned combined CSV if enabled
         if runtime.get("write_files", True):
             wbClient.save_interim_csv(combined, project_root() / paths["wb_interim_csv"])
+            
+    """ ################################################################## 
+    ### ND-GAIN FETCHING ###
+    ################################################################## """
     
-
 
 # Run main() only if this file is executed directly
 if __name__ == "__main__":
     main()
+    
+

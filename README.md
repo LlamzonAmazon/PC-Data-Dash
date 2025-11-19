@@ -48,7 +48,7 @@ PC-Data-Dash/
 │   │   ├── nd_gain_fetch.py      # ND-GAIN Client
 │   │   ├── world_bank_fetch.py   # World Bank Client
 │   │   ├── base_fetch.py         # Data client interface (template)
-│   │   ├── client_factory.py     # Factory class
+│   │   ├── client_factory.py     # Client Factory Class
 │   │   └── README.md
 │   │
 │   ├── transform/                # Cleaning + structuring scripts

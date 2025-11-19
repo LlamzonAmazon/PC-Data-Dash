@@ -1,53 +1,127 @@
 # Data source configurations
 
-# ===== World Bank API Settings =====
 
-world_bank:
-  # ISO-3 country codes to query in ONE request (semicolon-joined in the API call).
-  # You can add/remove codes (e.g., "GBR", "FRA"). Regions like "WLD" (world) also work,
-  # but mixing countries + regions may complicate modeling/visuals later.
-  countries: ["CAN", "USA", "MEX", "IND", "CHN", "NGA", "BRA"]
+# ==================================================================== 
+# ===== World Bank Settings =====
+# ====================================================================
+worldbank: # name must be same as in client_factory.py
 
   # Inclusive start/end year for the World Bank "date" filter, e.g. date=2010:2024
   # Not all indicators have values for every year; nulls are expected.
   start_year: 2010
   end_year: 2024
 
+  api_paths: 
+    # Base URL for World Bank API
+    base: "https://api.worldbank.org/v2"
+    # Indicator endpoint
+    indicator_endpoint: "/country/{country_str}/indicator/{indicator_code}"
+
   # Indicators to fetch. "code" is the official WB indicator id;
   # "alias" is the clean, BI-friendly name used in outputs ("indicator" column).
   indicators:
-    - { code: "NY.GDP.PCAP.CD", alias: "gdp_per_capita_usd" }           # GDP per capita (current US$)
-    - { code: "GC.TAX.TOTL.GD.ZS", alias: "tax_revenue_pct_gdp" }       # Tax revenue (% of GDP)
-    - { code: "FS.AST.PRVT.GD.ZS", alias: "domestic_credit_private_pct_gdp" } # Domestic credit to private sector (% of GDP)
+    # Population density (people per sq. km of land area)
+    # See: https://data.worldbank.org/indicator/EN.POP.DNST
+    - { code: "EN.POP.DNST", alias: "population_density_per_sq_km" }  
 
-# ===== UN SDG API Endpoints =====
+  # ISO-3 country codes to query in ONE request (semicolon-joined in the API call).
+  # You can add/remove codes (e.g., "GBR", "FRA"). Regions like "WLD" (world) also work,
+  # but mixing countries + regions may complicate modeling/visuals later.
+  countries: ["CAN", "USA", "MEX", "IND", "CHN", "NGA", "BRA"]
 
-un_sdg:
+    # EXTRA INDICATORS (uncomment as needed)
+    # - { code: "NY.GDP.PCAP.CD", alias: "gdp_per_capita_usd" }           # GDP per capita (current US$)
+    # - { code: "GC.TAX.TOTL.GD.ZS", alias: "tax_revenue_pct_gdp" }       # Tax revenue (% of GDP)
+    # - { code: "FS.AST.PRVT.GD.ZS", alias: "domestic_credit_private_pct_gdp" } # Domestic credit to private sector (% of GDP)
+
+
+# ==================================================================== 
+# ===== UN SDG Settings =====
+# ====================================================================
+unsdg: # name must be same as in client_factory.py
+
+  # Inclusive start/end year for UN SDG data fetching
+  start_year: 2010
+  end_year: 2024
 
   api_paths: 
     # Base URL for UN SDG API
-    base: "https://unstats.un.org/SDGAPI/v1/sdg"
+    base: "https://unstats.un.org/sdgs/UNSDGAPIV5/v1/sdg"
+    # Indicator endpoints
     indicator_list_endpoint: "/Indicator/List"
     indicator_data_endpoint: "/Indicator/Data"
-    indicator_pivot_data_endpoint: "/Indicator/PivotData"
-    goals_endpoint: "/Goal"
-    goal_data_endpoint: "/Goal/Data"
 
   indicators:
-    # Proportion of population below the international poverty line
-    - { code: "1.1.1", alias: "poverty_headcount_ratio" }        
-    # Prevalence of undernourishment
-    - { code: "2.1.1", alias: "undernourishment_prevalence" }    
-    # Maternal mortality ratio
+    # === HEALTHCARE ===
+    # Resilient Primary Healthcare (PHC) systems
+    - { code: "3.8.1", alias: "coverage_of_essential_health_services" }
+    # Infectious disease control
+    - { code: "3.3.2", alias: "tuberculosis_incidence_per_100000_population" }
+    - { code: "3.3.3", alias: "incidence_of_malaria" }
+    # Maternal and child health
     - { code: "3.1.1", alias: "maternal_mortality_ratio" }
+    - { code: "3.2.1", alias: "under_5_mortality_ratio" }
+    # Nutrition
+    - { code: "2.2.1", alias: "prevalence_of_stunting" }
+    - { code: "2.2.2", alias: "prevalence_of_malnutrition" }
+    - { code: "2.2.3", alias: "prevalence_of_anemia_in_women_aged_15_to_49_years" }
+    # Reproductive health and family planning
+    - { code: "3.7.1", alias: "portion_of_women_of_reproductive_age_with_family_planning_needs_met" }
+    - { code: "3.7.2", alias: "adolescent_birth_rate_age_15_to_19_years_per_1000_women_in_that_age_group" }
+    # Health risk reduction and management
+    - { code: "3.d.1", alias: "international_health_regs_capacity_and_health_emergency_preparedness" }
+ 
+    # === AGRICULTURE ===
+    # Food security
+    - { code: "2.1.2", alias: "prevalence_of_moderate_severe_food_insecurity_in_pop_based_on_FIES" }
+    - { code: "2.4.1", alias: "proportion_of_agricultural_area_under_productive_and_sustainable_agriculture" }
+    # Agricultural systems and value chain strengthening
+    - { code: "2.a.2", alias: "total_agricultural_flows_to_the_agriculture_sector" }
+
+    # === SOCIAL INFRASTRUCTURE ===
+    # Water, sanitation, and hygiene (WASH)
+    - { code: "6.1.1", alias: "proportion_of_population_using_safely_managed_drinking_water_services" }
+    - { code: "6.2.1", alias: "proportion_of_population_not_using_safely_managed_sanitation_services" }
+    - { code: "3.9.2", alias: "mortality_rate_attributable_to_household_and_ambient_air_pollution" }
+    # Off-grid power
+    - { code: "7.1.1", alias: "proportion_of_population_with_access_to_electricity" }
+    - { code: "7.1.2", alias: "proportion_of_population_with_primary_reliance_on_clean_fuels_and_technology" }
+    - { code: "7.2.1", alias: "renewable_energy_share_in_total_final_energy_consumption" }
+    # Digital financial inclusion
+    - { code: "8.10.2", alias: "proportion_of_adults_15_or_older_with_account_at_a_financial_institution_or_with_a_mobile_money_service_provider" }
+  
+    # === ADDITIONAL CONSIDERATIONS ===
+    - { code: "1.2.1", alias: "proportion_of_population_below_the_international_poverty_line" }
 
   settings:
     request_timeout: 30  # in seconds
     max_retries: 3
     retry_backoff_factor: 0.3
 
-# ===== General Settings =====
 
+# ==================================================================== 
+# ===== ND-GAIN Settings =====
+# ====================================================================
+ndgain: # name must be same as in client_factory.py
+  indicators:
+    # Climate Risk Index
+    - { code: "CRI", alias: "climate_risk_index" }
+    # Vulnerability Index
+    - { code: "VI", alias: "vulnerability_index" }
+    # Readiness Index
+    - { code: "RI", alias: "readiness_index" }
+    # Overall ND-GAIN Index
+    - { code: "NDGAIN", alias: "nd_gain_index" }
+
+  settings:
+    request_timeout: 30  # in seconds
+    max_retries: 3
+    retry_backoff_factor: 0.3
+
+
+# ==================================================================== 
+# ===== General Settings =====
+# ====================================================================
 paths:
   # Where to store raw, untouched API JSON for auditability and re-processing.
   data_raw: "data/raw/world_bank"

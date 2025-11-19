@@ -14,33 +14,51 @@ Abstract base class for all data source clients (UN SDG, ND-GAIN, World Bank, et
 class DataClient(ABC):
     
     def __init__(self, api_url: str, credentials: Optional[dict] = None):
-        # api_endpoint: Base URL for the API
-        # credentials: Optional authentication credentials
-
+        """
+        Initializes a DataClient with their **base** API URL (`api_url`), optional credentials (`credentials`), and an empty data container (`data`).
+        
+        Args:
+            api_url (str): **Base** API URL for the data source
+            credentials (Optional[dict]): Optional authentication credentials. Defaults to None.
+        """
+        
         self.api_url = api_url
         self.credentials = credentials or {}
         self.data: Optional[pd.DataFrame] = None
         self.logger = logging.getLogger(self.__class__.__name__)
     
     @abstractmethod
-    def fetch(self, api_url: str, parameters: Any, credentials: Optional[dict] = None) -> pd.DataFrame:
-        # Fetch data from API and return as DataFrame
-        pass
-    
-    @abstractmethod
     def validate(self) -> bool:
-        # Validate fetched data
+        """
+            Validates non-empty API response data.
+        """
         pass
     
     @abstractmethod
     def save_raw_json(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
-        # Saves the unmodified API response to JSON (raw data).
+        """
+            Saves the tidy DataFrame as a JSON file.
+
+        Args:
+            df (pd.DataFrame): DataFrame to convert to JSON
+            out_path (Path): Destination path of JSON file
+        """        
         pass
     
     @abstractmethod
     def save_interim_csv(self, df: pd.DataFrame, out_path: Path) -> None:
-        # Saves the tidy DataFrame as a CSV file.
+        """
+            Saves the tidy DataFrame as a CSV file.
+
+        Args:
+            df (pd.DataFrame): DataFrame to convert to CSV
+            out_path (Path): Destination path of CSV file
+        """
         pass
+    
+    def get_api_url(self) -> str:
+        # Returns base API URL
+        return self.api_url
     
     def _log_fetch_start(self):
         # Helper method for logging

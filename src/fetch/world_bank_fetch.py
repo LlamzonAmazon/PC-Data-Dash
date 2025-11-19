@@ -13,13 +13,10 @@ from .base_fetch import DataClient
 BASE = "https://api.worldbank.org/v2"
 
 """
-Handles data fetching from the World Bank API.
+World Bank API data fetching client
 """
 class WorldBankClient(DataClient):
-
-    """
-    Constructor for WorldBankClient
-    """
+    
     def __init__(self, per_page=1000) -> None:
         
         super().__init__(api_url=BASE)
@@ -28,24 +25,7 @@ class WorldBankClient(DataClient):
         self.session = requests.Session()       # Reusable HTTP session (faster)
         self.log = setup_logger()               # Logger for progress messages
 
-    @retry(stop=stop_after_attempt(4), wait=wait_exponential(multiplier=0.5, max=8))
-    def fetch(self, api_url: str, parameters: Dict[str, Any]):   
-        """
-        Fetches data from a World Bank API with retry logic.
-        Returns:
-            r: Response object from the requests library
-        """
-
-        r = self.session.get(api_url, params=parameters, timeout=30)
-        r.raise_for_status()  # Raise error if response failed
-        return r
-
     def validate(self) -> bool:
-        """
-        Validates fetched World Bank data.
-        Returns:
-            True if data is valid, False otherwise
-        """
         
         # Validate non-empty DataFrame
         if not self.data or self.data.empty:
@@ -67,9 +47,9 @@ class WorldBankClient(DataClient):
         ensure_dir(out_path.parent)
         df.to_csv(out_path, index=False)
 
-    """ ################################# 
-    CLIENT-SPECIFIC METHODS 
-    ################################# """
+    """ ################################################################## 
+    ### CLIENT-SPECIFIC METHODS ###
+    ################################################################## """
     
     def fetch_indicator(
         self, 
