@@ -127,18 +127,18 @@ ndgain: # name must be same as in client_factory.py
 # ====================================================================
 paths:
   # Where to store raw, untouched API JSON for auditability and re-processing.
-  data_raw: "data/raw/world_bank"
+  data_raw: "data/raw/worldbank"
 
   # Where to store cleaned “tidy” data produced by the fetch step (still general-purpose).
-  data_interim: "data/interim/world_bank"
+  data_interim: "data/interim/worldbank"
 
   # Where to store polished, model-ready or Power BI–ready outputs (optional).
-  data_processed: "data/processed/world_bank"
+  data_processed: "data/processed/worldbank"
 
   # Main combined tidy CSV (columns: country, iso3, indicator, year, value).
   # This is what Power BI or downstream transforms might ingest. (possibly during development)
-  wb_interim_csv: "data/interim/world_bank/world_bank_interim.csv"
-  unsdg_interim_csv: "data/interim/un_sdg/un_sdg_interim.csv"
+  wb_interim_csv: "data/interim/worldbank/world_bank_interim.csv"
+  unsdg_interim_csv: "data/interim/unsdg/un_sdg_interim.csv"
   ndgain_interim_csv: "data/interim/ndgain/ndgain_interim.csv"
 
 runtime:
