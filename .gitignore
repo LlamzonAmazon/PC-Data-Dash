@@ -51,6 +51,15 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# data
+#   Ignore all raw, interim, and processed data as well as subfolders
+data/raw/
+data/interim/
+data/processed/
+data/raw/**
+data/interim/**
+data/processed/**
+
 # Translations
 *.mo
 *.pot
