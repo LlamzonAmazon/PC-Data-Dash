@@ -5,7 +5,7 @@ We're building an interactive dashboard for [PlanCatalyst](https://www.PlanCatal
 * __ND-GAIN__ (Notre Dame Global Adaptation Index) – Climate Change Resilience
 * __World Bank Data__ – Financial Capacity
 
-We are exploring ML **regression** techniques using scikit-learn to forecast country-level development, and NumPy to construct **composite indexes**. **AWS** automates data fetching and data storage, while **Microsoft Power BI** delivers the interactive frontend.
+We are exploring ML **regression** techniques using scikit-learn to forecast country-level development and NumPy to construct **composite indexes**. **AWS** automates data fetching and data storage, while **Microsoft Power BI** delivers the interactive frontend.
 
 
 ## 📌 References/Resources
