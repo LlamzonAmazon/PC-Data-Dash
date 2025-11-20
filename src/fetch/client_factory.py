@@ -55,13 +55,14 @@ class DataClientFactory:
         data_client = self._clients[client_type_lower]
         
         # Get configurations for this client
-        print("Configs for loaded for client:", client_type_lower)
+        print(f'Loaded configs for client: {client_type_lower}, ', end="")
         client_config = self.config.get(client_type_lower, {})
         
         logger.info(f"Creating {client_type} client")
         
+        print(f'now returning {client_type_lower} instance.')
         return data_client(
-            api_url=client_config['api_paths']['base'], 
+            api_url=client_config['api_paths']['base'],  # Passing in base API URL upon instantiation
             credentials=None # Use None for now; None of the APIs require keys
         )
     

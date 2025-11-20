@@ -24,7 +24,6 @@ class DataClient(ABC):
         
         self.api_url = api_url
         self.credentials = credentials or {}
-        self.data: Optional[pd.DataFrame] = None
         self.logger = logging.getLogger(self.__class__.__name__)
     
     @abstractmethod

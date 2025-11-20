@@ -26,7 +26,8 @@ def main():
     client_factory = DataClientFactory(config_path=cfg_path)
     
     # Load full configuration file
-    cfg = client_factory.get_config()    
+    cfg = client_factory.get_config()  
+    paths, runtime = cfg["paths"], cfg["runtime"]
 
     """ ################################################################## 
     ### UN SDG FETCHING ###
@@ -38,7 +39,7 @@ def main():
     unsdg_indicator_codes = [indicator['code'] for indicator in cfg['unsdg']['indicators']]
     
     # Fetch indicator data for ALL countries and specified years
-    print("Fetching UN SDG data...")
+    print(f'Fetching UN SDG data for {len(unsdg_indicator_codes)} indicators...')
     indicator_data_df = unsdgClient.fetch_indicator_data(unsdg_indicator_data_endpoint, 
         parameters={
         "indicator": unsdg_indicator_codes,
@@ -51,24 +52,24 @@ def main():
     
 
     # Send dataframe to /data/interim/ as CSV if enabled
-    if cfg['runtime'].get("write_files", True):
+    if runtime.get("write_files", True):
         unsdgClient.save_interim_csv(
             indicator_data_df, 
-            project_root() / cfg['paths']['unsdg_interim_csv']
+            project_root() / paths['unsdg_interim_csv']
         )
     
     """ ################################################################## 
     ### WORLD BANK FETCHING ###
     ################################################################## """
 
-    wb, paths, runtime = cfg["world_bank"], cfg["paths"], cfg["runtime"]
 
-    # Initialize API client with per_page setting from config
-    wbClient = WorldBankClient(per_page=runtime.get("per_page", 1000))
+    wbClient = client_factory.create_client('worldbank')
+    
     frames = []  # List to store dataframes for each indicator
+    wb = cfg["worldbank"]
 
     # Loop through each indicator and fetch its data
-    print("Fetching World Bank indicator data...")
+    print("Fetching World Bank data...")
     for item in wb["indicators"]:
         code, alias = item["code"], item.get("alias", item["code"])
 
@@ -83,25 +84,25 @@ def main():
                 f"{alias}_{wb['start_year']}_{wb['end_year']}.json"
             )
 
-        # Normalize JSON → DataFrame and add to list
+        # Normalize JSON into a DataFrame and add resulting DataFrame to list
         frames.append(wbClient.normalize(recs, alias))
 
     # Combine all indicator dataframes
     if frames:
         combined = pd.concat(frames, ignore_index=True)
 
-        # Print a preview in terminal (first 50 rows)
-        print("\n=== Tidy World Bank Data (preview) ===")
-        print(combined.head(50).to_string(index=False))
-
         # Save cleaned combined CSV if enabled
         if runtime.get("write_files", True):
-            wbClient.save_interim_csv(combined, project_root() / paths["wb_interim_csv"])
+            wbClient.save_interim_csv(
+                combined, 
+                project_root() / paths["wb_interim_csv"]
+            )
             
     """ ################################################################## 
     ### ND-GAIN FETCHING ###
     ################################################################## """
     
+    ndGainClient = client_factory.create_client('ndgain')
 
 # Run main() only if this file is executed directly
 if __name__ == "__main__":

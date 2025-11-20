@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Dict, Iterable, List
+from typing import Any, Dict, Iterable, List, Optional
 import json, requests, pandas as pd
 
 from tenacity import retry, stop_after_attempt, wait_exponential
@@ -9,19 +9,16 @@ from src.pipeline.utils import setup_logger, ensure_dir
 
 from .base_fetch import DataClient
 
-# Base URL for all World Bank API requests
-BASE = "https://api.worldbank.org/v2"
-
 """
 World Bank API data fetching client
 """
 class WorldBankClient(DataClient):
     
-    def __init__(self, per_page=1000) -> None:
+    def __init__(self, api_url: str, credentials: Optional[dict] = None):
+                
+        super().__init__(api_url, credentials)        
         
-        super().__init__(api_url=BASE)
-        
-        self.per_page = per_page                # Records per page (pagination)
+        self.per_page = 1000                    # Records per page (pagination)
         self.session = requests.Session()       # Reusable HTTP session (faster)
         self.log = setup_logger()               # Logger for progress messages
 
@@ -51,6 +48,19 @@ class WorldBankClient(DataClient):
     ### CLIENT-SPECIFIC METHODS ###
     ################################################################## """
     
+    @retry(stop=stop_after_attempt(4), wait=wait_exponential(multiplier=0.5, max=8))
+    def fetch(self, api_url: str, parameters: Dict[str, Any]):   
+        """
+        Fetches data from a World Bank API with retry logic.
+        
+        Returns:
+            r: Response object from the requests library
+        """
+
+        r = self.session.get(api_url, params=parameters, timeout=30)
+        r.raise_for_status()  # Raise error if response failed
+        return r
+    
     def fetch_indicator(
         self, 
         indicator: str, 
@@ -68,7 +78,7 @@ class WorldBankClient(DataClient):
         page, out = 1, []
 
         while True:
-            url = f"{BASE}/country/{country_str}/indicator/{indicator}"
+            url = f"{self.api_url}/country/{country_str}/indicator/{indicator}"
             params = {
                 "date": f"{start}:{end}",     # Year range
                 "format": "json",             # Request JSON format
