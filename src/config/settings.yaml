@@ -26,12 +26,13 @@ worldbank: # name must be same as in client_factory.py
   # ISO-3 country codes to query in ONE request (semicolon-joined in the API call).
   # You can add/remove codes (e.g., "GBR", "FRA"). Regions like "WLD" (world) also work,
   # but mixing countries + regions may complicate modeling/visuals later.
-  countries: ["CAN", "USA", "MEX", "IND", "CHN", "NGA", "BRA"]
+  # countries: ["CAN", "USA", "MEX", "IND", "CHN", "NGA", "BRA"]
+  countries: ["all"]
 
-    # EXTRA INDICATORS (uncomment as needed)
-    # - { code: "NY.GDP.PCAP.CD", alias: "gdp_per_capita_usd" }           # GDP per capita (current US$)
-    # - { code: "GC.TAX.TOTL.GD.ZS", alias: "tax_revenue_pct_gdp" }       # Tax revenue (% of GDP)
-    # - { code: "FS.AST.PRVT.GD.ZS", alias: "domestic_credit_private_pct_gdp" } # Domestic credit to private sector (% of GDP)
+  # # EXTRA INDICATORS (uncomment as needed)
+  # - { code: "NY.GDP.PCAP.CD", alias: "gdp_per_capita_usd" }           # GDP per capita (current US$)
+  # - { code: "GC.TAX.TOTL.GD.ZS", alias: "tax_revenue_pct_gdp" }       # Tax revenue (% of GDP)
+  # - { code: "FS.AST.PRVT.GD.ZS", alias: "domestic_credit_private_pct_gdp" } # Domestic credit to private sector (% of GDP)
 
 
 # ==================================================================== 
