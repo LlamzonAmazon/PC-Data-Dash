@@ -2,7 +2,7 @@ from typing import Dict, Type
 
 from .base_fetch import DataClient
 from .un_sdg_fetch import UNSDGClient
-# from .nd_gain_fetch import NDGAINClient
+from .nd_gain_fetch import NDGAINClient
 from .world_bank_fetch import WorldBankClient
 
 import yaml
@@ -26,11 +26,10 @@ class DataClientFactory:
         # Dictionary containing available client types
         self._clients: Dict[str, Type[DataClient]] = {
             'unsdg': UNSDGClient,
-            # 'ndgain': NDGAINClient,
+            'ndgain': NDGAINClient,
             'worldbank': WorldBankClient
         }
-        
-    
+     
     def create_client(self, client_type: str) -> DataClient:
         """
         Creates a data client based on the specified type.
@@ -61,8 +60,13 @@ class DataClientFactory:
         logger.info(f"Creating {client_type} client")
         
         print(f'now returning {client_type_lower} instance.')
+        
+        source = 'api_paths'
+        if client_type_lower == 'ndgain':
+            source = 'zip_path'
+        
         return data_client(
-            api_url=client_config['api_paths']['base'],  # Passing in base API URL upon instantiation
+            base=client_config[source]['base'],  # Passing in base API URL upon instantiation
             credentials=None # Use None for now; None of the APIs require keys
         )
     

@@ -1,5 +1,4 @@
-# Data source configurations
-
+# Fetching Configurations
 
 # ==================================================================== 
 # ===== World Bank Settings =====
@@ -103,15 +102,19 @@ unsdg: # name must be same as in client_factory.py
 # ===== ND-GAIN Settings =====
 # ====================================================================
 ndgain: # name must be same as in client_factory.py
+
+  zip_path: 
+    # Base path of the ND-GAIN ZIP file
+    base: data/external/nd_gain_countryindex_2025.zip
+
+  # Indicator prefixes as they are in the ND-GAIN ZIP file for identifying score files by indicator
   indicators:
-    # Climate Risk Index
-    - { code: "CRI", alias: "climate_risk_index" }
-    # Vulnerability Index
-    - { code: "VI", alias: "vulnerability_index" }
-    # Readiness Index
-    - { code: "RI", alias: "readiness_index" }
-    # Overall ND-GAIN Index
-    - { code: "NDGAIN", alias: "nd_gain_index" }
+    # Indicators for constructing a country's Vulnerability index
+    # Ecosystem Services, Food, Human Habitat, Health, Infrastructure, Water
+    vulnerability: ['id_ecos', 'id_food', 'id_habi', 'id_heal', 'id_infr', 'id_wate']
+    # Indicators for constructing a country's Readiness index
+    # Government, Economic, Social
+    readiness: ['id_gove', 'id_econ', 'id_soci']
 
   settings:
     request_timeout: 30  # in seconds
@@ -146,6 +149,9 @@ runtime:
   # Page size for World Bank API pagination. 1000 is a good max that reduces round-trips.
   # The client will auto-paginate until all pages are fetched.
   per_page: 1000
+
+  # Number of lines to read per file chunk
+  chunk_size: 10000
 
   # Maximum number of retry attempts for transient network/server errors
   # during API calls. Used with exponential backoff to improve resilience.

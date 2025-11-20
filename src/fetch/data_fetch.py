@@ -47,7 +47,7 @@ def main():
         "timePeriodStart": cfg['unsdg']['start_year'], 
         "timePeriodEnd": cfg['unsdg']['end_year'],
         "page" : 1, # Page Number
-        "pageSize": 1000 # Number of Records per Page/Response
+        "pageSize": cfg['runtime']['per_page'] # Number of records per page/response
         })
     
 
@@ -58,10 +58,10 @@ def main():
             project_root() / paths['unsdg_interim_csv']
         )
     
+    
     """ ################################################################## 
     ### WORLD BANK FETCHING ###
     ################################################################## """
-
 
     wbClient = client_factory.create_client('worldbank')
     
@@ -97,15 +97,35 @@ def main():
                 combined, 
                 project_root() / paths["wb_interim_csv"]
             )
-            
+    
+       
     """ ################################################################## 
     ### ND-GAIN FETCHING ###
     ################################################################## """
     
     ndGainClient = client_factory.create_client('ndgain')
+    
+    ndgain_vulnerability_indicators = cfg['ndgain']['indicators']['vulnerability']
+    
+    # Get vulnerability scores as a list of dictionaries
+    ndgain_indicator_scores = ndGainClient.fetch_indicator(
+        indicator_codes=ndgain_vulnerability_indicators, 
+        chunkSize=cfg['runtime']['chunk_size']
+    )
+    
+    # Convert to DataFrame
+    ndgain_indicator_scores_df = ndGainClient.indicator_data_to_dataframe(ndgain_indicator_scores)
+    
+    # Print DataFrame
+    ndGainClient.save_interim_csv(
+        ndgain_indicator_scores_df,
+        project_root() / paths['ndgain_interim_csv'] 
+        )
+    
+    
+    """ ################################################################## """
+    print("\n===== ALL CLIENTS DONE. =====\n")
 
-# Run main() only if this file is executed directly
 if __name__ == "__main__":
     main()
     
-

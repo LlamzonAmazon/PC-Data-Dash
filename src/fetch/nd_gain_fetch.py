@@ -1,166 +1,279 @@
-import zipfile
-import sys
+from __future__ import annotations
+
 from pathlib import Path, PurePosixPath
+from typing import Any, Dict, List, Optional
+import json, zipfile, pandas as pd, sys
 
-import pandas as pd
+from src.pipeline.utils import ensure_dir
 
-# Path to the ND-GAIN ZIP file
-ZIP_PATH = Path("data/external/nd_gain_countryindex.zip")
 
-CHUNK_SIZE = 10000
+from .base_fetch import DataClient
 
-# Get all indicator score.csv files in the ZIP file
-def list_indicator_score_files(zip_path: Path):
+"""
+ND-GAIN data fetching client
+Extracts indicator data from local ZIP file containing CSV files
+"""
+class NDGAINClient(DataClient):
 
-    # Get all file/folder names in the ZIP file
-    with zipfile.ZipFile(zip_path, "r") as zf:
-        all_names = zf.namelist()
+    def __init__(self, base: str, credentials: Optional[dict] = None):
+        
+        super().__init__(base, credentials)
+        self.base = Path(base)
+        
+        # Validate ZIP file exists
+        if not self.base.exists():
+            raise FileNotFoundError(
+                f"ND-GAIN ZIP file not found at {self.base}. "
+                "Please download it first or adjust the path in settings.yaml"
+            )
+    
+    def save_raw_json(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
+        """Saves the unmodified data to JSON (raw data)."""
+        ensure_dir(out_dir)
+        (out_dir / filename).write_text(json.dumps(records, indent=2), encoding="utf-8")
 
-    # Filter for only indicator score.csv files
-    score_files = [
-        name for name in all_names
-        if name.startswith("resources/indicators/")
-        and name.endswith("/score.csv")
-    ]
+    def save_interim_csv(self, df: pd.DataFrame, out_path: Path) -> None:
+        """Saves the tidy DataFrame as a CSV file."""
+        ensure_dir(out_path.parent)
+        df.to_csv(out_path, index=False)
 
-    return score_files
 
-# Load all indicator score.csv files into a single DataFrame
-def load_indicator_scores(zip_path: Path):
-    frames = []
-
-    with zipfile.ZipFile(zip_path, "r") as zf:
-        score_files = list_indicator_score_files(zip_path)
-
-        # Handle empty list of score files by returning empty DataFrame
+    """ ################################################################## 
+    ### CLIENT-SPECIFIC METHODS ###
+    ################################################################## """
+    
+    def _list_indicator_score_files(self) -> List[str]:
+        """
+        Get all indicator score.csv files in the ZIP file.
+        
+        Returns:
+            List[str]: List of file paths to score.csv files
+        """
+        with zipfile.ZipFile(self.base, "r") as zf:
+            all_names = zf.namelist()
+        
+        # Filter for only indicator score.csv files
+        score_files = [
+            name for name in all_names
+            if name.startswith("resources/indicators/")
+            and name.endswith("/score.csv")
+        ]
+        
+        self.logger.info(f"Found {len(score_files)} indicator score files in ZIP")
+        return score_files
+    
+    def fetch_indicator(self, indicator_codes: List[str] = None, chunkSize: int = 10000) -> List[Dict[str, Any]]:
+        """
+        Fetches all indicator score data from the ND-GAIN ZIP file.
+        Returns raw data as list of dictionaries (similar to API response format).
+        
+        Args:
+            indicator_codes (List[str], optional): List of indicator codes to fetch. 
+                                                   If None, fetches all available indicators.
+        
+        Returns:
+            List[Dict[str, Any]]: List of records with indicator data
+        """
+        self._log_fetch_start()
+        
+        # Get list of all score files in ZIP
+        score_files = self._list_indicator_score_files()
+        
         if not score_files:
-            print("No indicator score.csv files found in the ZIP.")
+            self.logger.warning("No indicator score.csv files found in the ZIP.")
+            return []
+        
+        # Load all indicator data
+        all_records = []
+        
+        # Extract ZIP file
+        with zipfile.ZipFile(self.base, "r") as zf:
+            
+            # Iterate over every path leading to a score file for an indicator
+            for path in score_files:
+                # Extract indicator name from path
+                p = PurePosixPath(path)
+                try:
+                    indicator_name = p.parts[2]
+                except IndexError:
+                    self.logger.warning(f"Unexpected path structure: {path}")
+                    continue
+                
+                # Skip if filtering and this indicator not in filter list
+                if indicator_codes and indicator_name[:7] not in indicator_codes:
+                    continue
+                
+                self.logger.info(f"Loading {indicator_name} data...")
+                
+                try:
+                    # Open file from zip file object at current iteration path
+                    with zf.open(path) as f:
+                        # Read data in chunks to avoid memory issues
+                        chunk_list = []
+                        for chunk in pd.read_csv(f, chunksize=chunkSize):
+                            chunk["indicator"] = indicator_name
+                            chunk_list.append(chunk)
+                        
+                        # Combine chunks and convert to records
+                        if chunk_list:
+                            df = pd.concat(chunk_list, ignore_index=True)
+                            records = df.to_dict('records')
+                            all_records.extend(records)
+                            
+                except Exception as e:
+                    self.logger.error(f"Error loading {indicator_name}: {e}")
+                    continue
+        
+        self._log_fetch_complete(len(all_records))
+        return all_records
+    
+    def indicator_data_to_dataframe(self, indicator_data: List[Dict[str, Any]]) -> pd.DataFrame:
+        """
+        Convert ND-GAIN raw data to a structured, tidy DataFrame.
+        Transforms wide format (years as columns) to long format (year as a column).
+        
+        Args:
+            indicator_data (List[Dict[str, Any]]): Raw data from ZIP file as list of dictionaries
+            
+        Returns:
+            pd.DataFrame: Tidy DataFrame with columns: country_code, country, indicator, year, value
+        """
+        if not indicator_data:
+            print("### No indicator data found in the records. ###")
             return pd.DataFrame()
+        
+        print("Converting ND-GAIN data to tidy format...")
+        
+        # Convert list of dicts back to DataFrame
+        raw_data = pd.DataFrame(indicator_data)
+        
+        # Identify year columns (numeric columns representing years)
+        year_columns = [col for col in raw_data.columns 
+                       if col not in ['ISO3', 'Name', 'indicator'] and str(col).isdigit()]
+        
+        # Melt the DataFrame from wide to long format
+        df_long = raw_data.melt(
+            id_vars=['ISO3', 'Name', 'indicator'],
+            value_vars=year_columns,
+            var_name='year',
+            value_name='value'
+        )
+        
+        # Rename columns to match standard schema
+        df_long = df_long.rename(columns={
+            'ISO3': 'country_code',
+            'Name': 'country'
+        })
+        
+        # Convert data types
+        df_long['year'] = pd.to_numeric(df_long['year'], errors='coerce').astype('Int64')
+        df_long['value'] = pd.to_numeric(df_long['value'], errors='coerce')
+        
+        # Remove rows with missing values
+        df_long = df_long.dropna(subset=['value'])
+        
+        # Sort by country, indicator, and year
+        df_long = df_long.sort_values(['country_code', 'indicator', 'year']).reset_index(drop=True)
+        
+        # Reorder columns for consistency with other clients
+        df_long = df_long[['country_code', 'country', 'indicator', 'year', 'value']]
+        
+        print(f"Extracted {len(df_long)} rows.")
+        print("Converted to Pandas DataFrame.")
+        return df_long
 
-        for path in score_files:   
-            # Break path into parts (directory/files)
-            p = PurePosixPath(path)
+
+    '''
+    # TOO MUCH OUTPUT – WILL FLOOD YOUR SHIT
+    def print_dataset(self, df: pd.DataFrame) -> None:
+        """
+        Print the dataset in a detailed, readable format.
+        Shows all indicators with their data organized by country and year.
+        
+        Args:
+            df (pd.DataFrame): Tidy DataFrame to display
+        """
+
+        if len(df) <= 0:
+            print("No data to display.")
+            return
+
+        # Get all indicators (remove duplicates and sort alphabetically)
+        indicators = sorted(df["indicator"].unique())
+        
+        # Summary header
+        print("\n" + "="*100)
+        print("ND-GAIN INDICATOR SCORE DATA - COMPLETE DATASET".center(100))
+        print("="*100)
+        print(f"Total Indicators: {len(indicators)}")
+        print(f"Total Rows: {df.shape[0]:,}")
+        print(f"Total Columns: {df.shape[1]}")
+        print("="*100)
+        sys.stdout.flush()
+        
+        # Get year range from data
+        year_range = sorted(df['year'].unique())
+        
+        # Display each indicator with all its data
+        for idx, indicator in enumerate(indicators, 1):
             try:
-                # Index into the indicator name 
-                indicator_name = p.parts[2]
-            except IndexError:
-                print(f"WARNING: Unexpected path structure: {path}")
-                continue
-
-            print(f"{indicator_name} data loaded.")
-
-            with zf.open(path) as f:
-                # Read data in chunks to avoid memory issues
-                chunk_list = []
-                for chunk in pd.read_csv(f, chunksize=CHUNK_SIZE):
-                    chunk["indicator"] = indicator_name
-                    chunk_list.append(chunk)
+                indicator_data = df[df["indicator"] == indicator].copy()
+                countries = sorted(indicator_data['country_code'].unique())
                 
-                # Combine chunks into dataframe and add to frames list
-                if chunk_list:
-                    df = pd.concat(chunk_list, ignore_index=True)
-                    frames.append(df)
-
-    # Handle empty list of frames by returning empty DataFrame
-    if not frames:
-        return pd.DataFrame()
-
-    # Combine all indicator DataFrames
-    combined = pd.concat(frames, ignore_index=True)
-    return combined
-
-# Print the dataset in a readable format
-def print_dataset(df: pd.DataFrame):
-
-    # Handle empty DataFrame
-    if df.empty:
-        print("No data to display.")
-        return
-
-    # Get all indicators (remove duplicates and sort alphabetically)
-    indicators = sorted(df["indicator"].unique())
-    
-    # Summary header
-    print("\n" + "="*100)
-    print("ND-GAIN INDICATOR SCORE DATA - COMPLETE DATASET".center(100))
-    print("="*100)
-    print(f"Total Indicators: {len(indicators)}")
-    print(f"Total Rows: {df.shape[0]:,}")
-    print(f"Total Columns: {df.shape[1]}")
-    print("="*100)
-    sys.stdout.flush()  # Force output to be written
-    
-    # Get year columns (all columns except ISO3, Name, indicator)
-    year_columns = [col for col in df.columns if col not in ['ISO3', 'Name', 'indicator']]
-    year_columns = sorted([col for col in year_columns if col.isdigit()])  # Only numeric year columns
-    
-    # Display each indicator with all its data
-    for idx, indicator in enumerate(indicators, 1):
-        try:
-            indicator_data = df[df["indicator"] == indicator].copy()
-            
-            print(f"\n\n{'='*100}")
-            print(f"INDICATOR {idx}/{len(indicators)}: {indicator.upper()}".center(100))
-            print(f"{'='*100}")
-            print(f"Number of Countries: {len(indicator_data)}")
-            print(f"Year Range: {year_columns[0]} - {year_columns[-1]} ({len(year_columns)} years)")
-            print(f"{'-'*100}")
-            sys.stdout.flush()
-            
-            # Display all countries for this indicator
-            for country_idx, (_, row) in enumerate(indicator_data.iterrows(), 1):
-                country_name = row['Name']
-                country_code = row['ISO3']
+                print(f"\n\n{'='*100}")
+                print(f"INDICATOR {idx}/{len(indicators)}: {indicator.upper()}".center(100))
+                print(f"{'='*100}")
+                print(f"Number of Countries: {len(countries)}")
+                print(f"Year Range: {year_range[0]} - {year_range[-1]} ({len(year_range)} years)")
+                print(f"{'-'*100}")
+                sys.stdout.flush()
                 
-                print(f"\n  [{country_idx:3d}] {country_name} ({country_code})")
-                print(f"      {'-'*94}")
-                
-                # Display values by year in a readable format
-                # Group years into rows for better readability
-                years_per_line = 5
-                for i in range(0, len(year_columns), years_per_line):
-                    year_batch = year_columns[i:i+years_per_line]
-                    value_strings = []
+                # Display all countries for this indicator
+                for country_idx, country_code in enumerate(countries, 1):
+                    country_data = indicator_data[indicator_data['country_code'] == country_code]
+                    country_name = country_data['country'].iloc[0]
                     
-                    for year in year_batch:
-                        value = row[year]
-                        if pd.notna(value):
-                            # Format with appropriate decimal places
-                            if abs(value) >= 1000:
-                                value_str = f"{value:>10.2f}"
-                            elif abs(value) >= 1:
-                                value_str = f"{value:>10.4f}"
+                    print(f"\n  [{country_idx:3d}] {country_name} ({country_code})")
+                    print(f"      {'-'*94}")
+                    
+                    # Display values by year in a readable format
+                    years_per_line = 5
+                    year_values = country_data.set_index('year')['value'].to_dict()
+                    
+                    for i in range(0, len(year_range), years_per_line):
+                        year_batch = year_range[i:i+years_per_line]
+                        value_strings = []
+                        
+                        for year in year_batch:
+                            value = year_values.get(year)
+                            if pd.notna(value):
+                                # Format with appropriate decimal places
+                                if abs(value) >= 1000:
+                                    value_str = f"{value:>10.2f}"
+                                elif abs(value) >= 1:
+                                    value_str = f"{value:>10.4f}"
+                                else:
+                                    value_str = f"{value:>10.6f}"
+                                value_strings.append(f"{year}: {value_str}")
                             else:
-                                value_str = f"{value:>10.6f}"
-                            value_strings.append(f"{year}: {value_str}")
-                        else:
-                            value_strings.append(f"{year}: {'N/A':>10}")
-                    
-                    # Print the line with proper spacing
-                    print(f"      {' | '.join(value_strings)}")
-            
-            print(f"\n{'-'*100}")
-            print(f"[OK] Completed: {indicator} ({len(indicator_data)} countries)")
-            sys.stdout.flush()  # Force output after each indicator
-            
-        except Exception as e:
-            # Print error to stderr so it's visible even when redirecting stdout
-            print(f"\nERROR processing indicator {indicator}: {e}", file=sys.stderr)
-            import traceback
-            traceback.print_exc(file=sys.stderr)
-            sys.stderr.flush()
-            continue  # Continue with next indicator
-    
-    print(f"\n\n{'='*100}")
-    print("END OF ALL INDICATOR DATA".center(100))
-    print(f"{'='*100}\n")
-    sys.stdout.flush()
-
-# Handle file not found error
-if not ZIP_PATH.exists():
-    raise FileNotFoundError(
-        f"ZIP not found at {ZIP_PATH}. Download it first or adjust ZIP_PATH."
-    )
-
-all_scores = load_indicator_scores(ZIP_PATH)
-print_dataset(all_scores)
+                                value_strings.append(f"{year}: {'N/A':>10}")
+                        
+                        # Print the line with proper spacing
+                        print(f"      {' | '.join(value_strings)}")
+                
+                print(f"\n{'-'*100}")
+                print(f"[OK] Completed: {indicator} ({len(countries)} countries)")
+                sys.stdout.flush()
+                
+            except Exception as e:
+                print(f"\nERROR processing indicator {indicator}: {e}", file=sys.stderr)
+                import traceback
+                traceback.print_exc(file=sys.stderr)
+                sys.stderr.flush()
+                continue
+        
+        print(f"\n\n{'='*100}")
+        print("END OF ALL INDICATOR DATA".center(100))
+        print(f"{'='*100}\n")
+        sys.stdout.flush()
+    '''

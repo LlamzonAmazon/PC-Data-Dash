@@ -13,25 +13,9 @@ UN SDG API data fetching client
 """
 class UNSDGClient(DataClient):
 
-    def __init__(self, api_url: str, credentials: Optional[dict] = None):
-        # Initialize base class and base API URL (currently https://unstats.un.org/SDGAPI/v1/sdg)
+    def __init__(self, base: str, credentials: Optional[dict] = None):
         
-        super().__init__(api_url, credentials)
-
-    def validate(self) -> bool:
-        # Validates fetched UN SDG data
-        
-        # Validate non-empty DataFrame
-        if not self.data:
-            self.logger.warning("No UN SDG data fetched to validate.")
-            return False
-
-        # Validate each DataFrame in self.data dictionary
-        for key, df in self.data.items():
-            if df.empty:
-                self.logger.warning(f"{key} DataFrame is empty.")
-                return False
-        return True
+        super().__init__(base, credentials)
     
     def save_raw_json(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
         # Saves the unmodified API response to JSON (raw data).
@@ -62,7 +46,7 @@ class UNSDGClient(DataClient):
         """
         
         # Initialize loop variables
-        url = f"{self.api_url}{endpoint}" 
+        url = f"{self.base}{endpoint}" 
         all_data = {}
         page = parameters['page']
         page_size = parameters['pageSize']

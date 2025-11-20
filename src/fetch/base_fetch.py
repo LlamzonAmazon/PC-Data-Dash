@@ -1,5 +1,3 @@
-# Interface for all data fetching clients
-
 from abc import ABC, abstractmethod
 import pandas as pd
 from typing import Optional, Any, List, Dict
@@ -13,25 +11,18 @@ Abstract base class for all data source clients (UN SDG, ND-GAIN, World Bank, et
 """
 class DataClient(ABC):
     
-    def __init__(self, api_url: str, credentials: Optional[dict] = None):
+    def __init__(self, base: str, credentials: Optional[dict] = None):
         """
-        Initializes a DataClient with their **base** API URL (`api_url`), optional credentials (`credentials`), and an empty data container (`data`).
+        Initializes a DataClient with their **base** API URL (`base`), optional credentials (`credentials`), and an empty data container (`data`).
         
         Args:
-            api_url (str): **Base** API URL for the data source
+            base (str): __Base__ API URL __OR__ ZIP file path for the data source
             credentials (Optional[dict]): Optional authentication credentials. Defaults to None.
         """
         
-        self.api_url = api_url
+        self.base = base
         self.credentials = credentials or {}
         self.logger = logging.getLogger(self.__class__.__name__)
-    
-    @abstractmethod
-    def validate(self) -> bool:
-        """
-            Validates non-empty API response data.
-        """
-        pass
     
     @abstractmethod
     def save_raw_json(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
@@ -55,13 +46,13 @@ class DataClient(ABC):
         """
         pass
     
-    def get_api_url(self) -> str:
-        # Returns base API URL
-        return self.api_url
+    def get_base_url(self) -> str:
+        # Returns base location for a given source
+        return self.base
     
     def _log_fetch_start(self):
         # Helper method for logging
-        self.logger.info(f"Starting data fetch from {self.api_url}")
+        self.logger.info(f"Starting data fetch from {self.base}")
     
     def _log_fetch_complete(self, row_count: int):
         # Helper method for logging

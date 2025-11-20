@@ -14,22 +14,13 @@ World Bank API data fetching client
 """
 class WorldBankClient(DataClient):
     
-    def __init__(self, api_url: str, credentials: Optional[dict] = None):
+    def __init__(self, base: str, credentials: Optional[dict] = None):
                 
-        super().__init__(api_url, credentials)        
+        super().__init__(base, credentials)        
         
         self.per_page = 1000                    # Records per page (pagination)
         self.session = requests.Session()       # Reusable HTTP session (faster)
         self.log = setup_logger()               # Logger for progress messages
-
-    def validate(self) -> bool:
-        
-        # Validate non-empty DataFrame
-        if not self.data or self.data.empty:
-            self.log.warning("No World Bank data fetched to validate.")
-            return False
-        
-        return True
 
     def save_raw_json(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
         # Saves the unmodified API response to JSON (raw data).
@@ -49,7 +40,7 @@ class WorldBankClient(DataClient):
     ################################################################## """
     
     @retry(stop=stop_after_attempt(4), wait=wait_exponential(multiplier=0.5, max=8))
-    def fetch(self, api_url: str, parameters: Dict[str, Any]):   
+    def fetch(self, base: str, parameters: Dict[str, Any]):   
         """
         Fetches data from a World Bank API with retry logic.
         
@@ -57,7 +48,7 @@ class WorldBankClient(DataClient):
             r: Response object from the requests library
         """
 
-        r = self.session.get(api_url, params=parameters, timeout=30)
+        r = self.session.get(base, params=parameters, timeout=30)
         r.raise_for_status()  # Raise error if response failed
         return r
     
@@ -78,7 +69,7 @@ class WorldBankClient(DataClient):
         page, out = 1, []
 
         while True:
-            url = f"{self.api_url}/country/{country_str}/indicator/{indicator}"
+            url = f"{self.base}/country/{country_str}/indicator/{indicator}"
             params = {
                 "date": f"{start}:{end}",     # Year range
                 "format": "json",             # Request JSON format
