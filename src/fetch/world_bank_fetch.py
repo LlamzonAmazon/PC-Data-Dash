@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Dict, Iterable, List
+from typing import Any, Dict, Iterable, List, Optional
 import json, requests, pandas as pd
 
 from tenacity import retry, stop_after_attempt, wait_exponential
@@ -9,50 +9,18 @@ from src.pipeline.utils import setup_logger, ensure_dir
 
 from .base_fetch import DataClient
 
-# Base URL for all World Bank API requests
-BASE = "https://api.worldbank.org/v2"
-
 """
-Handles data fetching from the World Bank API.
+World Bank API data fetching client
 """
 class WorldBankClient(DataClient):
-
-    """
-    Constructor for WorldBankClient
-    """
-    def __init__(self, per_page=1000) -> None:
+    
+    def __init__(self, base: str, credentials: Optional[dict] = None):
+                
+        super().__init__(base, credentials)        
         
-        super().__init__(api_url=BASE)
-        
-        self.per_page = per_page                # Records per page (pagination)
+        self.per_page = 1000                    # Records per page (pagination)
         self.session = requests.Session()       # Reusable HTTP session (faster)
         self.log = setup_logger()               # Logger for progress messages
-
-    @retry(stop=stop_after_attempt(4), wait=wait_exponential(multiplier=0.5, max=8))
-    def fetch(self, api_url: str, parameters: Dict[str, Any]):   
-        """
-        Fetches data from a World Bank API with retry logic.
-        Returns:
-            r: Response object from the requests library
-        """
-
-        r = self.session.get(api_url, params=parameters, timeout=30)
-        r.raise_for_status()  # Raise error if response failed
-        return r
-
-    def validate(self) -> bool:
-        """
-        Validates fetched World Bank data.
-        Returns:
-            True if data is valid, False otherwise
-        """
-        
-        # Validate non-empty DataFrame
-        if not self.data or self.data.empty:
-            self.log.warning("No World Bank data fetched to validate.")
-            return False
-        
-        return True
 
     def save_raw_json(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
         # Saves the unmodified API response to JSON (raw data).
@@ -67,9 +35,22 @@ class WorldBankClient(DataClient):
         ensure_dir(out_path.parent)
         df.to_csv(out_path, index=False)
 
-    """ ################################# 
-    CLIENT-SPECIFIC METHODS 
-    ################################# """
+    """ ################################################################## 
+    ### CLIENT-SPECIFIC METHODS ###
+    ################################################################## """
+    
+    @retry(stop=stop_after_attempt(4), wait=wait_exponential(multiplier=0.5, max=8))
+    def fetch(self, base: str, parameters: Dict[str, Any]):   
+        """
+        Fetches data from a World Bank API with retry logic.
+        
+        Returns:
+            r: Response object from the requests library
+        """
+
+        r = self.session.get(base, params=parameters, timeout=30)
+        r.raise_for_status()  # Raise error if response failed
+        return r
     
     def fetch_indicator(
         self, 
@@ -88,7 +69,7 @@ class WorldBankClient(DataClient):
         page, out = 1, []
 
         while True:
-            url = f"{BASE}/country/{country_str}/indicator/{indicator}"
+            url = f"{self.base}/country/{country_str}/indicator/{indicator}"
             params = {
                 "date": f"{start}:{end}",     # Year range
                 "format": "json",             # Request JSON format

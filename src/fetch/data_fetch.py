@@ -1,15 +1,16 @@
 from __future__ import annotations
 
-from pathlib import Path
-import sys, yaml, pandas as pd
+import sys, pandas as pd
 
-# Import data clients
-from src.fetch.world_bank_fetch import WorldBankClient
-from src.fetch.un_sdg_fetch import UNSDGClient
+from src.fetch.client_factory import DataClientFactory
 from src.pipeline.utils import project_root, setup_logger
 
 
+"""
+    Main script to run data fetching; `python3 -m src.fetch.data_fetch`
+"""
 def main():
+
     # Set up console logger for clean [INFO]/[ERROR] messages
     log = setup_logger()
 
@@ -21,49 +22,54 @@ def main():
         log.error("Missing config at %s", cfg_path)
         sys.exit(1)
 
-    # Load configuration from YAML file
-    cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8"))
-    print("\nLoaded configuration from", cfg_path)
-
-    ''' ########## UN SDG Data Fetching ########### '''
+    # Create Data Client Factory
+    client_factory = DataClientFactory(config_path=cfg_path)
     
-    base_url = f"{cfg['un_sdg']['api_paths']['base']}"
+    # Load full configuration file
+    cfg = client_factory.get_config()  
+    paths, runtime = cfg["paths"], cfg["runtime"]
 
-    unsdgClient = UNSDGClient(api_url=base_url)
-    print("Fetching UN SDG Goals data...")
-    goals_data = unsdgClient.fetch("/Goal/List", parameters={
-        "includeChildren": "true"
+    """ ################################################################## 
+    ### UN SDG FETCHING ###
+    ################################################################## """
+    
+    unsdgClient = client_factory.create_client('unsdg')
+    
+    unsdg_indicator_data_endpoint = cfg['unsdg']['api_paths']['indicator_data_endpoint']
+    unsdg_indicator_codes = [indicator['code'] for indicator in cfg['unsdg']['indicators']]
+    
+    # Fetch indicator data for ALL countries and specified years
+    print(f'Fetching UN SDG data for {len(unsdg_indicator_codes)} indicators...')
+    indicator_data_df = unsdgClient.fetch_indicator_data(unsdg_indicator_data_endpoint, 
+        parameters={
+        "indicator": unsdg_indicator_codes,
+        # areaCode excluded; returns ALL if not specified
+        "timePeriodStart": cfg['unsdg']['start_year'], 
+        "timePeriodEnd": cfg['unsdg']['end_year'],
+        "page" : 1, # Page Number
+        "pageSize": cfg['runtime']['per_page'] # Number of records per page/response
         })
     
-    # 3 DATAFRAMES: GOALS, TARGETS, INDICATORS
-    df_goals, df_targets, df_indicators = unsdgClient._goals_list_to_dataframes(goals_data)
-    
-    temp = df_indicators.copy()
-    for col in temp.columns:
-        if temp[col].dtype == "object":
-            # TRUNCATING LONG TEXT FIELDS FOR BETTER DISPLAY
-            temp[col] = temp[col].astype(str).str.slice(0, 20)
 
-    print("\n=== UN SDG Indicators Data (preview) ===")
-    print(temp.head(50).to_string(index=False))
-    
-    # Export indicators DataFrame to CSV for now
-    if cfg["runtime"].get("write_files", True):
+    # Send dataframe to /data/interim/ as CSV if enabled
+    if runtime.get("write_files", True):
         unsdgClient.save_interim_csv(
-            df_indicators,
-            project_root() / cfg["paths"]["unsdg_interim_csv"]
+            indicator_data_df, 
+            project_root() / paths['unsdg_interim_csv']
         )
+    
+    
+    """ ################################################################## 
+    ### WORLD BANK FETCHING ###
+    ################################################################## """
 
-    ''' ########## World Bank Data Fetching ########### '''
-
-    wb, paths, runtime = cfg["world_bank"], cfg["paths"], cfg["runtime"]
-
-    # Initialize API client with per_page setting from config
-    wbClient = WorldBankClient(per_page=runtime.get("per_page", 1000))
+    wbClient = client_factory.create_client('worldbank')
+    
     frames = []  # List to store dataframes for each indicator
+    wb = cfg["worldbank"]
 
     # Loop through each indicator and fetch its data
-    print("Fetching World Bank indicator data...")
+    print("Fetching World Bank data...")
     for item in wb["indicators"]:
         code, alias = item["code"], item.get("alias", item["code"])
 
@@ -78,23 +84,48 @@ def main():
                 f"{alias}_{wb['start_year']}_{wb['end_year']}.json"
             )
 
-        # Normalize JSON → DataFrame and add to list
+        # Normalize JSON into a DataFrame and add resulting DataFrame to list
         frames.append(wbClient.normalize(recs, alias))
 
     # Combine all indicator dataframes
     if frames:
         combined = pd.concat(frames, ignore_index=True)
 
-        # Print a preview in terminal (first 50 rows)
-        print("\n=== Tidy World Bank Data (preview) ===")
-        print(combined.head(50).to_string(index=False))
-
         # Save cleaned combined CSV if enabled
         if runtime.get("write_files", True):
-            wbClient.save_interim_csv(combined, project_root() / paths["wb_interim_csv"])
+            wbClient.save_interim_csv(
+                combined, 
+                project_root() / paths["wb_interim_csv"]
+            )
     
+       
+    """ ################################################################## 
+    ### ND-GAIN FETCHING ###
+    ################################################################## """
+    
+    ndGainClient = client_factory.create_client('ndgain')
+    
+    ndgain_vulnerability_indicators = cfg['ndgain']['indicators']['vulnerability']
+    
+    # Get vulnerability scores as a list of dictionaries
+    ndgain_indicator_scores = ndGainClient.fetch_indicator(
+        indicator_codes=ndgain_vulnerability_indicators, 
+        chunkSize=cfg['runtime']['chunk_size']
+    )
+    
+    # Convert to DataFrame
+    ndgain_indicator_scores_df = ndGainClient.indicator_data_to_dataframe(ndgain_indicator_scores)
+    
+    # Print DataFrame
+    ndGainClient.save_interim_csv(
+        ndgain_indicator_scores_df,
+        project_root() / paths['ndgain_interim_csv'] 
+        )
+    
+    
+    """ ################################################################## """
+    print("\n===== ALL CLIENTS DONE. =====\n")
 
-
-# Run main() only if this file is executed directly
 if __name__ == "__main__":
     main()
+    

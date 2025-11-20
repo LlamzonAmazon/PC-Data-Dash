@@ -5,7 +5,7 @@ We're building an interactive dashboard for [PlanCatalyst](https://www.PlanCatal
 * __ND-GAIN__ (Notre Dame Global Adaptation Index) – Climate Change Resilience
 * __World Bank Data__ – Financial Capacity
 
-We are exploring ML **regression** techniques using scikit-learn to forecast country-level development, and NumPy to construct **composite indexes**. **AWS** automates data fetching and data storage, while **Microsoft Power BI** delivers the interactive frontend.
+We are exploring ML **regression** techniques using scikit-learn to forecast country-level development and NumPy to construct **composite indexes**. **AWS** automates data fetching and data storage, while **Microsoft Power BI** delivers the interactive frontend.
 
 
 ## 📌 References/Resources
@@ -48,7 +48,7 @@ PC-Data-Dash/
 │   │   ├── nd_gain_fetch.py      # ND-GAIN Client
 │   │   ├── world_bank_fetch.py   # World Bank Client
 │   │   ├── base_fetch.py         # Data client interface (template)
-│   │   ├── client_factory.py     # Factory class
+│   │   ├── client_factory.py     # Client Factory Class
 │   │   └── README.md
 │   │
 │   ├── transform/                # Cleaning + structuring scripts

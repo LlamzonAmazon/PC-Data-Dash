@@ -1,6 +1,3 @@
-# Using the Factory Pattern to create data fetching client instances
-# This guy definitely paid attention in 3307 🔥🔥
-
 from typing import Dict, Type
 
 from .base_fetch import DataClient
@@ -12,7 +9,6 @@ import yaml
 import logging
 from src.pipeline.utils import project_root
 
-
 logger = logging.getLogger(__name__)
 
 class DataClientFactory:
@@ -20,24 +16,29 @@ class DataClientFactory:
     def __init__(self, config_path: str = project_root() / "src/config/settings.yaml"):
         
         # Load YAML configuration file
-        self.config = self._load_config(config_path)
-        
+        try:
+            self.config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+        except Exception as e:
+            logger.error(f"Failed to load configuration from {config_path}: {e}")
+            raise
+        print("\nLoaded configuration from", config_path)
+
         # Dictionary containing available client types
         self._clients: Dict[str, Type[DataClient]] = {
             'unsdg': UNSDGClient,
             'ndgain': NDGAINClient,
             'worldbank': WorldBankClient
         }
-    
-    def _load_config(self, config_path: str) -> dict:
-        
-        # Load YAML configuration file
-        with open(config_path, 'r') as f:
-            return yaml.safe_load(f)
-    
+     
     def create_client(self, client_type: str) -> DataClient:
         """
-        client_type: Type of client ('unsdg', 'ndgain', 'worldbank')
+        Creates a data client based on the specified type.
+        
+        Args:
+            client_type (str): Type of client ('unsdg', 'ndgain', 'worldbank')
+        
+        Returns:
+            data_client (DataClient): Instance of the requested DataClient subclass
         """
         
         client_type_lower = client_type.lower()
@@ -49,18 +50,24 @@ class DataClientFactory:
                 f"Available types: {list(self._clients.keys())}"
             )
         
-        # Get client instance from clients dictionary
-        client_class = self._clients[client_type_lower]
+        # Get data client instance from clients dictionary
+        data_client = self._clients[client_type_lower]
         
         # Get configurations for this client
-        print("Configs for client:\n", client_type_lower)
-        client_config = self.config['data_sources'].get(client_type_lower, {})
+        print(f'Loaded configs for client: {client_type_lower}, ', end="")
+        client_config = self.config.get(client_type_lower, {})
         
-        # Create and return client instance
         logger.info(f"Creating {client_type} client")
-        return client_class(
-            api_endpoint=client_config.get('api_endpoint'),
-            credentials=client_config.get('credentials', {})
+        
+        print(f'now returning {client_type_lower} instance.')
+        
+        source = 'api_paths'
+        if client_type_lower == 'ndgain':
+            source = 'zip_path'
+        
+        return data_client(
+            base=client_config[source]['base'],  # Passing in base API URL upon instantiation
+            credentials=None # Use None for now; None of the APIs require keys
         )
     
     def create_all_clients(self) -> Dict[str, DataClient]:
@@ -77,7 +84,7 @@ class DataClientFactory:
     
     def register_client(self, name: str, client_class: Type[DataClient]):
         """
-        Register a new client type (useful for extensions).
+        Register a new client type (useful for making new data source clients).
         
         Args:
             name: Identifier for the client
@@ -88,3 +95,9 @@ class DataClientFactory:
         
         self._clients[name] = client_class
         logger.info(f"Registered new client type: {name}")
+        
+    def get_config(self) -> Dict:
+        """
+        Returns the full configuration dictionary loaded from YAML.
+        """
+        return self.config
