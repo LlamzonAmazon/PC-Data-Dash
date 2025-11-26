@@ -31,56 +31,109 @@ We are exploring ML **regression** techniques using scikit-learn to forecast cou
 * [API V2 Documentation](https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation?utm_source=chatgpt.com) – API Guide
 * [World Bank API Documentation](https://documents.worldbank.org/en/publication/documents-reports/api) – API guide
 
+## ☁️ AWS Architecture
+***The AWS architecture of this project is still being designed & developed.***
+![AWS Architecture Diagram](./AWS-arch.png)
 
 ## 🏙️ Code Structure
 ***The structure of this project is still being designed.***
 ```
-PC-Data-Dash/
-├── data/
-│   ├── raw/                      # Unmodified API/CSV outputs
-│   ├── interim/                  # Cleaned/intermediate data
-│   └── processed/                # Final data for PowerBI
+PC-DATA-DASH/
+├── .vscode/                          # Keep as-is
 │
-├── src/
-│   ├── fetch/                    # Data Fetching Module
-│   │   ├── data_fetch.py         # Main script
-│   │   ├── un_sdg_fetch.py       # UN SDG Client
-│   │   ├── nd_gain_fetch.py      # ND-GAIN Client
-│   │   ├── world_bank_fetch.py   # World Bank Client
-│   │   ├── base_fetch.py         # Data client interface (template)
-│   │   ├── client_factory.py     # Client Factory Class
-│   │   └── README.md
-│   │
-│   ├── transform/                # Cleaning + structuring scripts
-│   │   ├── clean_un_sdg.py
-│   │   ├── clean_nd_gain.py
-│   │   └── clean_world_bank.py
-│   │
-│   ├── models/                   # Data modeling (ML/indices, scikit-learn, XGBoost?)
-│   │   ├── regression.py
-│   │   └── forecasting.py
-│   │
-│   ├── pipeline/                 # Handling data pipeline flow
-│   │   ├── run_pipeline.py       
-│   │   └── utils.py              # Helpers? (logging, config, etc.)
-│   │
-│   ├── config/                   # Config files (indicators, URLs, request constraints, etc.)
-│   │   └── settings.yaml
-│   │
-│   └── aws/                      # AWS (S3 storage? Lambda automation?)
-│       ├── 
+├── data/                             # LOCAL ONLY - for development/testing
+│   ├── external/                     # Keep structure
+│   ├── interim/
+│   │   ├── ndgain/
+│   │   ├── unsdg/
+│   │   └── worldbank/
+│   ├── processed/
+│   └── raw/
 │
-├── notebooks/
+├── notebooks/                        # For analysis
 │   ├── EDA_un_sdg.ipynb
 │   └── EDA_world_bank.ipynb
 │
-├── powerbi/
-│   ├── data_export.py
-│   └── schema_definition.json
+├── src/                              # DEPLOYABLE CODE
+│   ├── __init__.py
+│   │
+│   ├── config/
+│   │   ├── __init__.py
+│   │   ├── settings.yaml
+│   │   └── config.py                 # Config loader class ?
+│   │
+│   ├── fetch/                        # Keep your existing structure
+│   │   ├── __init__.py
+│   │   ├── base_fetch.py             # DataClient Template (interface)
+│   │   ├── client_factory.py         # DataClient Factory
+│   │   ├── un_sdg_fetch.py
+│   │   ├── nd_gain_fetch.py
+│   │   ├── world_bank_fetch.py
+│   │   ├── data_fetch.py             # Main fetching script
+│   │   └── README.md
+│   │
+│   ├── transform/                    # Data Processing
+│   │   ├── __init__.py
+│   │   ├── processor.py              # Cleaning logic
+│   │   ├── clean_un_sdg.py 
+│   │   ├── clean_nd_gain.py
+│   │   └── clean_world_bank.py
+│   │
+│   ├── pipeline/
+│   │   ├── __init__.py
+│   │   ├── orchestrator.py           # Main pipeline controller
+│   │   ├── run_pipeline.py           # Orchestrator
+│   │   └── utils.py
+│   │
+│   ├── aws/                          # AWS Plans
+│   │   ├── __init__.py
+│   │   ├── s3.py                     # S3 upload operations
+│   │   └── logger.py                 # CloudWatch logging
+│   │
+│   └── models/                       # Keep for future ML
+│       ├── __init__.py
+│       ├── regression.py
+│       └── forecasting.py
 │
-├── requirements.txt              # venv dependencies
-├── dockerfile                    # 🐳
-├── README.md                     
+├── lambda/                           # NEW: Lambda deployment package
+│   ├── handler.py                    # Lambda entry point
+│   ├── requirements.txt              # Runtime dependencies
+│   └── README.md                     # Deployment notes
+│
+├── infrastructure/                  # IaC templates
+│   ├── cloudformation/  
+│   │   ├── s3-buckets.yaml          # S3 bucket definitions
+│   │   ├── lambda.yaml              # Lambda + IAM roles
+│   │   ├── eventbridge.yaml         # Scheduling
+│   │   └── glue-database.yaml       # Glue catalog (for Athena)
+│   │
+│   ├── terraform/                    # Future migration
+│   │   └── (empty for now)
+│   │
+│   └── athena-schemas/               # SQL DDL for Athena tables
+│       ├── sdg_indicators.sql        # Run once in Athena console
+│       ├── nd_gain_scores.sql
+│       └── world_bank_data.sql
+│
+├── deployment/                      # Deployment automation
+│   ├── build-lambda.sh              # Package Lambda code
+│   ├── deploy-lambda.sh             # Deploy to AWS
+│   └── setup-athena.sh              # Run Athena DDL scripts
+│
+├── powerbi/                         # Power BI connection info
+│   ├── athena-connection.md         # How to connect to Athena
+│   └── example-queries.sql          # Sample queries for testing
+│
+├── tests/                            # Tests
+│   ├── test_fetch.py
+│   ├── test_transform.py
+│   └── test_pipeline.py
+│
+├── .env.example                      # Environment variables template ?
+├── .gitignore
+├── AWS-arch.png
+├── requirements.txt
+├── README.md
 └── LICENSE
 ```
 
