@@ -39,7 +39,7 @@ We are exploring ML **regression** techniques using scikit-learn to forecast cou
 ***The structure of this project is still being designed.***
 ```
 PC-DATA-DASH/
-├── .vscode/                          # Keep as-is
+├── .vscode/
 │
 ├── data/                             # LOCAL ONLY - for development/testing
 │   ├── external/                     # Keep structure
