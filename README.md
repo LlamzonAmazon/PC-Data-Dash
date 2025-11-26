@@ -42,7 +42,7 @@ PC-DATA-DASH/
 ├── .vscode/
 │
 ├── data/                             # LOCAL ONLY - for development/testing
-│   ├── external/                     # Keep structure
+│   ├── external/
 │   ├── interim/
 │   │   ├── ndgain/
 │   │   ├── unsdg/
