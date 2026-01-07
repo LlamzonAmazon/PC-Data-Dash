@@ -31,7 +31,7 @@ PC-DATA-DASH/
 │       └── README.md                 # Manual deployment instructions
 │
 ├── data/                             # LOCAL ONLY - for development/testing
-│   ├── external/                     # Static data (ND-GAIN ZIP goes here)
+│   ├── external/                     # Static data (ND-GAIN ZIP)
 │   │   └── nd_gain_countryindex_2025.zip
 │   ├── interim/                      # Temp storage during local dev
 │   │   ├── ndgain/
@@ -40,7 +40,7 @@ PC-DATA-DASH/
 │   ├── processed/                    # Local output for testing
 │   └── raw/                          # Local raw fetches for testing
 │
-├── notebooks/                        # For analysis
+├── notebooks/                        # For testing models
 │   ├── EDA_un_sdg.ipynb
 │   └── EDA_world_bank.ipynb
 │
@@ -52,7 +52,7 @@ PC-DATA-DASH/
 │   │   ├── settings.yaml             # Pipeline configuration
 │   │   └── config.py                 # Config loader class
 │   │
-│   ├── fetch/                        # Data fetching module
+│   ├── fetch/                        # 1. Data fetching module
 │   │   ├── __init__.py
 │   │   ├── base_fetch.py             # DataClient interface
 │   │   ├── client_factory.py         # DataClientFactory
@@ -61,7 +61,7 @@ PC-DATA-DASH/
 │   │   ├── world_bank_fetch.py       # WorldBankClient
 │   │   └── README.md
 │   │
-│   ├── clean/                        # Data cleaning module
+│   ├── clean/                        # 2. Data cleaning module
 │   │   ├── __init__.py
 │   │   ├── base_clean.py             # DataCleaner interface
 │   │   ├── cleaner_factory.py        # DataCleanerFactory
@@ -69,7 +69,7 @@ PC-DATA-DASH/
 │   │   ├── clean_nd_gain.py          # NDGAINCleaner
 │   │   └── clean_world_bank.py       # WorldBankCleaner
 │   │
-│   ├── processing/                   # Data processing & ML
+│   ├── processing/                   # 3. Data processing & ML
 │   │   ├── __init__.py
 │   │   ├── processor.py              # DataProcessor (transform, merge)
 │   │   ├── validator.py              # DataValidator
@@ -83,28 +83,28 @@ PC-DATA-DASH/
 │   ├── orchestrator/                 # Pipeline orchestration
 │   │   ├── __init__.py
 │   │   ├── orchestrator.py           # DataOrchestrator class
-│   │   └── main.py                   # Container entry point
+│   │   └── main.py                   # CONTAINER ENTRY POINT
 │   │
 │   └── utils/                        # Shared utilities
 │       ├── __init__.py
 │       ├── logger.py                 # Azure Monitor logging
 │       └── helpers.py                # Common functions
 │
-├── container/                        # Docker container setup
+├── container/                        # Docker setup
 │   ├── Dockerfile                    # Container image definition
-│   ├── requirements.txt              # Python dependencies
+│   ├── requirements.txt
 │   ├── .dockerignore
-│   └── README.md                     # Build & deployment instructions
+│   └── README.md
 │
 ├── infrastructure/                   # Infrastructure as Code
-│   ├── bicep/                        # Azure Bicep templates (or use Terraform)
+│   ├── bicep/                        # Azure Bicep templates (alt: Terraform)
 │   │   ├── main.bicep                # Main deployment
 │   │   ├── storage.bicep             # Blob Storage
 │   │   ├── container-registry.bicep  # ACR
 │   │   ├── function.bicep            # Azure Function
 │   │   └── logic-app.bicep           # Logic Apps
 │   │
-│   └── terraform/                    # Alternative: Terraform (if preferred)
+│   └── terraform/                    # (alt: Terraform)
 │       └── (optional)
 │
 ├── deployment/                       # Deployment scripts
@@ -119,7 +119,7 @@ PC-DATA-DASH/
 │
 ├── .env.example                      # Environment variables template
 ├── .gitignore
-├── requirements.txt                  # Root dependencies (for local dev)
+├── requirements.txt
 ├── README.md
 └── LICENSE
 ```
