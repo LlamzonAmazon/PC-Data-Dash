@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-import pandas as pd
 from typing import Optional, Any, List, Dict
 from pathlib import Path
 import logging
@@ -22,30 +21,29 @@ class DataClient(ABC):
         
         self.base = base
         self.credentials = credentials or {}
-        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger = logger
     
     @abstractmethod
     def save_raw_json(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
         """
-            Saves the tidy DataFrame as a JSON file.
+            Saves raw data to JSON file in /raw/ directory
+
+            TODO: Save JSON data to Azure Blob Storage instead of local file system
 
         Args:
-            df (pd.DataFrame): DataFrame to convert to JSON
-            out_path (Path): Destination path of JSON file
+            records (List[Dict[str, Any]]): List of records to save as JSON
+            out_dir (Path): Destination directory for JSON file
+            filename (str): Name of the JSON file
         """        
         pass
     
     @abstractmethod
-    def save_interim_csv(self, df: pd.DataFrame, out_path: Path) -> None:
+    def fetch_indicator_data(self):
         """
-            Saves the tidy DataFrame as a CSV file.
-
-        Args:
-            df (pd.DataFrame): DataFrame to convert to CSV
-            out_path (Path): Destination path of CSV file
+        Fetches indicator data from the data source (source differs among clients)
         """
         pass
-    
+
     def get_base_url(self) -> str:
         # Returns base location for a given source
         return self.base

@@ -34,11 +34,9 @@ class WorldBankClient(DataClient):
         """
         ensure_dir(out_path.parent)
         df.to_csv(out_path, index=False)
-
-    """ ################################################################## 
-    ### CLIENT-SPECIFIC METHODS ###
-    ################################################################## """
     
+    # TODO: Combine these two methods into one as fetch_indicator_data as defined by the abstract class (DataClient – base_fetch.py)
+
     @retry(stop=stop_after_attempt(4), wait=wait_exponential(multiplier=0.5, max=8))
     def fetch(self, base: str, parameters: Dict[str, Any]):   
         """
@@ -94,25 +92,7 @@ class WorldBankClient(DataClient):
 
         return out
     
-    @staticmethod
-    def normalize(records: List[Dict[str, Any]], alias: str) -> pd.DataFrame:
-        """
-        Static method to normalize raw API records into a tidy DataFrame.
-        Returns:
-            Converts raw API records into a clean pandas DataFrame.
-        """
 
-        rows = []
-        for rec in records or []:
-            rows.append({
-                "country": (rec.get("country") or {}).get("value"),
-                "iso3": rec.get("countryiso3code"),
-                "indicator": alias,                         # Use user-friendly name
-                "year": int(rec.get("date")) if str(rec.get("date")).isdigit() else rec.get("date"),
-                "value": rec.get("value")
-            })
-
-        # Build DataFrame and sort for readability
-        df = pd.DataFrame(rows, columns=["country","iso3","indicator","year","value"])
-        return df.sort_values(["indicator","iso3","year"], ascending=[True,True,False], na_position="last")
-
+    """ ################################################################## 
+    ### CLIENT-SPECIFIC METHODS ###
+    ################################################################## """

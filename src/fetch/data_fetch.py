@@ -24,34 +24,10 @@ credential = ClientSecretCredential(
     client_secret=AZURE_CLIENT_SECRET
 )
 
-
-def upload_csv_to_azure(container_client, csv_path: Path, blob_name: str, log) -> None:
-    """
-    Upload a CSV file to Azure Blob Storage container.
-    
-    Args:
-        container_client: Azure container client
-        csv_path: Local path to the CSV file
-        blob_name: Name/path for the blob in Azure (e.g., "interim/unsdg/un_sdg_interim.csv")
-        log: Logger instance
-    """
-    try:
-        if not csv_path.exists():
-            log.warning(f"CSV file not found: {csv_path}, skipping upload")
-            return
-        
-        blob_client = container_client.get_blob_client(blob_name)
-        
-        # Read the CSV file and upload
-        with open(csv_path, "rb") as data:
-            blob_client.upload_blob(data, overwrite=True)
-        
-        log.info(f"Successfully uploaded {csv_path.name} to Azure as {blob_name}")
-    except Exception as e:
-        log.error(f"Failed to upload {csv_path.name} to Azure: {e}")
-
 """
     Main script to run data fetching; `python3 -m src.fetch.data_fetch`
+
+    TODO: MOVE AZURE UPLOADING FUNCTIONALITY TO ORCHESTRATOR CLASS
 """
 def main():
     container_name = "unprocessed-data"

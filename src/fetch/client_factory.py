@@ -81,20 +81,6 @@ class DataClientFactory:
             name: self.create_client(name) 
             for name in self._clients.keys()
         }
-    
-    def register_client(self, name: str, client_class: Type[DataClient]):
-        """
-        Register a new client type (useful for making new data source clients).
-        
-        Args:
-            name: Identifier for the client
-            client_class: Class that implements DataClient interface
-        """
-        if not issubclass(client_class, DataClient):
-            raise TypeError(f"{client_class} must inherit from DataClient")
-        
-        self._clients[name] = client_class
-        logger.info(f"Registered new client type: {name}")
         
     def get_config(self) -> Dict:
         """

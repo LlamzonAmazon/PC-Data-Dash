@@ -6,7 +6,6 @@ import json, zipfile, pandas as pd, sys
 
 from src.pipeline.utils import ensure_dir
 
-
 from .base_fetch import DataClient
 
 """
@@ -32,36 +31,6 @@ class NDGAINClient(DataClient):
         ensure_dir(out_dir)
         (out_dir / filename).write_text(json.dumps(records, indent=2), encoding="utf-8")
 
-    def save_interim_csv(self, df: pd.DataFrame, out_path: Path) -> None:
-        """Saves the tidy DataFrame as a CSV file."""
-        ensure_dir(out_path.parent)
-        df.to_csv(out_path, index=False)
-
-
-    """ ################################################################## 
-    ### CLIENT-SPECIFIC METHODS ###
-    ################################################################## """
-    
-    def _list_indicator_score_files(self) -> List[str]:
-        """
-        Get all indicator score.csv files in the ZIP file.
-        
-        Returns:
-            List[str]: List of file paths to score.csv files
-        """
-        with zipfile.ZipFile(self.base, "r") as zf:
-            all_names = zf.namelist()
-        
-        # Filter for only indicator score.csv files
-        score_files = [
-            name for name in all_names
-            if name.startswith("resources/indicators/")
-            and name.endswith("/score.csv")
-        ]
-        
-        self.logger.info(f"Found {len(score_files)} indicator score files in ZIP")
-        return score_files
-    
     def fetch_indicator(self, indicator_codes: List[str] = None, chunkSize: int = 10000) -> List[Dict[str, Any]]:
         """
         Fetches all indicator score data from the ND-GAIN ZIP file.
@@ -126,65 +95,34 @@ class NDGAINClient(DataClient):
         
         self._log_fetch_complete(len(all_records))
         return all_records
-    
-    def indicator_data_to_dataframe(self, indicator_data: List[Dict[str, Any]]) -> pd.DataFrame:
+
+    """ ################################################################## 
+    ### CLIENT-SPECIFIC METHODS ###
+    ################################################################## """
+
+    def _list_indicator_score_files(self) -> List[str]:
         """
-        Convert ND-GAIN raw data to a structured, tidy DataFrame.
-        Transforms wide format (years as columns) to long format (year as a column).
+        Get all indicator score.csv files in the ZIP file.
         
-        Args:
-            indicator_data (List[Dict[str, Any]]): Raw data from ZIP file as list of dictionaries
-            
         Returns:
-            pd.DataFrame: Tidy DataFrame with columns: country_code, country, indicator, year, value
+            List[str]: List of file paths to score.csv files
         """
-        if not indicator_data:
-            print("### No indicator data found in the records. ###")
-            return pd.DataFrame()
+        with zipfile.ZipFile(self.base, "r") as zf:
+            all_names = zf.namelist()
         
-        print("Converting ND-GAIN data to tidy format...")
+        # Filter for only indicator score.csv files
+        score_files = [
+            name for name in all_names
+            if name.startswith("resources/indicators/")
+            and name.endswith("/score.csv")
+        ]
         
-        # Convert list of dicts back to DataFrame
-        raw_data = pd.DataFrame(indicator_data)
-        
-        # Identify year columns (numeric columns representing years)
-        year_columns = [col for col in raw_data.columns 
-                       if col not in ['ISO3', 'Name', 'indicator'] and str(col).isdigit()]
-        
-        # Melt the DataFrame from wide to long format
-        df_long = raw_data.melt(
-            id_vars=['ISO3', 'Name', 'indicator'],
-            value_vars=year_columns,
-            var_name='year',
-            value_name='value'
-        )
-        
-        # Rename columns to match standard schema
-        df_long = df_long.rename(columns={
-            'ISO3': 'country_code',
-            'Name': 'country'
-        })
-        
-        # Convert data types
-        df_long['year'] = pd.to_numeric(df_long['year'], errors='coerce').astype('Int64')
-        df_long['value'] = pd.to_numeric(df_long['value'], errors='coerce')
-        
-        # Remove rows with missing values
-        df_long = df_long.dropna(subset=['value'])
-        
-        # Sort by country, indicator, and year
-        df_long = df_long.sort_values(['country_code', 'indicator', 'year']).reset_index(drop=True)
-        
-        # Reorder columns for consistency with other clients
-        df_long = df_long[['country_code', 'country', 'indicator', 'year', 'value']]
-        
-        print(f"Extracted {len(df_long)} rows.")
-        print("Converted to Pandas DataFrame.")
-        return df_long
-
-
+        self.logger.info(f"Found {len(score_files)} indicator score files in ZIP")
+        return score_files 
+    
+    
     '''
-    # TOO MUCH OUTPUT – WILL FLOOD YOUR SHIT
+    # TOO MUCH OUTPUT – WILL FLOOD YOUR SHIT
     def print_dataset(self, df: pd.DataFrame) -> None:
         """
         Print the dataset in a detailed, readable format.

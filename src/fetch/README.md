@@ -2,13 +2,19 @@
 These scripts are used to fetch data from the UN SDG, ND-GAIN, and World Bank APIs.
 
 ## Module Information
+
+## Overview
+This module is responsible for fetching the raw data from the World Bank, UN SDG, and ND-GAIN fetching clients.
+
+Each fetching client returns a list of records, which are then cleaned and returned as a single dataframe by the corresponding cleaner object.
+
+This module implements the abstract factory pattern to create the appropriate cleaner objects based on the source of the data, as well as to allow for easy extension of the module to support additional sources in the future.
+
 * Run `python3 -m src.fetch.data_fetch` from project root.
   * You'll motice 3 CSVs written to the `/data` folder
-* This module implements _the Factory Pattern_ to easily design and instantiate clients for new data sources, as well as easily manage the existing clients.
-* Currently working on: 
-  * reconfiguring this module for AWS cloud automation and computing
-  * unifying client implementations and addressing overlapping behaviours
-  * optimizing outputs for input into data processing module
+
+## Class Diagram
+![fetching](FETCHING.png)
 
 ### United Nations Sustainable Development Goals (UN SGDs)
 The SDG framework measures global development through a hierarchy of:
