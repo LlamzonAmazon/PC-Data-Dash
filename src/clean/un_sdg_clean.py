@@ -1,8 +1,9 @@
 
-from typing import Dict, Any, List
+from typing import Dict, Any
 import pandas as pd
+from src.clean.base_clean import DataCleaner
 
-class UNSDGClean(DataCleaner):
+class UNSDGCleaner(DataCleaner):
     """
     Clean UN SDG data
     """

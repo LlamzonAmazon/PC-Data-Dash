@@ -4,9 +4,9 @@ import logging
 
 from typing import Dict, Type
 from src.clean.base_clean import DataCleaner
-from src.clean.unsdg_clean import UNSDGClean
-from src.clean.ndgain_clean import NDGAINClean
-from src.clean.worldbank_clean import WorldBankClean
+from src.clean.un_sdg_clean import UNSDGCleaner
+from src.clean.nd_gain_clean import NDGAINCleaner
+from src.clean.world_bank_clean import WorldBankCleaner
 
 from src.pipeline.utils import project_root
 
@@ -17,7 +17,7 @@ class DataCleanFactory:
     Factory class for creating data cleaners.
     """
     
-    def __init__(self, config_path: str = project_root() / "src/config/settings.yaml") -> None:
+    def __init__(self) -> None:
         """
         Initialize the factory.
         """

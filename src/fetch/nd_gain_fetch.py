@@ -2,17 +2,17 @@ from __future__ import annotations
 
 from pathlib import Path, PurePosixPath
 from typing import Any, Dict, List, Optional
-import json, zipfile, pandas as pd, sys
+import json, zipfile, pandas as pd
 
 from src.pipeline.utils import ensure_dir
 
-from .base_fetch import DataClient
+from .base_fetch import DataFetcher
 
 """
 ND-GAIN data fetching client
 Extracts indicator data from local ZIP file containing CSV files
 """
-class NDGAINClient(DataClient):
+class NDGAINFetcher(DataFetcher):
 
     def __init__(self, base: str, credentials: Optional[dict] = None):
         
@@ -26,12 +26,12 @@ class NDGAINClient(DataClient):
                 "Please download it first or adjust the path in settings.yaml"
             )
     
-    def save_raw_json(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
+    def save_raw_data(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
         """Saves the unmodified data to JSON (raw data)."""
         ensure_dir(out_dir)
         (out_dir / filename).write_text(json.dumps(records, indent=2), encoding="utf-8")
 
-    def fetch_indicator(self, indicator_codes: List[str] = None, chunkSize: int = 10000) -> List[Dict[str, Any]]:
+    def fetch_indicator_data(self, indicator_codes: List[str] = None, chunkSize: int = 10000) -> List[Dict[str, Any]]:
         """
         Fetches all indicator score data from the ND-GAIN ZIP file.
         Returns raw data as list of dictionaries (similar to API response format).
@@ -119,7 +119,6 @@ class NDGAINClient(DataClient):
         
         self.logger.info(f"Found {len(score_files)} indicator score files in ZIP")
         return score_files 
-    
     
     '''
     # TOO MUCH OUTPUT – WILL FLOOD YOUR SHIT

@@ -7,12 +7,12 @@ import json, requests, pandas as pd
 from tenacity import retry, stop_after_attempt, wait_exponential
 from src.pipeline.utils import setup_logger, ensure_dir
 
-from .base_fetch import DataClient
+from .base_fetch import DataFetcher
 
 """
 World Bank API data fetching client
 """
-class WorldBankClient(DataClient):
+class WorldBankFetcher(DataFetcher):
     
     def __init__(self, base: str, credentials: Optional[dict] = None):
                 
@@ -22,45 +22,25 @@ class WorldBankClient(DataClient):
         self.session = requests.Session()       # Reusable HTTP session (faster)
         self.log = setup_logger()               # Logger for progress messages
 
-    def save_raw_json(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
+    def save_raw_data(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
         # Saves the unmodified API response to JSON (raw data).
 
         ensure_dir(out_dir)
         (out_dir / filename).write_text(json.dumps(records, indent=2), encoding="utf-8")
 
-    def save_interim_csv(self, df: pd.DataFrame, out_path: Path) -> None:
-        """
-        Saves the tidy DataFrame as a CSV file.
-        """
-        ensure_dir(out_path.parent)
-        df.to_csv(out_path, index=False)
     
-    # TODO: Combine these two methods into one as fetch_indicator_data as defined by the abstract class (DataClient – base_fetch.py)
-
-    @retry(stop=stop_after_attempt(4), wait=wait_exponential(multiplier=0.5, max=8))
-    def fetch(self, base: str, parameters: Dict[str, Any]):   
-        """
-        Fetches data from a World Bank API with retry logic.
-        
-        Returns:
-            r: Response object from the requests library
-        """
-
-        r = self.session.get(base, params=parameters, timeout=30)
-        r.raise_for_status()  # Raise error if response failed
-        return r
-    
-    def fetch_indicator(
-        self, 
-        indicator: str, 
-        countries: Iterable[str], 
-        start: int, 
-        end: int
-    ) -> List[Dict[str, Any]]:
+    def fetch_indicator_data(self, indicator: str, countries: Iterable[str], start: int, end: int) -> Dict[str, Any]:
         """
         Fetches all data for a given indicator and list of countries over a year range.
+
+        Args:
+            indicator (str): Indicator code to fetch data for.
+            countries (Iterable[str]): List of country codes to fetch data for.
+            start (int): Start year for data range.
+            end (int): End year for data range.
+
         Returns:
-            List of records (dictionaries) from the API response
+            Dict[str, Any]: Dictionary of records (dictionaries) from the API response
         """
 
         country_str = ";".join(countries)  # Combine country codes for query
@@ -96,3 +76,16 @@ class WorldBankClient(DataClient):
     """ ################################################################## 
     ### CLIENT-SPECIFIC METHODS ###
     ################################################################## """
+        
+    @retry(stop=stop_after_attempt(4), wait=wait_exponential(multiplier=0.5, max=8))
+    def fetch(self, base: str, parameters: Dict[str, Any]):   
+        """
+        Fetches data from a World Bank API with retry logic.
+        
+        Returns:
+            r: Response object from the requests library
+        """
+
+        r = self.session.get(base, params=parameters, timeout=30)
+        r.raise_for_status()  # Raise error if response failed
+        return r

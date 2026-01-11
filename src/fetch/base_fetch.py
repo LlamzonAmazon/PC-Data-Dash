@@ -8,11 +8,11 @@ logger = logging.getLogger(__name__)
 """
 Abstract base class for all data source clients (UN SDG, ND-GAIN, World Bank, etc.).
 """
-class DataClient(ABC):
+class DataFetcher(ABC):
     
     def __init__(self, base: str, credentials: Optional[dict] = None):
         """
-        Initializes a DataClient with their **base** API URL (`base`), optional credentials (`credentials`), and an empty data container (`data`).
+        Initializes a DataFetcher with their **base** API URL (`base`), optional credentials (`credentials`), and an empty data container (`data`).
         
         Args:
             base (str): __Base__ API URL __OR__ ZIP file path for the data source
@@ -24,11 +24,9 @@ class DataClient(ABC):
         self.logger = logger
     
     @abstractmethod
-    def save_raw_json(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
+    def save_raw_data(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
         """
             Saves raw data to JSON file in /raw/ directory
-
-            TODO: Save JSON data to Azure Blob Storage instead of local file system
 
         Args:
             records (List[Dict[str, Any]]): List of records to save as JSON

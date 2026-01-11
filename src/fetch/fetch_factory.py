@@ -1,19 +1,18 @@
 from typing import Dict, Type
 
-from .base_fetch import DataClient
-from .un_sdg_fetch import UNSDGClient
-from .nd_gain_fetch import NDGAINClient
-from .world_bank_fetch import WorldBankClient
+from .base_fetch import DataFetcher
+from .un_sdg_fetch import UNSDGFetcher
+from .nd_gain_fetch import NDGAINFetcher
+from .world_bank_fetch import WorldBankFetcher
 
 import yaml
 import logging
-from src.pipeline.utils import project_root
 
 logger = logging.getLogger(__name__)
 
-class DataClientFactory:
+class DataFetcherFactory:
 
-    def __init__(self, config_path: str = project_root() / "src/config/settings.yaml"):
+    def __init__(self, config_path):
         
         # Load YAML configuration file
         try:
@@ -24,13 +23,13 @@ class DataClientFactory:
         print("\nLoaded configuration from", config_path)
 
         # Dictionary containing available client types
-        self._clients: Dict[str, Type[DataClient]] = {
-            'unsdg': UNSDGClient,
-            'ndgain': NDGAINClient,
-            'worldbank': WorldBankClient
+        self._clients: Dict[str, Type[DataFetcher]] = {
+            'unsdg': UNSDGFetcher,
+            'ndgain': NDGAINFetcher,
+            'worldbank': WorldBankFetcher
         }
      
-    def create_client(self, client_type: str) -> DataClient:
+    def create_client(self, client_type: str) -> DataFetcher:
         """
         Creates a data client based on the specified type.
         
@@ -51,7 +50,7 @@ class DataClientFactory:
             )
         
         # Get data client instance from clients dictionary
-        data_client = self._clients[client_type_lower]
+        data_fetcher = self._clients[client_type_lower]
         
         # Get configurations for this client
         print(f'Loaded configs for client: {client_type_lower}, ', end="")
@@ -65,12 +64,12 @@ class DataClientFactory:
         if client_type_lower == 'ndgain':
             source = 'zip_path'
         
-        return data_client(
-            base=client_config[source]['base'],  # Passing in base API URL upon instantiation
-            credentials=None # Use None for now; None of the APIs require keys
+        return data_fetcher(
+            base = client_config[source]['base'],  # Passing in base API URL upon instantiation
+            credentials = None # Use None for now; None of the APIs require keys
         )
     
-    def create_all_clients(self) -> Dict[str, DataClient]:
+    def create_all_clients(self) -> Dict[str, DataFetcher]:
         """
         Create all configured clients.
         

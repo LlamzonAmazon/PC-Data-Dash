@@ -1,13 +1,17 @@
 
 from typing import Dict, Any, List
+import pandas as pd
+from src.clean.base_clean import DataCleaner
 
-class NDGAINClean(DataCleaner):
+class NDGAINCleaner(DataCleaner):
     """
     Clean ND-GAIN data
     """
     
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config)
+
+        
 
     def clean_data(self, indicator_data: List[Dict[str, Any]]) -> pd.DataFrame:
             """
