@@ -2,6 +2,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug: Clean Data",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.clean.clean_data",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
             "name": "Python: Current File",
             "type": "debugpy",
             "request": "launch",
@@ -14,10 +25,10 @@
             "justMyCode": true
         },
         {
-            "name": "Debug: Data Fetch Orchestrator",
+            "name": "Debug: Run Pipeline",
             "type": "debugpy",
             "request": "launch",
-            "module": "src.fetch.data_fetch",
+            "module": "src.pipeline.run_pipeline",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "env": {

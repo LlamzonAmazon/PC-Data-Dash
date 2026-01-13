@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import Optional, List
+from typing import Optional
 import pandas as pd
 import logging
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
@@ -25,26 +26,21 @@ class DataCleaner(ABC):
         self.logger = logger
 
     @abstractmethod
-    def clean_data(self, df: pd.DataFrame) -> List[pd.DataFrame]:
+    def save_interim(self, df: pd.DataFrame, out_path: Path) -> None:
         """
-        Clean the data
-
-        Returns:
-            List[pd.DataFrame]: Cleaned data as dataframes to be forwarded to processing    
+        Save the interim data.
         """
-
-        # TODO: Implement clean_data() method
-        # NOTE: Each cleaner object should return a single dataframe representing the cleaned data from their corresponding source
-
-        raise NotImplementedError
+        pass
 
     @abstractmethod
-    def forward_to_processing(self, df: pd.DataFrame) -> bool:
+    def clean_data(self, df: pd.DataFrame) -> pd.DataFrame:
         """
-        Forward the data to the processing stage
+        Clean the data.
+        NOTE: Each cleaner object should return a single dataframe representing the cleaned data from their corresponding source
 
         Returns:
-            bool: True if the data was forwarded to processing, False otherwise    
+            pd.DataFrame: Cleaned data as a dataframe to be forwarded to processing    
         """
         
-        raise NotImplementedError
+        pass
+

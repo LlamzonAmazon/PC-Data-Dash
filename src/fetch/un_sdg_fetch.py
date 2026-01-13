@@ -61,7 +61,7 @@ class UNSDGFetcher(DataFetcher):
                 
             # Make request        
             response = requests.get(url, params=parameters)
-            response.raise_for_status()
+            response.raise_for_status() # TODO: If this breaks, the pipeline should restart and try again.
             data = response.json()
             
             # Validate response

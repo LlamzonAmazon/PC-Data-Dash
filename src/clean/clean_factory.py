@@ -3,6 +3,8 @@ import yaml
 import logging
 
 from typing import Dict, Type
+from pathlib import Path
+
 from src.clean.base_clean import DataCleaner
 from src.clean.un_sdg_clean import UNSDGCleaner
 from src.clean.nd_gain_clean import NDGAINCleaner
@@ -17,7 +19,7 @@ class DataCleanFactory:
     Factory class for creating data cleaners.
     """
     
-    def __init__(self) -> None:
+    def __init__(self, config_path: Path) -> None:
         """
         Initialize the factory.
         """
@@ -31,9 +33,9 @@ class DataCleanFactory:
         print("\nLoaded configuration from", config_path)
 
         self.cleaners: Dict[str, Type[DataCleaner]] = {
-            'unsdg': UNSDGClean,
-            'ndgain': NDGAINClean,
-            'worldbank': WorldBankClean
+            'unsdg': UNSDGCleaner,
+            'ndgain': NDGAINCleaner,
+            'worldbank': WorldBankCleaner
         }
 
     def create_cleaner(self, source: str) -> DataCleaner:

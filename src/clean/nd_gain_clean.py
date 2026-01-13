@@ -1,6 +1,9 @@
 
 from typing import Dict, Any, List
 import pandas as pd
+from pathlib import Path
+from src.pipeline.utils import ensure_dir
+
 from src.clean.base_clean import DataCleaner
 
 class NDGAINCleaner(DataCleaner):
@@ -11,7 +14,12 @@ class NDGAINCleaner(DataCleaner):
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config)
 
-        
+    def save_interim(self, df: pd.DataFrame, out_path: Path) -> None:
+        """
+        Saves the tidy DataFrame as a CSV file.
+        """
+        ensure_dir(out_path.parent)
+        df.to_csv(out_path, index=False)
 
     def clean_data(self, indicator_data: List[Dict[str, Any]]) -> pd.DataFrame:
             """
@@ -68,4 +76,5 @@ class NDGAINCleaner(DataCleaner):
             
             print(f"Extracted {len(df_long)} rows.")
             print("Converted to Pandas DataFrame.")
+
             return df_long

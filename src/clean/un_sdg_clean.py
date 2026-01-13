@@ -1,7 +1,10 @@
 
-from typing import Dict, Any
+from typing import Dict, Any, List
 import pandas as pd
+from pathlib import Path
+
 from src.clean.base_clean import DataCleaner
+from src.pipeline.utils import ensure_dir
 
 class UNSDGCleaner(DataCleaner):
     """
@@ -10,12 +13,19 @@ class UNSDGCleaner(DataCleaner):
     
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config)
+
+    def save_interim(self, df: pd.DataFrame, out_path: Path) -> None:
+        """
+        Saves the cleaned DataFrame as a CSV file.
+        """
+        ensure_dir(out_path.parent)
+        df.to_csv(out_path, index=False)
     
-    def clean_data(self, indicator_data) -> pd.DataFrame:
+    def clean_data(self, indicator_data: List) -> pd.DataFrame:
         """
         NOTE: from un_sdg_fetch.py
 
-        Convert UN SDG API indicator data response to a structured DataFrame.
+        Convert UN SDG data from a List of Dictionaries to a structured DataFrame.
         
         Args:
             indicator_data: Response dictionary from /v1/sdg/Indicator/Data endpoint
@@ -24,15 +34,12 @@ class UNSDGCleaner(DataCleaner):
             pandas.DataFrame with the actual indicator values and metadata
         """
         
-        # Extract the data array
-        data_list = indicator_data.get('data', [])
-        
-        if not data_list:
+        if not indicator_data:
             print("### No indicator data found in the response. ###")
             return pd.DataFrame() # Return empty DataFrame if no data
-        
+
         rows = []
-        for record in data_list:
+        for record in indicator_data:
             row = {
                 'country_code': record.get('geoAreaCode'),
                 'country': record.get('geoAreaName'),
@@ -48,9 +55,9 @@ class UNSDGCleaner(DataCleaner):
         print(f'Extracted {len(rows)} rows.')        
         df = pd.DataFrame(rows)
         
-        # Convert value to numeric, coercing errors to NaN
+        # Convert value to numeric and coerce errors to NaN
         df['value'] = pd.to_numeric(df['value'], errors='coerce')
-        # Convert year to integer
+        # Convert year to integer and coerce errors to NaN
         df['year'] = pd.to_numeric(df['year'], errors='coerce').astype('Int64')
         # Sort by country and year for time series analysis
         df = df.sort_values(['country_code', 'year']).reset_index(drop=True)
@@ -77,3 +84,5 @@ class UNSDGCleaner(DataCleaner):
         
         print("Converted to Pandas DataFrame.")
         return df
+
+    

@@ -62,7 +62,7 @@ class WorldBankFetcher(DataFetcher):
                 break
 
             meta, data = payload[0], payload[1]
-            out.extend(data if isinstance(data, list) else [])  # Add this page’s data
+            out.extend(data if isinstance(data, list) else []) # Add this page's data if it is a list
             self.log.info("WB %s page %s/%s", indicator, page, meta.get("pages", 1))
 
             # Stop when all pages are fetched
@@ -70,7 +70,7 @@ class WorldBankFetcher(DataFetcher):
                 break
             page += 1
 
-        return out
+        return out # returns a LIST of indicator records
     
 
     """ ################################################################## 
