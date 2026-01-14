@@ -1,15 +1,16 @@
 """
-One-button ETL: fetch -> transform -> (optionally) model -> export
+Uses the Orchestrator class to run the entire data pipeline.
+
+Fetch -> Clean -> Process -> Upload
 """
-from src.pipeline.utils import setup_logger
+
+from src.pipeline.orchestrator import Orchestrator
+
 def main():
-    log = setup_logger()
-    log.info("Pipeline start")
-    # 1) Fetch (WB/UN/ND-GAIN) -> data/raw + interim
-    # 2) Transform -> data/interim -> data/processed
-    # 3) (Optional) Model -> features/forecasts into processed
-    # 4) Export to Power BI folder if needed
-    log.info("Pipeline end")
+    orchestrator = Orchestrator()
+    processed_data = orchestrator.run()
+    
+    return processed_data
 
 if __name__ == "__main__":
     main()

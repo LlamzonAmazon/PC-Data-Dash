@@ -127,25 +127,31 @@ ndgain: # name must be same as in client_factory.py
 # ===== General Settings =====
 # ====================================================================
 paths:
-  # Where to store raw, untouched API JSON for auditability and re-processing.
-  data_raw: "data/raw/worldbank"
+  # FOR DEBUGGING: Where to store raw data locally
+  data_raw: "data/raw/"
 
-  # Where to store cleaned “tidy” data produced by the fetch step (still general-purpose).
-  data_interim: "data/interim/worldbank"
+  # Where to store cleaned, interim data
+  data_interim: "data/interim/"
 
   # Where to store polished, model-ready or Power BI–ready outputs (optional).
-  data_processed: "data/processed/worldbank"
-
-  # Main combined tidy CSV (columns: country, iso3, indicator, year, value).
-  # This is what Power BI or downstream transforms might ingest. (possibly during development)
-  wb_interim_csv: "data/interim/worldbank/world_bank_interim.csv"
-  unsdg_interim_csv: "data/interim/unsdg/un_sdg_interim.csv"
-  ndgain_interim_csv: "data/interim/ndgain/ndgain_interim.csv"
+  data_processed: "data/processed/"
 
 runtime:
-  # If true: write raw JSON and the interim CSV to disk (paths above).
-  # If false: only print a console preview (useful for quick testing).
-  write_files: true
+
+  # Save raw data locally?
+  save_raw: true
+
+  # Save cleaned data locally?
+  save_cleaned: true
+
+  # If true: save data to Azure Blob Storage (paths above).
+  upload_azure: false # """ <-- @ANTHONY change to true to verify azure upload works"""
+
+  # Path of where cleaned interim data is stored locally
+  interim_data:
+    unsdg: "data/interim/un_sdg_interim.csv"
+    ndgain: "data/interim/nd_gain_interim.csv"
+    worldbank: "data/interim/world_bank_interim.csv"
 
   # Page size for World Bank API pagination. 1000 is a good max that reduces round-trips.
   # The client will auto-paginate until all pages are fetched.
