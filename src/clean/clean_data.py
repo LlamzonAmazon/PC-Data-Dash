@@ -52,7 +52,6 @@ class CleanData:
 
         self.logger = logging.getLogger(__name__)
 
-
     def upload_to_azure(container_client, csv_path: Path, blob_name: str, log) -> None:
         """
         
@@ -81,7 +80,6 @@ class CleanData:
 
     def to_wide(df: pd.DataFrame) -> pd.DataFrame:
         return df.pivot_table(index=["country","iso3","year"], columns="indicator", values="value").reset_index()
-
 
     def clean(self, df: Optional[Dict[str, list]] = None) -> Dict[str, pd.DataFrame]:
         """
@@ -206,7 +204,6 @@ class CleanData:
             "worldbank": wb_cleaned,
             "ndgain": ndgain_cleaned
         }
-
 
     def load_raw_data(self) -> Dict[str, list]:
         """

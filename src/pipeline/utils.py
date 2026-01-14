@@ -3,10 +3,6 @@ import logging
 from pathlib import Path
 from typing import Union
 
-# ===============================
-# Utility functions for the data pipeline
-# ===============================
-
 def setup_logger(name: str = "pc-data-dash") -> logging.Logger:
     """
     Creates a simple logger that prints messages to the console.

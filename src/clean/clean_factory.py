@@ -12,7 +12,6 @@ from src.clean.world_bank_clean import WorldBankCleaner
 
 from src.pipeline.utils import project_root
 
-logger = logging.getLogger(__name__)
 
 class DataCleanFactory:
     """
@@ -24,10 +23,12 @@ class DataCleanFactory:
         Initialize the factory.
         """
         
+        self.logger = logging.getLogger(__name__)
+
         try:
             self.config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
         except Exception as e:
-            logger.error(f"Failed to load configuration from {config_path}: {e}")
+            self.logger.error(f"Failed to load configuration from {config_path}: {e}")
             raise
 
         print("\nLoaded configuration from", config_path)

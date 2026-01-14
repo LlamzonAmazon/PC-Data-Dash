@@ -17,7 +17,7 @@ class Orchestrator:
         load_dotenv()
         self.config_path = config_path
 
-    def run(self):
+    def run(self) -> None:
 
         # ============================================================
         # FETCH

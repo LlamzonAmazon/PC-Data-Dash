@@ -1,11 +1,15 @@
 
 from typing import Dict, Any, List
 import pandas as pd
+
 from src.clean.base_clean import DataCleaner
 from src.pipeline.utils import ensure_dir
 from pathlib import Path
 
 class WorldBankCleaner(DataCleaner):
+    """
+    Clean World Bank data
+    """
 
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config)

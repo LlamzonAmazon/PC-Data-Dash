@@ -6,16 +6,18 @@ These scripts are used to fetch data from the UN SDG, ND-GAIN, and World Bank AP
 ## Overview
 This module is responsible for fetching the raw data from the World Bank, UN SDG, and ND-GAIN fetching clients.
 
-Each fetching client returns a list of records, which are then cleaned and returned as a single dataframe by the corresponding cleaner object.
+Each `DataFetcher` client gathers a payload of indicator data records, and structures it appropriately for the corresponding `DataCleaner` object to clean. The raw data is passed by variable, and is NOT persisted to disk.
 
-This module implements the abstract factory pattern to create the appropriate cleaner objects based on the source of the data, as well as to allow for easy extension of the module to support additional sources in the future.
+## Running this Module
+To run the fetching module, refer to the [pipeline README](../pipeline/README.md).
 
-* Run `python3 -m src.fetch.data_fetch` from project root.
-  * You'll motice 3 CSVs written to the `/data` folder
-
-## Class Diagram
+## Module Architecture
 ![fetching](FETCHING.png)
 
+This module implements the abstract factory pattern to create the appropriate cleaner objects based on the source of the data, as well as to allow for easy extension of the module to support additional data sources in the future.
+
+
+## About the Sources
 ### United Nations Sustainable Development Goals (UN SGDs)
 The SDG framework measures global development through a hierarchy of:
 - 17 Goals – Broad global development objectives 

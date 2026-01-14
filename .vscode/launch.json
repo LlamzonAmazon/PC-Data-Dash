@@ -2,6 +2,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug: Run Pipeline",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.pipeline.run_pipeline",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "justMyCode": false
+        },
+        {
             "name": "Debug: Clean Data",
             "type": "debugpy",
             "request": "launch",
@@ -23,40 +35,6 @@
                 "PYTHONPATH": "${workspaceFolder}"
             },
             "justMyCode": true
-        },
-        {
-            "name": "Debug: Run Pipeline",
-            "type": "debugpy",
-            "request": "launch",
-            "module": "src.pipeline.run_pipeline",
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}"
-            },
-            "justMyCode": false
-        },
-        {
-            "name": "Debug: UN SDG Fetch",
-            "type": "debugpy",
-            "request": "launch",
-            "module": "src.fetch.un_sdg_fetch",
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}"
-            }
-        },
-        {
-            "name": "Debug: World Bank Fetch",
-            "type": "debugpy",
-            "request": "launch",
-            "module": "src.fetch.world_bank_fetch",
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}"
-            }
         }
     ]
 }
