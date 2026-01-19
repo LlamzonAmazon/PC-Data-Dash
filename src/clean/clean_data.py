@@ -52,7 +52,7 @@ class CleanData:
 
         self.logger = logging.getLogger(__name__)
 
-    def upload_to_azure(container_client, csv_path: Path, blob_name: str, log) -> None:
+    def upload_to_azure(self, container_client, csv_path: Path, blob_name: str, log) -> None:
         """
         
         Uploads cleaned CSV files to Azure Blob Storage container.
