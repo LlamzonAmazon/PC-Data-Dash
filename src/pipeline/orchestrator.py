@@ -5,6 +5,8 @@ Orchestrator class is created and run in run_pipeline.py
 '''
 
 from pathlib import Path
+import sys
+
 from dotenv import load_dotenv
 from src.pipeline.utils import project_root
 
@@ -45,7 +47,8 @@ class Orchestrator:
         # This is because we want to be able to resume the pipeline if it fails without having to re-run the pipeline
         # and we want to be able to inspect the intermediate files
 
-        raise NotImplementedError
+        sys.exit(0)
+        # raise NotImplementedError
 
 
         '''

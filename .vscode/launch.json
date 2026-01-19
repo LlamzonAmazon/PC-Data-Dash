@@ -11,6 +11,7 @@
             "env": {
                 "PYTHONPATH": "${workspaceFolder}"
             },
+            "python": "${workspaceFolder}/venv/bin/python",
             "justMyCode": false
         },
         {
@@ -22,7 +23,8 @@
             "cwd": "${workspaceFolder}",
             "env": {
                 "PYTHONPATH": "${workspaceFolder}"
-            }
+            },
+            "python": "${workspaceFolder}/venv/bin/python"
         },
         {
             "name": "Python: Current File",
@@ -34,6 +36,7 @@
             "env": {
                 "PYTHONPATH": "${workspaceFolder}"
             },
+            "python": "${workspaceFolder}/venv/bin/python",
             "justMyCode": true
         }
     ]
