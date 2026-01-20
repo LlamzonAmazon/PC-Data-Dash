@@ -49,7 +49,10 @@ class UNSDGCleaner(DataCleaner):
                 'indicator': record.get('indicator', [None])[0],
                 'series_code': record.get('series'),
                 'nature': record.get('attributes', {}).get('Nature'),
-                'reporting_type': record.get('dimensions', {}).get('Reporting Type')
+                'reporting_type': record.get('dimensions', {}).get('Reporting Type'),
+                'age': record.get('Age'),
+                'sex': record.get('Sex'),
+                'location': record.get('Location')
             }
             rows.append(row)
 
