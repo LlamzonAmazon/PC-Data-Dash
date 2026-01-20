@@ -59,15 +59,23 @@ class FetchData:
 
         # indicator_data_dict: Dictionary containing all indicator data
         # indicator_data_dict['data']: List of all indicator data records
-        indicator_data_dict = unsdgClient.fetch_indicator_data(unsdg_indicator_data_endpoint, 
+        # NOTE: Using timePeriod array instead of timePeriodStart/End
+        #       because the API only returns start year when using range params
+        start_year = cfg['unsdg']['start_year']
+        end_year = cfg['unsdg']['end_year']
+        time_period_array = list(range(start_year, end_year + 1))  # e.g. [2010, 2011, ..., 2024]
+        
+        indicator_data_dict = unsdgClient.fetch_indicator_data(
+            unsdg_indicator_data_endpoint, 
             parameters={
-            "indicator": unsdg_indicator_codes,
-            # areaCode excluded; returns ALL if not specified
-            "timePeriodStart": cfg['unsdg']['start_year'], 
-            "timePeriodEnd": cfg['unsdg']['end_year'],
-            "page" : 1, # Page Number
-            "pageSize": cfg['runtime']['per_page'] # Number of records per page/response
-            })
+                "indicator": unsdg_indicator_codes,
+                # areaCode excluded; returns ALL if not specified
+                "timePeriod": time_period_array,  # Use array of years, NOT start/end range!
+                "page" : 1, # Page Number
+                "pageSize": cfg['runtime']['per_page'] # Number of records per page/response
+            },
+            dimension_filters=cfg['unsdg'].get('dimension_filters', None)
+        )
         
         # Only saving the raw indicator data contained in the dictionary
         # NOTE: Still have the dictionary structure, just extracting the list of records

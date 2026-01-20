@@ -59,8 +59,8 @@ class UNSDGCleaner(DataCleaner):
         df['value'] = pd.to_numeric(df['value'], errors='coerce')
         # Convert year to integer and coerce errors to NaN
         df['year'] = pd.to_numeric(df['year'], errors='coerce').astype('Int64')
-        # Sort by country and year for time series analysis
-        df = df.sort_values(['country_code', 'year']).reset_index(drop=True)
+        # Sort by country (ascending), indicator (ascending), then by year (ascending)
+        df = df.sort_values(['country', 'indicator', 'year'], ascending=[True, True, True]).reset_index(drop=True)
         
         # Calculate data quality metrics
         total_records = len(df)

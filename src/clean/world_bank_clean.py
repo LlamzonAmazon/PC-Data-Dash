@@ -63,7 +63,8 @@ class WorldBankCleaner(DataCleaner):
         # year: year recorded from
         # value: numerical value of the indicator (NaN if null)
         # country: User-friendly country name
-        df = df.sort_values(["indicator-code","iso3","year"], ascending=[True,True,False], na_position="last")
+        # Sort by country (ascending) then by year (ascending)
+        df = df.sort_values(["country", "year"], ascending=[True, True], na_position="last")
 
         # print(f'World Bank Cleaned Data:\n {df.head(15)}')
         
