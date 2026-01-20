@@ -6,6 +6,7 @@ import json, requests, pandas as pd
 
 from tenacity import retry, stop_after_attempt, wait_exponential
 from src.pipeline.utils import setup_logger, ensure_dir
+from src.pipeline.terminal_output import TerminalOutput
 
 from .base_fetch import DataFetcher
 
@@ -63,7 +64,7 @@ class WorldBankFetcher(DataFetcher):
 
             meta, data = payload[0], payload[1]
             out.extend(data if isinstance(data, list) else []) # Add this page's data if it is a list
-            self.log.info("WB %s page %s/%s", indicator, page, meta.get("pages", 1))
+            TerminalOutput.print_progress(page, meta.get("pages", 1), prefix=f"  {indicator}: ")
 
             # Stop when all pages are fetched
             if page >= meta.get("pages", 1):

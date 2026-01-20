@@ -13,6 +13,7 @@ from typing import List, Dict, Optional
 from pathlib import Path
 import logging
 from src.pipeline.utils import setup_logger
+from src.pipeline.terminal_output import clean_header, TerminalOutput
 
 from src.clean.clean_factory import DataCleanFactory
 
@@ -124,6 +125,8 @@ class CleanData:
         ### UN SDG CLEANING ###
         ################################################################## """
         
+        clean_header("UN SDG")
+        
         # Setup
         unsdgCleaner = self.cleanFactory.create_cleaner("unsdg")
         unsdg_raw = df["unsdg"]
@@ -149,6 +152,8 @@ class CleanData:
         """ ################################################################## 
         ### WORLD BANK CLEANING ###
         ################################################################## """
+
+        clean_header("World Bank")
 
         # Setup
         wbCleaner = self.cleanFactory.create_cleaner("worldbank")
@@ -176,6 +181,8 @@ class CleanData:
         ### ND-GAIN CLEANING ###
         ################################################################## """
         
+        clean_header("ND-GAIN")
+        
         # Setup
         ndGainClient = self.cleanFactory.create_cleaner("ndgain")
         ndgain_raw = df["ndgain"]
@@ -198,6 +205,9 @@ class CleanData:
                 log=log
             )
         
+        print("\n" + "="*60)
+        TerminalOutput.complete("All data sources cleaned successfully")
+        print("="*60 + "\n")
 
         return {
             "unsdg": unsdg_cleaned,

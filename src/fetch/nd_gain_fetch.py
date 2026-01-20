@@ -5,6 +5,7 @@ from typing import Any, Dict, List, Optional
 import json, zipfile, pandas as pd
 
 from src.pipeline.utils import ensure_dir
+from src.pipeline.terminal_output import TerminalOutput
 
 from .base_fetch import DataFetcher
 
@@ -43,13 +44,11 @@ class NDGAINFetcher(DataFetcher):
         Returns:
             List[Dict[str, Any]]: List of records with indicator data
         """
-        self._log_fetch_start()
-        
         # Get list of all score files in ZIP
         score_files = self._list_indicator_score_files()
         
         if not score_files:
-            self.logger.warning("No indicator score.csv files found in the ZIP.")
+            TerminalOutput.info("No indicator score files found", indent=1)
             return []
         
         # Load all indicator data
@@ -59,20 +58,19 @@ class NDGAINFetcher(DataFetcher):
         with zipfile.ZipFile(self.base, "r") as zf:
             
             # Iterate over every path leading to a score file for an indicator
-            for path in score_files:
+            for idx, path in enumerate(score_files, 1):
                 # Extract indicator name from path
                 p = PurePosixPath(path)
                 try:
                     indicator_name = p.parts[2]
                 except IndexError:
-                    self.logger.warning(f"Unexpected path structure: {path}")
                     continue
                 
                 # Skip if filtering and this indicator not in filter list
                 if indicator_codes and indicator_name[:7] not in indicator_codes:
                     continue
                 
-                self.logger.info(f"Loading {indicator_name} data...")
+                TerminalOutput.print_progress(idx, len(score_files), prefix="  Loading indicators: ")
                 
                 try:
                     # Open file from zip file object at current iteration path
@@ -90,10 +88,10 @@ class NDGAINFetcher(DataFetcher):
                             all_records.extend(records)
                             
                 except Exception as e:
-                    self.logger.error(f"Error loading {indicator_name}: {e}")
+                    TerminalOutput.info(f"Error loading {indicator_name}: {e}", indent=1)
                     continue
         
-        self._log_fetch_complete(len(all_records))
+        TerminalOutput.summary("  Records", f"{len(all_records):,}")
         return all_records
 
     """ ################################################################## 
@@ -117,7 +115,7 @@ class NDGAINFetcher(DataFetcher):
             and name.endswith("/score.csv")
         ]
         
-        self.logger.info(f"Found {len(score_files)} indicator score files in ZIP")
+        TerminalOutput.info(f"Found {len(score_files)} indicator files", indent=1)
         return score_files 
     
     '''

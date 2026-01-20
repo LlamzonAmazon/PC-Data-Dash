@@ -5,6 +5,7 @@ from pathlib import Path
 
 from src.clean.base_clean import DataCleaner
 from src.pipeline.utils import ensure_dir
+from src.pipeline.terminal_output import TerminalOutput
 
 class UNSDGCleaner(DataCleaner):
     """
@@ -52,7 +53,7 @@ class UNSDGCleaner(DataCleaner):
             }
             rows.append(row)
 
-        print(f'Extracted {len(rows)} rows.')        
+        TerminalOutput.summary("  Extracted", f"{len(rows)} rows")        
         df = pd.DataFrame(rows)
         
         # Convert value to numeric and coerce errors to NaN
@@ -82,7 +83,7 @@ class UNSDGCleaner(DataCleaner):
         pd.set_option('display.width', 180)
         pd.set_option('display.expand_frame_repr', False)
         
-        print("Converted to Pandas DataFrame.")
+        TerminalOutput.complete("Converted to DataFrame")
         return df
 
     

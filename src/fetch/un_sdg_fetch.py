@@ -5,6 +5,7 @@ from typing import Any, Dict, List, Optional
 import json, requests, time
 
 from src.pipeline.utils import ensure_dir
+from src.pipeline.terminal_output import TerminalOutput
 
 from .base_fetch import DataFetcher 
 
@@ -54,22 +55,44 @@ class UNSDGFetcher(DataFetcher):
         page = parameters['page']
         totalElements = 0
         
-        self._log_fetch_start()
-        print('Pages parsed: ', end="")
-        
-        
         while True:
             # Update parameters with current page
             parameters['page'] = page
-                
-            # Make request        
-            response = requests.get(url, params=parameters)
-            response.raise_for_status()
-            data = response.json()
+            
+            # Make request with retry logic for rate limiting
+            max_retries = 3
+            retry_count = 0
+            
+            while retry_count < max_retries:
+                try:
+                    response = requests.get(url, params=parameters, timeout=30)
+                    response.raise_for_status()
+                    data = response.json()
+                    break  # Success, exit retry loop
+                    
+                except requests.exceptions.HTTPError as e:
+                    if e.response.status_code == 429:  # Rate limited
+                        retry_count += 1
+                        if retry_count < max_retries:
+                            wait_time = 2 ** retry_count  # Exponential backoff: 2, 4, 8 seconds
+                            TerminalOutput.info(f"Rate limited, retrying in {wait_time}s...", indent=1)
+                            time.sleep(wait_time)
+                        else:
+                            raise  # Max retries exceeded
+                    else:
+                        raise  # Other HTTP error, don't retry
+                        
+                except requests.exceptions.RequestException as e:
+                    retry_count += 1
+                    if retry_count < max_retries:
+                        wait_time = 2 ** retry_count
+                        TerminalOutput.info(f"Request failed, retrying in {wait_time}s...", indent=1)
+                        time.sleep(wait_time)
+                    else:
+                        raise  # Max retries exceeded
             
             # Validate response
             if not data or len(data) == 0:
-                print(f"No more data on page {page}")
                 break
             
             # Handle first page initialization
@@ -80,8 +103,9 @@ class UNSDGFetcher(DataFetcher):
             else:
                 # Append subsequent pages' data
                 all_data['data'].extend(data.get('data', []))
-                    
-            print(f'{page}/{totalPages} ', end="", flush=True)
+            
+            # Show progress
+            TerminalOutput.print_progress(page, totalPages, prefix="  Fetching pages: ")
             
             # Check if this was the last page
             if page >= totalPages:
@@ -89,10 +113,6 @@ class UNSDGFetcher(DataFetcher):
             
             # Prep next loop
             page += 1
-            time.sleep(0.5)
-        
-        print("\nDone!")
-        self._log_fetch_complete(totalElements)
 
         flat_records = []
         for record in all_data.get('data', []):
@@ -122,7 +142,7 @@ class UNSDGFetcher(DataFetcher):
             if keep_record:
                 filtered_data.append(record)
 
-        print(f"Filtering: Reduced {len(all_data['data'])} records to {len(filtered_data)}")
+        TerminalOutput.summary("  Filtered", f"{len(all_data['data'])} -> {len(filtered_data)} records")
         all_data['data'] = filtered_data
 
         return all_data
@@ -161,9 +181,9 @@ class UNSDGFetcher(DataFetcher):
             for root_node in tree_data:
                 _traverse(root_node)
                 
-            print(f"Identified {len(country_codes)} unique country codes.")
+            TerminalOutput.info(f"Identified {len(country_codes)} countries", indent=1)
             return country_codes
             
         except Exception as e:
-            print(f"Warning: Failed to fetch/parse GeoArea Tree: {e}")
+            TerminalOutput.info(f"Warning: Failed to fetch country codes: {e}", indent=1)
             return set()

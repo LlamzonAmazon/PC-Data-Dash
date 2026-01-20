@@ -3,6 +3,7 @@ from typing import Dict, Any, List
 import pandas as pd
 from pathlib import Path
 from src.pipeline.utils import ensure_dir
+from src.pipeline.terminal_output import TerminalOutput
 
 from src.clean.base_clean import DataCleaner
 
@@ -35,10 +36,8 @@ class NDGAINCleaner(DataCleaner):
                 pd.DataFrame: Tidy DataFrame with columns: country_code, country, indicator, year, value
             """
             if not indicator_data:
-                print("### No indicator data found in the records. ###")
+                TerminalOutput.info("No indicator data found", indent=1)
                 return pd.DataFrame()
-            
-            print("Converting ND-GAIN data to tidy format...")
             
             # Convert list of dicts back to DataFrame
             raw_data = pd.DataFrame(indicator_data)
@@ -74,7 +73,7 @@ class NDGAINCleaner(DataCleaner):
             # Reorder columns for consistency with other clients
             df_long = df_long[['country_code', 'country', 'indicator', 'year', 'value']]
             
-            print(f"Extracted {len(df_long)} rows.")
-            print("Converted to Pandas DataFrame.")
+            TerminalOutput.summary("  Extracted", f"{len(df_long)} rows")
+            TerminalOutput.complete("Converted to DataFrame")
 
             return df_long

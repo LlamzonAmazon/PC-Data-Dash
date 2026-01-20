@@ -4,6 +4,7 @@ import pandas as pd
 
 from src.clean.base_clean import DataCleaner
 from src.pipeline.utils import ensure_dir
+from src.pipeline.terminal_output import TerminalOutput
 from pathlib import Path
 
 class WorldBankCleaner(DataCleaner):
@@ -66,6 +67,6 @@ class WorldBankCleaner(DataCleaner):
         # Sort by country (ascending) then by year (ascending)
         df = df.sort_values(["country", "year"], ascending=[True, True], na_position="last")
 
-        # print(f'World Bank Cleaned Data:\n {df.head(15)}')
+        TerminalOutput.summary("  Records", f"{len(df):,}")
         
         return df

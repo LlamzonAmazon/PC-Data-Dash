@@ -13,6 +13,7 @@ from typing import Dict
 
 from src.fetch.fetch_factory import DataFetcherFactory
 from src.pipeline.utils import project_root, setup_logger
+from src.pipeline.terminal_output import fetch_header, TerminalOutput
 
 class FetchData:
     """
@@ -49,13 +50,14 @@ class FetchData:
         ### UN SDG FETCHING ###
         ################################################################## """
         
+        fetch_header("UN SDG")
+        
         unsdgClient = fetcher_factory.create_client('unsdg')
         
         unsdg_indicator_data_endpoint = cfg['unsdg']['api_paths']['indicator_data_endpoint']
         unsdg_indicator_codes = [indicator['code'] for indicator in cfg['unsdg']['indicators']]
         
-        # Fetch indicator data for ALL countries and specified years
-        print(f'Fetching UN SDG data for {len(unsdg_indicator_codes)} indicators...')
+        TerminalOutput.info(f"Fetching {len(unsdg_indicator_codes)} indicators", indent=1)
 
         # indicator_data_dict: Dictionary containing all indicator data
         # indicator_data_dict['data']: List of all indicator data records
@@ -95,13 +97,14 @@ class FetchData:
         ### WORLD BANK FETCHING ###
         ################################################################## """
 
+        fetch_header("World Bank")
+
         wbClient = fetcher_factory.create_client('worldbank')
         
         wb = cfg["worldbank"]
         recs = []
 
-        # Loop through each indicator and fetch its data
-        print("Fetching World Bank data...")
+        TerminalOutput.info(f"Fetching {len(wb['indicators'])} indicators", indent=1)
         for ind in wb["indicators"]:
             code, alias = ind["code"], ind.get("alias", ind["code"])
 
@@ -131,6 +134,8 @@ class FetchData:
         ### ND-GAIN FETCHING ###
         ################################################################## """
         
+        fetch_header("ND-GAIN")
+        
         ndGainClient = fetcher_factory.create_client('ndgain')
         
         ndgain_vulnerability_indicators = cfg['ndgain']['indicators']['vulnerability']
@@ -151,7 +156,9 @@ class FetchData:
                 "nd_gain_raw.csv"
             )
         
-        print("\n===== ALL CLIENTS DONE. =====\n")
+        print("\n" + "="*60)
+        TerminalOutput.complete("All data sources fetched successfully")
+        print("="*60 + "\n")
 
         # Return a dictionary containing all the fetched data
         return {
