@@ -15,113 +15,78 @@ We are exploring ML **regression** techniques using scikit-learn to forecast cou
 ![Data Pipeline Flow Diagram](./Data-Flow.png)
 
 ## 🏙️ Code Structure
-***The structure of this project is still being designed.***
 ```
 PC-DATA-DASH/
-├── .vscode/
-├── azure/                            # All Azure-specific code
-│   ├── functions/                    # Azure Function (triggers container)
-│   │   ├── __init__.py
-│   │   ├── function_app.py           # HTTP trigger function code
-│   │   ├── requirements.txt          # azure-mgmt-containerinstance, azure-identity
-│   │   └── README.md                 # Manual deployment instructions
-│   │
-│   └── logic_apps/                   # Logic Apps workflow
-│       ├── pipeline-scheduler.json   # Export from Azure Portal (for reference)
-│       └── README.md                 # Manual deployment instructions
+├── .vscode/                          # VS Code configuration
 │
-├── data/                             # LOCAL ONLY - for development/testing
-│   ├── external/                     # Static data (ND-GAIN ZIP)
+├── data/                             # Data storage (LOCAL ONLY - gitignored)
+│   ├── external/                     # Static external data
 │   │   └── nd_gain_countryindex_2025.zip
-│   ├── interim/                      # Temp storage during local dev
-│   │   ├── ndgain/
-│   │   ├── unsdg/
-│   │   └── worldbank/
-│   ├── processed/                    # Local output for testing
-│   └── raw/                          # Local raw fetches for testing
+│   │
+│   ├── processed/                    # Processed data (in development)
+│   │   ├── 
+│   │   ├── 
+│   │   └── 
+│   │
+│   ├── interim/                      # Cleaned/processed data
+│   │   ├── nd_gain_interim.csv
+│   │   ├── un_sdg_interim.csv
+│   │   └── world_bank_interim.csv
+│   └── raw/                          # Raw fetched data
+│       ├── nd_gain_raw.csv
+│       ├── un_sdg_raw.json
+│       └── world_bank_raw.json
 │
-├── notebooks/                        # For testing models
-│   ├── EDA_un_sdg.ipynb
-│   └── EDA_world_bank.ipynb
+├── notebooks/                        # Jupyter notebooks (empty - for future EDA)
 │
-├── src/                              # DEPLOYABLE CODE (Containerized)
-│   ├── __init__.py
+├── src/                              # Source code
+│   ├── README.md                     # Source code overview
 │   │
 │   ├── config/
-│   │   ├── __init__.py
-│   │   ├── settings.yaml             # Pipeline configuration
-│   │   └── config.py                 # Config loader class
+│   │   └── settings.yaml             # Pipeline configuration
 │   │
-│   ├── fetch/                        # 1. Data fetching module
-│   │   ├── __init__.py
-│   │   ├── base_fetch.py             # DataClient interface
-│   │   ├── client_factory.py         # DataClientFactory
-│   │   ├── un_sdg_fetch.py           # UNSDGClient
-│   │   ├── nd_gain_fetch.py          # NDGAINClient
-│   │   ├── world_bank_fetch.py       # WorldBankClient
-│   │   └── README.md
+│   ├── fetch/                        # Data fetching module
+│   │   ├── README.md                 # Fetching documentation
+│   │   ├── FETCHING.png              # Fetching flow diagram
+│   │   ├── base_fetch.py             # Base fetcher interface
+│   │   ├── fetch_factory.py          # Fetcher factory pattern
+│   │   ├── fetch_data.py             # Main fetch orchestrator
+│   │   ├── un_sdg_fetch.py           # UN SDG API client
+│   │   ├── nd_gain_fetch.py          # ND-GAIN data fetcher
+│   │   ├── world_bank_fetch.py       # World Bank API client
+│   │   └── .env                      # Environment variables (gitignored)
 │   │
-│   ├── clean/                        # 2. Data cleaning module
-│   │   ├── __init__.py
-│   │   ├── base_clean.py             # DataCleaner interface
-│   │   ├── cleaner_factory.py        # DataCleanerFactory
-│   │   ├── clean_un_sdg.py           # UNSDGCleaner
-│   │   ├── clean_nd_gain.py          # NDGAINCleaner
-│   │   └── clean_world_bank.py       # WorldBankCleaner
+│   ├── clean/                        # Data cleaning module
+│   │   ├── README.md                 # Cleaning documentation
+│   │   ├── CLEANING.png              # Cleaning flow diagram
+│   │   ├── base_clean.py             # Base cleaner interface
+│   │   ├── clean_factory.py          # Cleaner factory pattern
+│   │   ├── clean_data.py             # Main cleaning orchestrator
+│   │   ├── un_sdg_clean.py           # UN SDG data cleaner
+│   │   ├── nd_gain_clean.py          # ND-GAIN data cleaner
+│   │   └── world_bank_clean.py       # World Bank data cleaner
 │   │
-│   ├── processing/                   # 3. Data processing & ML
-│   │   ├── __init__.py
-│   │   ├── processor.py              # DataProcessor (transform, merge)
-│   │   ├── validator.py              # DataValidator
-│   │   └── ml_models.py              # ML processing (if applicable)
+│   ├── pipeline/                     # Pipeline orchestration
+│   │   ├── README.md                 # Pipeline documentation
+│   │   ├── ORCHESTRATOR.png          # Orchestrator flow diagram
+│   │   ├── orchestrator.py           # Main orchestrator class
+│   │   ├── run_pipeline.py           # Pipeline entry point
+│   │   ├── terminal_output.py        # Terminal output utilities
+│   │   └── utils.py                  # Pipeline helper functions
 │   │
-│   ├── storage/                      # Azure Blob Storage operations
-│   │   ├── __init__.py
-│   │   ├── blob_storage.py           # BlobStorage class (upload/download)
-│   │   └── utils.py                  # Storage helpers
-│   │
-│   ├── orchestrator/                 # Pipeline orchestration
-│   │   ├── __init__.py
-│   │   ├── orchestrator.py           # DataOrchestrator class
-│   │   └── main.py                   # CONTAINER ENTRY POINT
-│   │
-│   └── utils/                        # Shared utilities
-│       ├── __init__.py
-│       ├── logger.py                 # Azure Monitor logging
-│       └── helpers.py                # Common functions
+│   └── processing/                   # Data processing & ML (in development)
+│       ├── README.md                 # Processing documentation
+│       ├── regression.py             # Regression models
+│       └── forecasting.py            # Forecasting utilities
 │
-├── container/                        # Docker setup
-│   ├── Dockerfile                    # Container image definition
-│   ├── requirements.txt
-│   ├── .dockerignore
-│   └── README.md
+├── venv/                             # Python virtual environment (gitignored)
 │
-├── infrastructure/                   # Infrastructure as Code
-│   ├── bicep/                        # Azure Bicep templates (alt: Terraform)
-│   │   ├── main.bicep                # Main deployment
-│   │   ├── storage.bicep             # Blob Storage
-│   │   ├── container-registry.bicep  # ACR
-│   │   ├── function.bicep            # Azure Function
-│   │   └── logic-app.bicep           # Logic Apps
-│   │
-│   └── terraform/                    # (alt: Terraform)
-│       └── (optional)
-│
-├── deployment/                       # Deployment scripts
-│   ├── build-container.sh            # Build Docker image
-│   ├── push-to-acr.sh                # Push to Azure Container Registry
-│   ├── deploy-function.sh            # Deploy Azure Function
-│   └── setup-infrastructure.sh       # Run Bicep/Terraform deployment
-│
-├── powerbi/                          # Power BI connection info
-│   ├── blob-connection.md            # How to connect Power BI to Blob Storage
-│   └── example-queries.pq            # Power Query examples
-│
-├── .env.example                      # Environment variables template
-├── .gitignore
-├── requirements.txt
-├── README.md
-└── LICENSE
+├── .env                              # Environment variables (gitignored)
+├── .gitignore                        # Git ignore rules
+├── requirements.txt                  # Python dependencies
+├── Azure-Arch.png                    # Azure architecture diagram
+├── Data-Flow.png                     # Data pipeline flow diagram
+└── README.md                         # This file
 ```
 
 ## 📌 References/Resources
