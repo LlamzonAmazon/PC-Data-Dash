@@ -19,7 +19,7 @@ We are exploring ML **regression** techniques using scikit-learn to forecast cou
 PC-DATA-DASH/
 ├── .vscode/                          # VS Code configuration
 │
-├── data/                             # Data storage (LOCAL ONLY - gitignored)
+├── data/                             # Data storage
 │   ├── external/                     # Static external data
 │   │   └── nd_gain_countryindex_2025.zip
 │   │
