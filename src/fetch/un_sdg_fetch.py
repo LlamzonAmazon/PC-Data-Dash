@@ -65,7 +65,7 @@ class UNSDGFetcher(DataFetcher):
             
             while retry_count < max_retries:
                 try:
-                    response = requests.get(url, params=parameters, timeout=30)
+                    response = requests.get(url, params=parameters, timeout=90)
                     response.raise_for_status()
                     data = response.json()
                     break  # Success, exit retry loop
@@ -147,6 +147,85 @@ class UNSDGFetcher(DataFetcher):
 
         return all_data
 
+    def fetch_series_data(self, series_codes: list[str], start_year: int = 2010) -> Dict[str, Any]:
+    
+
+        #Fetches data from /Series/Data for specific series codes.
+        #NOTE: API requires repeated seriesCode params (not comma-separated).
+
+
+        url = f"{self.base}/Series/Data"
+
+        # 0) Get valid country codes first
+        valid_countries = self._get_country_codes()
+
+        page = 1
+        page_size = 2000
+        total_pages = None
+        all_data: Dict[str, Any] = {"data": []}
+
+        while True:
+            params = []
+            for code in series_codes:
+                params.append(("seriesCode", code))
+            params += [
+                ("startPeriod", start_year),
+                ("page", page),
+                ("pageSize", page_size),
+            ]
+
+            response = requests.get(url, params=params, timeout=90)
+            response.raise_for_status()
+            data = response.json()
+
+            if total_pages is None:
+                total_pages = data.get("totalPages", 1)
+                # keep top-level metadata
+                for k in ["size", "totalElements", "totalPages", "pageNumber", "attributes", "dimensions"]:
+                    if k in data:
+                        all_data[k] = data[k]
+
+            all_data["data"].extend(data.get("data", []))
+
+            TerminalOutput.print_progress(page, total_pages, prefix="  Fetching pages: ")
+
+            if page >= total_pages:
+                break
+            page += 1
+
+        # Flatten dimensions (same as your indicator fetch)
+        flat_records = []
+        for record in all_data.get("data", []):
+            flat_rec = {k: v for k, v in record.items() if k != "dimensions"}
+            dims = record.get("dimensions", {})
+            if dims and isinstance(dims, dict):
+                flat_rec.update(dims)
+            flat_records.append(flat_rec)
+        all_data["data"] = flat_records
+
+        # Filter: country codes + optional “Reporting Type” == G
+        filtered = []
+        for rec in all_data["data"]:
+            keep = True
+
+            if valid_countries:
+                geo_code = str(rec.get("geoAreaCode", ""))
+                if geo_code not in valid_countries:
+                    keep = False
+
+            # if Reporting Type exists, force country-level only
+            if keep and "Reporting Type" in rec:
+                if rec.get("Reporting Type") != "G":
+                    keep = False
+
+            if keep:
+                filtered.append(rec)
+
+        TerminalOutput.summary("  Filtered", f"{len(all_data['data'])} -> {len(filtered)} records")
+        all_data["data"] = filtered
+
+        return all_data
+
     
 
     """ ################################################################## 
@@ -187,3 +266,6 @@ class UNSDGFetcher(DataFetcher):
         except Exception as e:
             TerminalOutput.info(f"Warning: Failed to fetch country codes: {e}", indent=1)
             return set()
+        
+
+    

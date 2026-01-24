@@ -84,6 +84,28 @@ class FetchData:
         # May be useful to keep the dictionary structure for later processing
         unsdg_indicator_list = indicator_data_dict['data']
 
+        # ✅ NEW: fetch required “missing” indicators via Series/Data
+        # (Indicator/Data does not include these series properly)
+        series_codes = [
+            "AG_PRD_FIESMS",      # 2.1.2
+            "SH_STA_WASHARI",     # 3.9.2
+            "FB_BNK_ACCSS",       # 8.10.2 (overall adults)
+        ]
+
+        TerminalOutput.info(f"Fetching {len(series_codes)} series via Series/Data", indent=1)
+
+        series_data_dict = unsdgClient.fetch_series_data(
+            series_codes=series_codes,
+            start_year=2010
+        )
+
+        unsdg_series_list = series_data_dict["data"]
+
+        # ✅ Merge indicator + series results into the UNSDG output list
+        # (keeps backward compatibility with the rest of your pipeline)
+        unsdg_indicator_list.extend(unsdg_series_list)
+
+
         # Save raw data locally
         if runtime.get("save_raw", True):
             unsdg_csv_path = project_root() / paths['data_raw']
