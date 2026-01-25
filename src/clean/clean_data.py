@@ -22,6 +22,7 @@ from azure.storage.blob import BlobServiceClient
 
 from dotenv import load_dotenv
 import os
+import sys
 
 class CleanData:
     """
@@ -31,17 +32,25 @@ class CleanData:
     def __init__(self, config_path):
         
         load_dotenv()
+        
+        self.logger = logging.getLogger(__name__)
 
         self.AZURE_TENANT_ID = os.getenv("AZURE_TENANT_ID")
         self.AZURE_CLIENT_ID = os.getenv("AZURE_CLIENT_ID")
         self.AZURE_CLIENT_SECRET = os.getenv("AZURE_CLIENT_SECRET")
         self.AZURE_STORAGE_ACCOUNT_URL = os.getenv("AZURE_STORAGE_ACCOUNT_URL")
 
-        self.credential = ClientSecretCredential(
-            tenant_id=self.AZURE_TENANT_ID,
-            client_id=self.AZURE_CLIENT_ID,
-            client_secret=self.AZURE_CLIENT_SECRET
-        )
+        # Only create credential if all Azure env vars are present
+        self.credential = None
+        if all([self.AZURE_TENANT_ID, self.AZURE_CLIENT_ID, self.AZURE_CLIENT_SECRET]):
+            try:
+                self.credential = ClientSecretCredential(
+                    tenant_id=self.AZURE_TENANT_ID,
+                    client_id=self.AZURE_CLIENT_ID,
+                    client_secret=self.AZURE_CLIENT_SECRET
+                )
+            except Exception as e:
+                self.logger.warning(f"Failed to create Azure credential: {e}. Azure upload will be skipped.")
 
         self.config_path = config_path
 
@@ -50,8 +59,6 @@ class CleanData:
         # Load config
         # Cleaner Factory uses config for runtime settings NOT for file paths, indicator settings, etc.
         self.cfg = self.cleanFactory.get_config()
-
-        self.logger = logging.getLogger(__name__)
 
     def upload_to_azure(self, container_client, csv_path: Path, blob_name: str, log) -> None:
         """
@@ -101,15 +108,6 @@ class CleanData:
 
         log = setup_logger()
 
-        container_name = "unprocessed-data" # where raw data is stored
-
-        blob_service_client = BlobServiceClient(
-            account_url=self.AZURE_STORAGE_ACCOUNT_URL,
-            credential=self.credential
-        )
-
-        container_client = blob_service_client.get_container_client(container_name)
-
         # Path to your configuration file
         cfg_path = self.config_path
 
@@ -120,6 +118,22 @@ class CleanData:
 
         # Load configs
         paths, runtime = self.cfg["paths"], self.cfg["runtime"]
+
+        # Initialize Azure clients only if upload is enabled and credentials are available
+        container_client = None
+        if runtime.get("upload_azure", False) and self.credential and self.AZURE_STORAGE_ACCOUNT_URL:
+            try:
+                container_name = "unprocessed-data" # where raw data is stored
+
+                blob_service_client = BlobServiceClient(
+                    account_url=self.AZURE_STORAGE_ACCOUNT_URL,
+                    credential=self.credential
+                )
+
+                container_client = blob_service_client.get_container_client(container_name)
+            except Exception as e:
+                log.warning(f"Failed to initialize Azure Blob client: {e}. Azure upload will be skipped.")
+                container_client = None
         
         """ ################################################################## 
         ### UN SDG CLEANING ###
@@ -141,7 +155,7 @@ class CleanData:
             unsdgCleaner.save_interim(unsdg_cleaned, unsdg_csv_path)
 
         # Upload cleaned CSV to Azure
-        if runtime["upload_azure"]:
+        if runtime.get("upload_azure", False) and container_client:
             self.upload_to_azure(
                 container_client=container_client, 
                 csv_path=unsdg_csv_path, 
@@ -169,11 +183,11 @@ class CleanData:
             wbCleaner.save_interim(wb_cleaned, wb_csv_path)
 
         # Upload CSV to Azure
-        if runtime["upload_azure"]:
+        if runtime.get("upload_azure", False) and container_client:
             self.upload_to_azure(
                 container_client=container_client,
                 csv_path=wb_csv_path,
-                blob_name="raw/worldbank/world_bank_raw.json",
+                blob_name="interim/worldbank/world_bank_interim.csv",
                 log=log
             )
 
@@ -197,11 +211,67 @@ class CleanData:
             ndGainClient.save_interim(ndgain_cleaned, ndgain_csv_path)
 
         # Upload CSV to Azure
-        if runtime["upload_azure"]:
+        if runtime.get("upload_azure", False) and container_client:
             self.upload_to_azure(
                 container_client=container_client,
                 csv_path=ndgain_csv_path,
-                blob_name="interim/ndgain/ndgain_interim.csv",
+                blob_name="interim/ndgain/nd_gain_interim.csv",
+                log=log
+            )
+
+        """ ################################################################## 
+        ### HDR CLEANING ###
+        ################################################################## """
+        
+        clean_header("HDR")
+        
+        # Setup
+        hdrCleaner = self.cleanFactory.create_cleaner("hdr")
+        hdr_raw = df["hdr"]
+
+        # Clean raw data and save in a DataFrame
+        hdr_cleaned = hdrCleaner.clean_data(hdr_raw)
+
+        # Save cleaned CSV locally
+        hdr_csv_path = Path(runtime["interim_data"]["hdr"])
+
+        if runtime["save_cleaned"]:
+            hdrCleaner.save_interim(hdr_cleaned, hdr_csv_path)
+
+        # Upload CSV to Azure
+        if runtime.get("upload_azure", False) and container_client:
+            self.upload_to_azure(
+                container_client=container_client,
+                csv_path=hdr_csv_path,
+                blob_name="interim/hdr/hdr_interim.csv",
+                log=log
+            )
+
+        """ ################################################################## 
+        ### OWID CLEANING ###
+        ################################################################## """
+        
+        clean_header("OWID")
+        
+        # Setup
+        owidCleaner = self.cleanFactory.create_cleaner("owid")
+        owid_raw = df["owid"]
+
+        # Clean raw data and save in a DataFrame
+        owid_cleaned = owidCleaner.clean_data(owid_raw)
+
+        # Save cleaned CSV locally
+        owid_csv_path = Path(runtime["interim_data"]["owid"])
+
+        if runtime["save_cleaned"]:
+            owidCleaner.save_interim(owid_cleaned, owid_csv_path)
+
+        # Upload CSV to Azure
+        if runtime.get("upload_azure", False) and container_client:
+            self.upload_to_azure(
+                container_client=container_client,
+                csv_path=owid_csv_path,
+                blob_name="interim/owid/owid_interim.csv",
                 log=log
             )
         
@@ -212,8 +282,12 @@ class CleanData:
         return {
             "unsdg": unsdg_cleaned,
             "worldbank": wb_cleaned,
-            "ndgain": ndgain_cleaned
+            "ndgain": ndgain_cleaned,
+            "hdr": hdr_cleaned,
+            "owid": owid_cleaned
         }
+        
+        
 
     def load_raw_data(self) -> Dict[str, list]:
         """
@@ -243,10 +317,22 @@ class CleanData:
         with open(ndgain_path, 'r') as f:
             ndgain_data = json.load(f)
         
+        # Load HDR data
+        hdr_path = raw_dir / "hdr_raw.json"
+        with open(hdr_path, 'r') as f:
+            hdr_data = json.load(f)
+        
+        # Load OWID data
+        owid_path = raw_dir / "owid_raw.json"
+        with open(owid_path, 'r') as f:
+            owid_data = json.load(f)
+        
         return {
             "unsdg": unsdg_data,
             "worldbank": wb_data,
-            "ndgain": ndgain_data
+            "ndgain": ndgain_data,
+            "hdr": hdr_data,
+            "owid": owid_data
         }
 
 

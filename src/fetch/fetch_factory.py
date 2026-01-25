@@ -4,6 +4,8 @@ from .base_fetch import DataFetcher
 from .un_sdg_fetch import UNSDGFetcher
 from .nd_gain_fetch import NDGAINFetcher
 from .world_bank_fetch import WorldBankFetcher
+from .hdr_fetch import HDRFetcher
+from .owid_fetch import OWIDFetcher
 
 import yaml
 import logging
@@ -26,7 +28,9 @@ class DataFetcherFactory:
         self._clients: Dict[str, Type[DataFetcher]] = {
             'unsdg': UNSDGFetcher,
             'ndgain': NDGAINFetcher,
-            'worldbank': WorldBankFetcher
+            'worldbank': WorldBankFetcher,
+            'hdr': HDRFetcher,
+            'owid': OWIDFetcher
         }
      
     def create_client(self, client_type: str) -> DataFetcher:
@@ -34,7 +38,7 @@ class DataFetcherFactory:
         Creates a data client based on the specified type.
         
         Args:
-            client_type (str): Type of client ('unsdg', 'ndgain', 'worldbank')
+            client_type (str): Type of client ('unsdg', 'ndgain', 'worldbank', 'hdr', 'owid')
         
         Returns:
             data_client (DataClient): Instance of the requested DataClient subclass
@@ -60,12 +64,17 @@ class DataFetcherFactory:
         
         print(f'now returning {client_type_lower} instance.')
         
-        source = 'api_paths'
-        if client_type_lower == 'ndgain':
-            source = 'zip_path'
+        # Get base URL/path - handle special cases
+        if client_type_lower == 'owid':
+            # OWID doesn't need base, URL is passed directly to fetch_indicator_data
+            base = ""
+        elif client_type_lower == 'ndgain':
+            base = client_config['zip_path']['base']
+        else:
+            base = client_config['api_paths']['base']
         
         return data_fetcher(
-            base = client_config[source]['base'],  # Passing in base API URL upon instantiation
+            base = base,  # Passing in base API URL upon instantiation
             credentials = None # Use None for now; None of the APIs require keys
         )
     

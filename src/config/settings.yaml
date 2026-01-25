@@ -124,6 +124,49 @@ ndgain: # name must be same as in client_factory.py
 
 
 # ==================================================================== 
+# ===== HDR Settings =====
+# ====================================================================
+hdr: # name must be same as in client_factory.py
+
+  # Inclusive start/end year for HDR data fetching
+  start_year: 2010
+  end_year: 2024
+
+  api_paths: 
+    # Base URL for HDR API
+    base: "https://hdrdata.org/api"
+
+  # Indicators to fetch. "code" is the official HDR indicator code;
+  # "alias" is the clean, BI-friendly name used in outputs ("indicator" column).
+  # "endpoint" specifies which API endpoint to use: "query" or "query-detailed" (default: "query")
+  indicators:
+    # Gender Inequality Index
+    - { code: "GII", alias: "gender_inequality_index", endpoint: "query" }
+    # Multidimensional Poverty Index
+    - { code: "MPI", alias: "multidimensional_poverty_index", endpoint: "query-detailed" }
+
+  settings:
+    request_timeout: 30  # in seconds
+    max_retries: 3
+    retry_backoff_factor: 0.3
+
+
+# ==================================================================== 
+# ===== OWID Settings =====
+# ====================================================================
+owid: # name must be same as in client_factory.py
+
+  csv_urls:
+    # State Capacity Index CSV from Our World in Data
+    state_capacity_index: "https://ourworldindata.org/grapher/state-capacity-index.csv"
+
+  settings:
+    request_timeout: 60  # in seconds (CSV downloads may take longer)
+    max_retries: 3
+    retry_backoff_factor: 0.3
+
+
+# ==================================================================== 
 # ===== General Settings =====
 # ====================================================================
 paths:
@@ -152,6 +195,8 @@ runtime:
     unsdg: "data/interim/un_sdg_interim.csv"
     ndgain: "data/interim/nd_gain_interim.csv"
     worldbank: "data/interim/world_bank_interim.csv"
+    hdr: "data/interim/hdr_interim.csv"
+    owid: "data/interim/owid_interim.csv"
 
   # Page size for World Bank API pagination. 1000 is a good max that reduces round-trips.
   # The client will auto-paginate until all pages are fetched.

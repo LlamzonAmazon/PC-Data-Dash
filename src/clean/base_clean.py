@@ -11,18 +11,14 @@ class DataCleaner(ABC):
     Base class for data cleaners.
     """
 
-    @abstractmethod
-    def __init__(self, base: str, credentials: Optional[dict] = None) -> None:
+    def __init__(self, config) -> None:
         """
         Initialize the data cleaner.
 
         Args:
-            base (str): Base URL for the data source
-            credentials (Optional[dict]): Optional authentication credentials
+            config: Configuration dictionary (typically from settings.yaml)
         """
-        
-        self.base = base
-        self.credentials = credentials or {}
+        self.config = config
         self.logger = logger
 
     @abstractmethod

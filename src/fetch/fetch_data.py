@@ -149,11 +149,73 @@ class FetchData:
         
         # Save raw data locally
         # Saves a CSV file since the course is the ZIP file containing CSV files
+        # Fetch vulnerability index data
+        TerminalOutput.info("Fetching vulnerability index", indent=1)
+        ndgain_vulnerability_index = ndGainClient.fetch_vulnerability_index(
+            chunkSize=cfg['runtime']['chunk_size']
+        )
+        
+        # Combine indicator scores and vulnerability index
+        ndgain_all_data = ndgain_indicator_scores + ndgain_vulnerability_index
+        
+        # Save raw data locally (combined data)
         if runtime.get("save_raw", True):
             ndGainClient.save_raw_data(
-                ndgain_indicator_scores,
+                ndgain_all_data,
                 project_root() / paths['data_raw'],
                 "nd_gain_raw.csv"
+            )
+        
+        """ ################################################################## 
+        ### HDR FETCHING ###
+        ################################################################## """
+        
+        fetch_header("HDR")
+        
+        hdrClient = fetcher_factory.create_client('hdr')
+        
+        hdr = cfg["hdr"]
+        hdr_indicators_config = hdr['indicators']  # Pass full config with endpoint info
+        
+        TerminalOutput.info(f"Fetching {len(hdr_indicators_config)} indicators", indent=1)
+        
+        # Fetch all HDR indicator data
+        hdr_records = hdrClient.fetch_indicator_data(
+            indicators_config=hdr_indicators_config,
+            start_year=hdr['start_year'],
+            end_year=hdr['end_year']
+        )
+        
+        # Save raw data locally
+        if runtime.get("save_raw", True):
+            hdrClient.save_raw_data(
+                hdr_records,
+                project_root() / paths['data_raw'],
+                "hdr_raw.json"
+            )
+        
+        """ ################################################################## 
+        ### OWID FETCHING ###
+        ################################################################## """
+        
+        fetch_header("OWID")
+        
+        owidClient = fetcher_factory.create_client('owid')
+        
+        owid = cfg["owid"]
+        csv_url = owid['csv_urls']['state_capacity_index']
+        
+        TerminalOutput.info("Fetching State Capacity Index CSV", indent=1)
+        
+        # Fetch OWID CSV data
+        owid_records = owidClient.fetch_indicator_data(csv_url=csv_url)
+        
+        # Save raw data locally
+        if runtime.get("save_raw", True):
+            owidClient.save_raw_data(
+                owid_records,
+                project_root() / paths['data_raw'],
+                "owid_raw.json"
             )
         
         print("\n" + "="*60)
@@ -164,7 +226,9 @@ class FetchData:
         return {
             "unsdg": unsdg_indicator_list,
             "worldbank": recs,
-            "ndgain": ndgain_indicator_scores
+            "ndgain": ndgain_all_data,  # Includes both indicator scores and vulnerability index
+            "hdr": hdr_records,
+            "owid": owid_records
         }
 
 

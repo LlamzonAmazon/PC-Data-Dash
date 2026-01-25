@@ -9,6 +9,8 @@ from src.clean.base_clean import DataCleaner
 from src.clean.un_sdg_clean import UNSDGCleaner
 from src.clean.nd_gain_clean import NDGAINCleaner
 from src.clean.world_bank_clean import WorldBankCleaner
+from src.clean.hdr_clean import HDRCleaner
+from src.clean.owid_clean import OWIDCleaner
 
 from src.pipeline.utils import project_root
 
@@ -36,7 +38,9 @@ class DataCleanFactory:
         self.cleaners: Dict[str, Type[DataCleaner]] = {
             'unsdg': UNSDGCleaner,
             'ndgain': NDGAINCleaner,
-            'worldbank': WorldBankCleaner
+            'worldbank': WorldBankCleaner,
+            'hdr': HDRCleaner,
+            'owid': OWIDCleaner
         }
 
     def create_cleaner(self, source: str) -> DataCleaner:

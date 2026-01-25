@@ -94,6 +94,68 @@ class NDGAINFetcher(DataFetcher):
         TerminalOutput.summary("  Records", f"{len(all_records):,}")
         return all_records
 
+    def fetch_vulnerability_index(self, chunkSize: int = 10000) -> List[Dict[str, Any]]:
+        """
+        Fetches vulnerability index data from the ND-GAIN ZIP file.
+        Looks for CSV files in resources/vulnerability/ folder.
+        Returns raw data as list of dictionaries.
+        
+        Args:
+            chunkSize (int): Number of lines to read per file chunk
+            
+        Returns:
+            List[Dict[str, Any]]: List of records with vulnerability index data
+        """
+        self._log_fetch_start()
+        
+        # Get list of vulnerability index files in ZIP
+        vulnerability_files = self._list_vulnerability_files()
+        
+        if not vulnerability_files:
+            TerminalOutput.info("No vulnerability index files found", indent=1)
+            return []
+        
+        # Load all vulnerability index data
+        all_records = []
+        
+        # Extract ZIP file
+        with zipfile.ZipFile(self.base, "r") as zf:
+            
+            # Iterate over every vulnerability file
+            for idx, path in enumerate(vulnerability_files, 1):
+                # Extract file name for indicator identification
+                p = PurePosixPath(path)
+                try:
+                    file_name = p.stem  # e.g., "vulnerability_index" or "vulnerability"
+                    indicator_name = "vulnerability_index"
+                except Exception:
+                    indicator_name = "vulnerability_index"
+                
+                TerminalOutput.print_progress(idx, len(vulnerability_files), prefix="  Loading vulnerability files: ")
+                
+                try:
+                    # Open file from zip file object
+                    with zf.open(path) as f:
+                        # Read data in chunks to avoid memory issues
+                        chunk_list = []
+                        for chunk in pd.read_csv(f, chunksize=chunkSize):
+                            chunk["indicator"] = indicator_name
+                            chunk_list.append(chunk)
+                        
+                        # Combine chunks and convert to records
+                        if chunk_list:
+                            df = pd.concat(chunk_list, ignore_index=True)
+                            records = df.to_dict('records')
+                            all_records.extend(records)
+                            
+                except Exception as e:
+                    TerminalOutput.info(f"Error loading {path}: {e}", indent=1)
+                    continue
+        
+        TerminalOutput.summary("  Records", f"{len(all_records):,}")
+        self._log_fetch_complete(len(all_records))
+        return all_records
+
     """ ################################################################## 
     ### CLIENT-SPECIFIC METHODS ###
     ################################################################## """
@@ -116,7 +178,27 @@ class NDGAINFetcher(DataFetcher):
         ]
         
         TerminalOutput.info(f"Found {len(score_files)} indicator files", indent=1)
-        return score_files 
+        return score_files
+    
+    def _list_vulnerability_files(self) -> List[str]:
+        """
+        Get all CSV files in the resources/vulnerability/ folder of the ZIP file.
+        
+        Returns:
+            List[str]: List of file paths to vulnerability CSV files
+        """
+        with zipfile.ZipFile(self.base, "r") as zf:
+            all_names = zf.namelist()
+        
+        # Filter for CSV files in vulnerability folder
+        vulnerability_files = [
+            name for name in all_names
+            if name.startswith("resources/vulnerability/")
+            and name.endswith(".csv")
+        ]
+        
+        TerminalOutput.info(f"Found {len(vulnerability_files)} vulnerability index files", indent=1)
+        return vulnerability_files 
     
     '''
     # TOO MUCH OUTPUT – WILL FLOOD YOUR SHIT

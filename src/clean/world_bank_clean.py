@@ -24,49 +24,39 @@ class WorldBankCleaner(DataCleaner):
     
     def clean_data(self, indicator_data: List[Dict[str, Any]]) -> pd.DataFrame:
         """
-        Conert raw API indicator_data into a tidy DataFrame.
+        Convert raw API indicator_data into a tidy DataFrame.
 
         Args:
             indicator_data (List[Dict[str, Any]]): List of indicator_data to convert
-            alias (str): User-friendly name for the indicator
 
         Returns:
             pd.DataFrame: Cleaned DataFrame with country, iso3, indicator, year, and value columns.
         """
-
-        # Debug: Check first few records
-        # if indicator_data:
-        #     print(f"\n=== First 3 raw records ===")
-        #     for i, rec in enumerate(indicator_data[:3]):
-        #         print(f"\nRecord {i}:")
-        #         print(f"  country: {rec.get('country')}")
-        #         print(f"  countryiso3code: {rec.get('countryiso3code')}")
-        #         print(f"  indicator: {rec.get('indicator')}")
-        #         print(f"  date: {rec.get('date')}")
-        #         print(f"  value: {rec.get('value')}")
     
         rows = []
         for rec in indicator_data or []:
             rows.append({
                 "country": (rec.get("country") or {}).get("value"),
                 "iso3": rec.get("countryiso3code"),
-                "indicator-code": (rec.get("indicator") or {}).get("id"),
                 "indicator": (rec.get("indicator") or {}).get("value"),
                 "year": int(rec.get("date")) if str(rec.get("date")).isdigit() else rec.get("date"),
                 "value": rec.get("value")
             })
 
-        # Build DataFrame and sort for readability
-        df = pd.DataFrame(rows, columns=["country","iso3","indicator-code","indicator","year","value"])
+        # Build DataFrame
+        df = pd.DataFrame(rows)
 
-        # indicator: User-friendly indicator name
-        # iso3: country code
-        # year: year recorded from
-        # value: numerical value of the indicator (NaN if null)
-        # country: User-friendly country name
-        # Sort by country (ascending) then by year (ascending)
-        df = df.sort_values(["country", "year"], ascending=[True, True], na_position="last")
+        # Convert data types
+        df['value'] = pd.to_numeric(df['value'], errors='coerce')
+        df['year'] = pd.to_numeric(df['year'], errors='coerce').astype('Int64')
+        
+        # Remove rows with missing values
+        df = df.dropna(subset=['value'])
+        
+        # Sort by country, indicator, then by year
+        df = df.sort_values(['country', 'indicator', 'year'], ascending=[True, True, True]).reset_index(drop=True)
 
-        TerminalOutput.summary("  Records", f"{len(df):,}")
+        TerminalOutput.summary("  Extracted", f"{len(df):,} rows")
+        TerminalOutput.complete("Converted to DataFrame")
         
         return df
