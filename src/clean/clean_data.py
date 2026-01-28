@@ -37,11 +37,20 @@ class CleanData:
         self.AZURE_CLIENT_SECRET = os.getenv("AZURE_CLIENT_SECRET")
         self.AZURE_STORAGE_ACCOUNT_URL = os.getenv("AZURE_STORAGE_ACCOUNT_URL")
 
-        self.credential = ClientSecretCredential(
-            tenant_id=self.AZURE_TENANT_ID,
-            client_id=self.AZURE_CLIENT_ID,
-            client_secret=self.AZURE_CLIENT_SECRET
-        )
+      # Only create credential if all Azure credentials are present
+        if all([self.AZURE_TENANT_ID, self.AZURE_CLIENT_ID, self.AZURE_CLIENT_SECRET, self.AZURE_STORAGE_ACCOUNT_URL]):
+            self.credential = ClientSecretCredential(
+                tenant_id=self.AZURE_TENANT_ID,
+                client_id=self.AZURE_CLIENT_ID,
+                client_secret=self.AZURE_CLIENT_SECRET
+            )
+            self.azure_enabled = True
+        else:
+            self.credential = None
+            self.azure_enabled = False
+            self.logger = logging.getLogger(__name__)
+            self.logger.warning("Azure credentials not found. Azure uploads will be disabled.")
+
 
         self.config_path = config_path
 
