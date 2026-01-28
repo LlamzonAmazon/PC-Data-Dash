@@ -30,6 +30,15 @@ class UNSDGDomain1Plotter(DataPlotter):
         """
         super().__init__(config_path)
         
+        # Sector name to number and abbreviation mapping (for filename generation)
+        self.sector_mapping = {
+            "Sector 1: Healthcare": {"number": "1", "abbrev": "HC"},
+            "Sector 2: Agriculture": {"number": "2", "abbrev": "AG"},
+            "Sector 3: Social Infrastructure": {"number": "3", "abbrev": "SI"},
+            "Sector 4: Cross-Cutting Themes": {"number": "4", "abbrev": "CC"},
+            "Sector 5: Additional Country Considerations": {"number": "5", "abbrev": "AC"}
+        }
+        
         # Domain 1 indicator mapping: sector -> groups -> indicators
         self.domain1_mapping = {
             "Sector 1: Healthcare": {
@@ -268,14 +277,18 @@ class UNSDGDomain1Plotter(DataPlotter):
             
             # Create output directory
             sanitized_country = country_name.replace(' ', '_').replace('/', '_')
-            sanitized_sector = sector_name.replace(' ', '_').replace(':', '').replace('/', '_')
             sanitized_group = group_name.replace(' ', '_').replace('/', '_').replace('(', '').replace(')', '').replace(',', '')
+            
+            # Get sector number and abbreviation for filename
+            sector_info = self.sector_mapping.get(sector_name, {"number": "?", "abbrev": "?"})
+            sector_num = sector_info["number"]
+            sector_abbrev = sector_info["abbrev"]
             
             output_dir = self.get_output_base("domain1") / sanitized_country
             ensure_dir(output_dir)
             
-            # Save plot
-            filename = f"{sanitized_sector}_{sanitized_group}.png"
+            # Save plot with format: {sector_number}_{sector_abbrev}_{group_name}.png
+            filename = f"{sector_num}_{sector_abbrev}_{sanitized_group}.png"
             filepath = output_dir / filename
             fig.savefig(filepath, dpi=300, bbox_inches='tight')
             plt.close(fig)

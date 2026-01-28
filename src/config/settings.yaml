@@ -52,6 +52,7 @@ unsdg: # name must be same as in client_factory.py
     indicator_data_endpoint: "/Indicator/Data"
 
   indicators:
+    # === SECTOR 1: HEALTHCARE ===
     # === HEALTHCARE ===
     # Resilient Primary Healthcare (PHC) systems
     - { code: "3.8.1", alias: "coverage_of_essential_health_services" }

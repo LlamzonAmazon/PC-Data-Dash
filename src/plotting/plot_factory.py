@@ -72,7 +72,7 @@ class DataPlotterFactory:
         if key not in self._plotters:
             available = [f"{s}/{d}" for s, d in self._plotters.keys()]
             raise ValueError(
-                f"Unknown plotter: {source}/{domain}. "
+                f"Unknown source and domain: {source}/{domain}. "
                 f"Available plotters: {available}"
             )
         
