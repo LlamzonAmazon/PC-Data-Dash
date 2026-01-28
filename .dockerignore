@@ -29,6 +29,11 @@ venv.bak/
 *.sublime-workspace
 .DS_Store
 
+# Data (except external ZIP which is needed)
+data/raw/
+data/interim/
+data/processed/
+
 # Documentation and images
 README.md
 *.md
