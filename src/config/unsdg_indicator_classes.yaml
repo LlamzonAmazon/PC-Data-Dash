@@ -1,0 +1,22 @@
+# UN SDG Indicator Classes
+
+# Indicator Classes are used to group indicators into categories for plotting.
+# Each indicator class is a list of indicators that are related to each other.
+# The indicator classes are used to create the plots.
+
+indicator_classes:
+      
+  3.d.1: 
+    IHR01: Legislation and financing
+    IHR02: IHR Coordination and National Focal Point Functions
+    IHR03: Zoonotic events and the Human-Animal Health Interface
+    IHR04: Food safety
+    IHR05: Laboratory
+    IHR06: Surveillance
+    IHR07: Human resources
+    IHR08: National Health Emergency Framework
+    IHR09: Health Service Provision
+    IHR10: Risk communication
+    IHR11: Points of entry
+    IHR12: Chemical events
+    IHR13: Radiation emergencies

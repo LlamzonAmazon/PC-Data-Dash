@@ -32,6 +32,9 @@ MANIFEST
 *.manifest
 *.spec
 
+# Cursor
+.cursorrules
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
@@ -53,12 +56,7 @@ cover/
 
 # data
 #   Ignore all raw, interim, and processed data as well as subfolders
-data/raw/
-data/interim/
-
-data/raw/**
-data/interim/**
-
+data/**
 
 # Translations
 *.mo
