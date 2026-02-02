@@ -1,22 +1,75 @@
 # UN SDG Indicator Classes
 
-# Indicator Classes are used to group indicators into categories for plotting.
-# Each indicator class is a list of indicators that are related to each other.
-# The indicator classes are used to create the plots.
+# This file maps indicator class codes to their human-readable names.
+# For indicators with multiple classes (e.g., 3.d.1 with 13 IHR capacities),
+# each class code maps to a descriptive name.
+#
+# Two types of class encoding:
+# 1. Dimension-based: Uses a dimension field (e.g., "IHR Capacity" for 3.d.1)
+# 2. Series-based: Uses series codes to distinguish classes (e.g., 2.1.2, 2.2.1, 2.2.2, 2.2.3)
+#
+# Fetch behavior:
+# - fetch_by_dimension: Set true ONLY when the API does not populate the distinguishing
+#   field in bulk (e.g. 3.d.1 returns many rows but all with same "IHR Capacity"). Then we
+#   request once per dimension value so each row gets the correct class. Dimension values
+#   are taken from classes keys.
+# - Series-based indicators (dimension_field: "series_code") do NOT need fetch_by_dimension:
+#   the API already returns one row per series with the correct "series" field in bulk.
+#
+# The cleaning code uses dimension_field and classes to add class_code and class_name.
 
 indicator_classes:
-      
-  3.d.1: 
-    IHR01: Legislation and financing
-    IHR02: IHR Coordination and National Focal Point Functions
-    IHR03: Zoonotic events and the Human-Animal Health Interface
-    IHR04: Food safety
-    IHR05: Laboratory
-    IHR06: Surveillance
-    IHR07: Human resources
-    IHR08: National Health Emergency Framework
-    IHR09: Health Service Provision
-    IHR10: Risk communication
-    IHR11: Points of entry
-    IHR12: Chemical events
-    IHR13: Radiation emergencies
+  # 3.d.1: International Health Regulations (IHR) capacity
+  # API returns correct "IHR Capacity" only when requested per dimension.
+  3.d.1:
+    dimension_field: "IHR Capacity"
+    fetch_by_dimension: true
+    classes:
+      IHR01: Legislation and financing
+      IHR02: IHR Coordination and National Focal Point Functions
+      IHR03: Zoonotic events and the Human-Animal Health Interface
+      IHR04: Food safety
+      IHR05: Laboratory
+      IHR06: Surveillance
+      IHR07: Human resources
+      IHR08: National Health Emergency Framework
+      IHR09: Health Service Provision
+      IHR10: Risk communication
+      IHR11: Points of entry
+      IHR12: Chemical events
+      IHR13: Radiation emergencies
+  
+  # 2.1.2: Prevalence of moderate or severe food insecurity
+  # Uses series codes to distinguish classes
+  2.1.2:
+    dimension_field: "series_code"
+    classes:
+      AG_PRD_FIESMS: Prevalence of moderate or severe food insecurity in the population
+      AG_PRD_FIESMSN: Population in moderate or severe food insecurity (number)
+      AG_PRD_FIESS: Prevalence of severe food insecurity in the population
+      AG_PRD_FIESSN: Population in severe food insecurity (number)
+  
+  # 2.2.1: Prevalence of stunting
+  # Uses series codes to distinguish classes
+  2.2.1:
+    dimension_field: "series_code"
+    classes:
+      SH_STA_STNT: Proportion of children moderately or severely stunted
+      SH_STA_STNTN: Children moderately or severely stunted (number)
+  
+  # 2.2.2: Prevalence of malnutrition (overweight)
+  # Uses series codes to distinguish classes
+  2.2.2:
+    dimension_field: "series_code"
+    classes:
+      SN_STA_OVWGT: Proportion of children moderately or severely overweight
+      SN_STA_OVWGTN: Children moderately or severely overweight (number)
+  
+  # 2.2.3: Prevalence of anaemia in women
+  # Uses series codes to distinguish classes
+  2.2.3:
+    dimension_field: "series_code"
+    classes:
+      SH_STA_ANEM: Proportion of women aged 15-49 years with anaemia
+      SH_STA_ANEM_NPRG: Proportion of women aged 15-49 years with anaemia, non-pregnant
+      SH_STA_ANEM_PREG: Proportion of women aged 15-49 years with anaemia, pregnantd

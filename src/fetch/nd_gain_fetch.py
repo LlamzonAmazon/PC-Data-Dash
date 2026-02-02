@@ -15,9 +15,9 @@ Extracts indicator data from local ZIP file containing CSV files
 """
 class NDGAINFetcher(DataFetcher):
 
-    def __init__(self, base: str, credentials: Optional[dict] = None):
+    def __init__(self, base: str, credentials: Optional[dict] = None, **kwargs):
         
-        super().__init__(base, credentials)
+        super().__init__(base, credentials, **kwargs)
         self.base = Path(base)
         
         # Validate ZIP file exists

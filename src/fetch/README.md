@@ -29,6 +29,8 @@ __Indicators__ are the concepts being measured and series are the actual numeric
 
 The `UNSDGClient` currently gathers a specific set of 22 indicators (can be found in `/src/config/settings.yaml`) from the UN SDGs public API V5: https://unstats.un.org/sdgs/UNSDGAPIV5/v1/sdg. It uses only the indicator data endpoint: `/Indicator/Data`, which returns a specified country's observation value of a specific development indicator for all years within the specified time range.
 
+**Indicators with multiple identical rows (dimension-based fetch):** Some indicators (e.g. 3.d.1 IHR capacity) return many rows per (country, year) that only differ by value; the API populates the distinguishing dimension (e.g. "IHR Capacity") correctly only when the request includes a dimension filter. For such indicators, the pipeline fetches them **per dimension value** (one request per class) and merges the results. This is configured in `/src/config/unsdg_indicator_classes.yaml`: set `fetch_by_dimension: true` and provide `dimension_field` and `classes` (keys = dimension values). The fetcher then calls `/Indicator/Data` once per dimension value and concatenates the records so the cleaner can assign `class_code` / `class_name` from the API response.
+
 ### Notre Dame Global Adaptation Index (ND-GAIN)
 We are currently using the ZIP file from the ND-GAIN [bulk download page](https://gain.nd.edu/our-work/country-index/download-data/) on their website. This is the only viable, and most up-to-date data source we can currently find.
 

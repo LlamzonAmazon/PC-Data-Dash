@@ -2,21 +2,29 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-import json, requests, time
+import json
 
 from src.pipeline.utils import ensure_dir
 from src.pipeline.terminal_output import TerminalOutput
 
-from .base_fetch import DataFetcher 
+from .base_fetch import DataFetcher
+from .fetch_handler import FetchHandler, FetchHandlerConfig
+
 
 """
 UN SDG API data fetching client
 """
 class UNSDGFetcher(DataFetcher):
 
-    def __init__(self, base: str, credentials: Optional[dict] = None):
-        
+    def __init__(
+        self,
+        base: str,
+        credentials: Optional[dict] = None,
+        handler_config: Optional[FetchHandlerConfig] = None,
+    ):
         super().__init__(base, credentials)
+        # Use provided config or defaults (robust for autonomous execution)
+        self._handler = FetchHandler(handler_config or FetchHandlerConfig())
     
     def save_raw_data(self, records: Dict[str, Any], out_dir: Path, filename: str) -> None:
         """
@@ -31,10 +39,14 @@ class UNSDGFetcher(DataFetcher):
         ensure_dir(out_dir)
         (out_dir / filename).write_text(json.dumps(records, indent=2), encoding="utf-8")
 
-    def fetch_indicator_data(self, endpoint: str, parameters, dimension_filters=None) -> Dict[str, Any]:
+    def fetch_indicator_data(
+        self,
+        endpoint: str,
+        parameters,
+        dimension_filters=None,
+    ) -> Dict[str, Any]:
         """
-            Fetches data from the API by pageSize.
-            Then calls `indicator_data_to_dataframe` to convert parsed data into DataFrame.
+            Fetches data from the API by pageSize using FetchHandler for robust retries.
             URL: https://unstats.un.org/sdgs/UNSDGAPIV5/v1/sdg/Indicator/Data
             
             Args:
@@ -43,75 +55,37 @@ class UNSDGFetcher(DataFetcher):
                 dimension_filters (List[str]): Optional list of dimension values to filter by
 
             Returns:
-                Dict[str, Any]: Dictionary containing the indicator data. (currently 13009 records over 14 pages)
+                Dict[str, Any]: Dictionary containing the indicator data.
         """
-        
-        # 0. Get Valid Country Codes first
+        # Get Valid Country Codes first
         valid_countries = self._get_country_codes()
         
-        # Initialize loop variables
-        url = f"{self.base}{endpoint}" 
-        all_data = {}
-        page = parameters['page']
-        totalElements = 0
+        url = f"{self.base}{endpoint}"
+        all_data: Dict[str, Any] = {}
+        page = parameters.get('page', 1)
+        total_pages = 1
         
         while True:
-            # Update parameters with current page
             parameters['page'] = page
+            context = f"bulk page {page}"
             
-            # Make request with retry logic for rate limiting
-            max_retries = 3
-            retry_count = 0
+            # FetchHandler handles retries, timeouts, 5xx, etc.
+            response = self._handler.get(url, params=parameters, context=context)
+            data = response.json()
             
-            while retry_count < max_retries:
-                try:
-                    response = requests.get(url, params=parameters, timeout=30)
-                    response.raise_for_status()
-                    data = response.json()
-                    break  # Success, exit retry loop
-                    
-                except requests.exceptions.HTTPError as e:
-                    if e.response.status_code == 429:  # Rate limited
-                        retry_count += 1
-                        if retry_count < max_retries:
-                            wait_time = 2 ** retry_count  # Exponential backoff: 2, 4, 8 seconds
-                            TerminalOutput.info(f"Rate limited, retrying in {wait_time}s...", indent=1)
-                            time.sleep(wait_time)
-                        else:
-                            raise  # Max retries exceeded
-                    else:
-                        raise  # Other HTTP error, don't retry
-                        
-                except requests.exceptions.RequestException as e:
-                    retry_count += 1
-                    if retry_count < max_retries:
-                        wait_time = 2 ** retry_count
-                        TerminalOutput.info(f"Request failed, retrying in {wait_time}s...", indent=1)
-                        time.sleep(wait_time)
-                    else:
-                        raise  # Max retries exceeded
-            
-            # Validate response
             if not data or len(data) == 0:
                 break
             
-            # Handle first page initialization
             if page <= 1:
                 all_data = data
-                totalPages = data.get('totalPages', 1) 
-                totalElements = data.get('totalElements', 0)
+                total_pages = data.get('totalPages', 1)
             else:
-                # Append subsequent pages' data
                 all_data['data'].extend(data.get('data', []))
             
-            # Show progress
-            TerminalOutput.print_progress(page, totalPages, prefix="  Fetching pages: ")
+            TerminalOutput.print_progress(page, total_pages, prefix="  Fetching pages: ")
             
-            # Check if this was the last page
-            if page >= totalPages:
+            if page >= total_pages:
                 break
-            
-            # Prep next loop
             page += 1
 
         flat_records = []
@@ -147,7 +121,70 @@ class UNSDGFetcher(DataFetcher):
 
         return all_data
 
-    
+    def fetch_indicator_by_dimension(
+        self,
+        endpoint: str,
+        indicator_code: str,
+        dimension_name: str,
+        dimension_values: List[str],
+        time_period_array: List[int],
+        page_size: int,
+    ) -> List[Dict[str, Any]]:
+        """
+        Fetches one indicator by requesting each dimension value separately.
+        Use for indicators where the API returns correct dimension labels only
+        when filtered (e.g. 3.d.1 with IHR Capacity IHR01–IHR13).
+
+        Args:
+            endpoint: e.g. /Indicator/Data
+            indicator_code: e.g. "3.d.1"
+            dimension_name: API dimension name, e.g. "IHR Capacity"
+            dimension_values: list of values to request, e.g. ["IHR01", "IHR02", ...]
+            time_period_array: years to request
+            page_size: records per page
+
+        Returns:
+            List of records in the same shape as fetch_indicator_data()["data"].
+        """
+        valid_countries = self._get_country_codes()
+        url = f"{self.base}{endpoint}"
+        all_records: List[Dict[str, Any]] = []
+
+        for dim_value in dimension_values:
+            params = {
+                "indicator": indicator_code,
+                "timePeriod": time_period_array,
+                "page": 1,
+                "pageSize": page_size,
+                "dimensions": json.dumps([{"name": dimension_name, "values": [dim_value]}]),
+            }
+            page = 1
+            while True:
+                params["page"] = page
+                context = f"{indicator_code} {dim_value} page {page}"
+                
+                # FetchHandler handles retries, timeouts, 5xx, etc.
+                response = self._handler.get(url, params=params, context=context)
+                data = response.json()
+                
+                if not data or not data.get("data"):
+                    break
+                for record in data["data"]:
+                    flat = {k: v for k, v in record.items() if k != "dimensions"}
+                    dims = record.get("dimensions") or {}
+                    if isinstance(dims, dict):
+                        flat.update(dims)
+                    if valid_countries and str(flat.get("geoAreaCode", "")) not in valid_countries:
+                        continue
+                    all_records.append(flat)
+                total_pages = data.get("totalPages", 1)
+                TerminalOutput.print_progress(page, total_pages, prefix=f"  {indicator_code} {dim_value} ")
+                if page >= total_pages:
+                    break
+                page += 1
+
+        TerminalOutput.summary(f"  {indicator_code} by {dimension_name}", f"{len(all_records)} records")
+        return all_records
 
     """ ################################################################## 
     ### CLIENT-SPECIFIC METHODS ###
@@ -161,23 +198,19 @@ class UNSDGFetcher(DataFetcher):
         url = "https://unstats.un.org/sdgs/UNSDGAPIV5/v1/sdg/GeoArea/Tree"
         
         try:
-            response = requests.get(url)
-            response.raise_for_status()
+            response = self._handler.get(url, context="GeoArea/Tree")
             tree_data = response.json()
             
-            country_codes = set()
+            country_codes: set[str] = set()
             
-            # Helper to recursively find countries
             def _traverse(node):
                 if node.get('type') == 'Country':
                     country_codes.add(str(node.get('geoAreaCode')))
-                
                 children = node.get('children')
                 if children and isinstance(children, list):
                     for child in children:
                         _traverse(child)
             
-            # Start traversal on all root nodes
             for root_node in tree_data:
                 _traverse(root_node)
                 

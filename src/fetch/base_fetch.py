@@ -10,13 +10,14 @@ Abstract base class for all data source clients (UN SDG, ND-GAIN, World Bank, et
 """
 class DataFetcher(ABC):
     
-    def __init__(self, base: str, credentials: Optional[dict] = None):
+    def __init__(self, base: str, credentials: Optional[dict] = None, **kwargs):
         """
         Initializes a DataFetcher with their **base** API URL (`base`), optional credentials (`credentials`), and an empty data container (`data`).
         
         Args:
             base (str): __Base__ API URL __OR__ ZIP file path for the data source
             credentials (Optional[dict]): Optional authentication credentials. Defaults to None.
+            **kwargs: Additional arguments for subclass-specific configuration
         """
         
         self.base = base

@@ -115,8 +115,8 @@ class CleanData:
 
         # Stop if config file is missing
         if not cfg_path.exists():
-            log.error("Missing config at %s", cfg_path)
-            sys.exit(1)
+            self.logger.error(f"Missing config at {cfg_path}")
+            raise ValueError(f"Missing config at {cfg_path}")
 
         # Load configs
         paths, runtime = self.cfg["paths"], self.cfg["runtime"]

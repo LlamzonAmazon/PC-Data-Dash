@@ -29,12 +29,14 @@ class DataFetcherFactory:
             'worldbank': WorldBankFetcher
         }
      
-    def create_client(self, client_type: str) -> DataFetcher:
+    def create_client(self, client_type: str, **kwargs) -> DataFetcher:
         """
         Creates a data client based on the specified type.
         
         Args:
             client_type (str): Type of client ('unsdg', 'ndgain', 'worldbank')
+            **kwargs: Additional arguments passed to the client constructor
+                      (e.g. handler_config for UNSDGFetcher)
         
         Returns:
             data_client (DataClient): Instance of the requested DataClient subclass
@@ -65,8 +67,9 @@ class DataFetcherFactory:
             source = 'zip_path'
         
         return data_fetcher(
-            base = client_config[source]['base'],  # Passing in base API URL upon instantiation
-            credentials = None # Use None for now; None of the APIs require keys
+            base=client_config[source]['base'],  # Passing in base API URL upon instantiation
+            credentials=None,  # Use None for now; None of the APIs require keys
+            **kwargs,
         )
     
     def create_all_clients(self) -> Dict[str, DataFetcher]:
