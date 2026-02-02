@@ -1,10 +1,11 @@
 
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 import pandas as pd
 from pathlib import Path
+import yaml
 
 from src.clean.base_clean import DataCleaner
-from src.pipeline.utils import ensure_dir
+from src.pipeline.utils import ensure_dir, project_root
 from src.pipeline.terminal_output import TerminalOutput
 
 class UNSDGCleaner(DataCleaner):
@@ -14,6 +15,10 @@ class UNSDGCleaner(DataCleaner):
     
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config)
+        # Load indicator class mappings
+        classes_path = project_root() / "src" / "config" / "unsdg_indicator_classes.yaml"
+        with open(classes_path, 'r') as f:
+            self.indicator_classes = yaml.safe_load(f).get('indicator_classes', {})
 
     def save_interim(self, df: pd.DataFrame, out_path: Path) -> None:
         """
@@ -41,19 +46,48 @@ class UNSDGCleaner(DataCleaner):
 
         rows = []
         for record in indicator_data:
+            indicator = record.get('indicator', [None])[0]
+            
             row = {
                 'country_code': record.get('geoAreaCode'),
                 'country': record.get('geoAreaName'),
                 'year': record.get('timePeriodStart'),
                 'value': record.get('value'),
-                'indicator': record.get('indicator', [None])[0],
+                'indicator': indicator,
                 'series_code': record.get('series'),
                 'nature': record.get('attributes', {}).get('Nature'),
-                'reporting_type': record.get('dimensions', {}).get('Reporting Type'),
+                'reporting_type': record.get('Reporting Type'),
                 'age': record.get('Age'),
                 'sex': record.get('Sex'),
                 'location': record.get('Location')
             }
+            
+            # Extract class code and name if this indicator has classes defined
+            if indicator and indicator in self.indicator_classes:
+                class_config = self.indicator_classes[indicator]
+                dimension_field = class_config.get('dimension_field')
+                classes = class_config.get('classes', {})
+                
+                if dimension_field:
+                    # Get the class code from the appropriate field
+                    if dimension_field == "series_code":
+                        class_code = record.get('series')
+                    else:
+                        # For dimension-based fields like "IHR Capacity"
+                        class_code = record.get(dimension_field)
+                    
+                    # Map class code to human-readable name
+                    class_name = classes.get(class_code) if class_code else None
+                    
+                    row['class_code'] = class_code
+                    row['class_name'] = class_name
+                else:
+                    row['class_code'] = None
+                    row['class_name'] = None
+            else:
+                row['class_code'] = None
+                row['class_name'] = None
+            
             rows.append(row)
 
         TerminalOutput.summary("  Extracted", f"{len(rows)} rows")        

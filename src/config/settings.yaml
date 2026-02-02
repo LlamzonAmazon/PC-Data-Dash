@@ -52,6 +52,7 @@ unsdg: # name must be same as in client_factory.py
     indicator_data_endpoint: "/Indicator/Data"
 
   indicators:
+    # === SECTOR 1: HEALTHCARE ===
     # === HEALTHCARE ===
     # Resilient Primary Healthcare (PHC) systems
     - { code: "3.8.1", alias: "coverage_of_essential_health_services" }
@@ -93,10 +94,14 @@ unsdg: # name must be same as in client_factory.py
     # === ADDITIONAL CONSIDERATIONS ===
     - { code: "1.2.1", alias: "proportion_of_population_below_the_international_poverty_line" }
 
+  # FetchHandler settings for robust autonomous retry handling
   settings:
-    request_timeout: 30  # in seconds
-    max_retries: 3
-    retry_backoff_factor: 0.3
+    request_timeout: 90           # Request timeout in seconds (UN SDG API is slow)
+    max_retries: 10               # Max retry attempts per request before giving up
+    initial_backoff: 2.0          # Initial backoff in seconds
+    max_backoff: 180.0            # Maximum backoff cap (3 minutes)
+    backoff_multiplier: 2.0       # Exponential backoff multiplier (2s -> 4s -> 8s -> ...)
+    delay_between_requests: 0.75  # Delay between successful requests (reduces server load)
 
 
 # ==================================================================== 

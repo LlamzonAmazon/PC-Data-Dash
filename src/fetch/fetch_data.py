@@ -6,14 +6,54 @@ Responsible for fetching and structuring data from all sources.
 
 from __future__ import annotations
 
-import sys, pandas as pd
-from pathlib import Path
+import sys
 import logging
-from typing import Dict
+import yaml
+from pathlib import Path
+from typing import Any, Dict, List
+
+import pandas as pd
 
 from src.fetch.fetch_factory import DataFetcherFactory
+from src.fetch.fetch_handler import FetchHandlerConfig
 from src.pipeline.utils import project_root, setup_logger
 from src.pipeline.terminal_output import fetch_header, TerminalOutput
+
+
+def _unsdg_dimension_fetch_specs(
+    indicator_codes: List[str],
+    classes_path: Path,
+) -> List[Dict[str, Any]]:
+    """
+    Build specs for indicators that must be fetched per dimension (API returns
+    correct dimension only when filtered). Reads unsdg_indicator_classes.yaml.
+
+    Returns a list of dicts: {"indicator", "dimension_name", "dimension_values"}.
+    """
+    if not classes_path.exists():
+        return []
+    with open(classes_path, "r") as f:
+        config = yaml.safe_load(f) or {}
+    indicator_classes = config.get("indicator_classes") or {}
+    specs = []
+    for code in indicator_codes:
+        entry = indicator_classes.get(code)
+        if not entry or not entry.get("fetch_by_dimension"):
+            continue
+        dim_field = entry.get("dimension_field")
+        if not dim_field or dim_field == "series_code":
+            continue
+        classes = entry.get("classes") or {}
+        dimension_values = list(classes.keys())
+        if not dimension_values:
+            continue
+        specs.append({
+            "indicator": code,
+            "dimension_name": dim_field,
+            "dimension_values": dimension_values,
+        })
+    return specs
+
 
 class FetchData:
     """
@@ -52,37 +92,63 @@ class FetchData:
         
         fetch_header("UN SDG")
         
-        unsdgClient = fetcher_factory.create_client('unsdg')
+        # Build FetchHandlerConfig from settings for robust retry handling
+        unsdg_settings = cfg.get('unsdg', {}).get('settings', {})
+        handler_config = FetchHandlerConfig(
+            timeout=unsdg_settings.get('request_timeout', 60),
+            max_retries=unsdg_settings.get('max_retries', 8),
+            initial_backoff=unsdg_settings.get('initial_backoff', 2.0),
+            max_backoff=unsdg_settings.get('max_backoff', 120.0),
+            backoff_multiplier=unsdg_settings.get('backoff_multiplier', 2.0),
+            delay_between_requests=unsdg_settings.get('delay_between_requests', 0.5),
+        )
+        
+        unsdgClient = fetcher_factory.create_client('unsdg', handler_config=handler_config)
         
         unsdg_indicator_data_endpoint = cfg['unsdg']['api_paths']['indicator_data_endpoint']
         unsdg_indicator_codes = [indicator['code'] for indicator in cfg['unsdg']['indicators']]
         
         TerminalOutput.info(f"Fetching {len(unsdg_indicator_codes)} indicators", indent=1)
 
-        # indicator_data_dict: Dictionary containing all indicator data
-        # indicator_data_dict['data']: List of all indicator data records
-        # NOTE: Using timePeriod array instead of timePeriodStart/End
-        #       because the API only returns start year when using range params
         start_year = cfg['unsdg']['start_year']
         end_year = cfg['unsdg']['end_year']
-        time_period_array = list(range(start_year, end_year + 1))  # e.g. [2010, 2011, ..., 2024]
-        
-        indicator_data_dict = unsdgClient.fetch_indicator_data(
-            unsdg_indicator_data_endpoint, 
-            parameters={
-                "indicator": unsdg_indicator_codes,
-                # areaCode excluded; returns ALL if not specified
-                "timePeriod": time_period_array,  # Use array of years, NOT start/end range!
-                "page" : 1, # Page Number
-                "pageSize": cfg['runtime']['per_page'] # Number of records per page/response
-            },
-            dimension_filters=cfg['unsdg'].get('dimension_filters', None)
+        time_period_array = list(range(start_year, end_year + 1))
+        per_page = cfg['runtime']['per_page']
+
+        # Build list of indicators that must be fetched per dimension (API returns correct
+        # dimension only when filtered). Config: unsdg_indicator_classes.yaml, fetch_by_dimension: true.
+        dimension_fetch_specs = _unsdg_dimension_fetch_specs(
+            unsdg_indicator_codes,
+            project_root() / "src" / "config" / "unsdg_indicator_classes.yaml",
         )
-        
-        # Only saving the raw indicator data contained in the dictionary
-        # NOTE: Still have the dictionary structure, just extracting the list of records
-        # May be useful to keep the dictionary structure for later processing
-        unsdg_indicator_list = indicator_data_dict['data']
+        bulk_indicators = [c for c in unsdg_indicator_codes if c not in {s["indicator"] for s in dimension_fetch_specs}]
+
+        main_list: List[Dict[str, Any]] = []
+        if bulk_indicators:
+            indicator_data_dict = unsdgClient.fetch_indicator_data(
+                unsdg_indicator_data_endpoint,
+                parameters={
+                    "indicator": bulk_indicators,
+                    "timePeriod": time_period_array,
+                    "page": 1,
+                    "pageSize": per_page,
+                },
+                dimension_filters=cfg['unsdg'].get('dimension_filters', None),
+            )
+            main_list = indicator_data_dict["data"]
+
+        for spec in dimension_fetch_specs:
+            records = unsdgClient.fetch_indicator_by_dimension(
+                unsdg_indicator_data_endpoint,
+                indicator_code=spec["indicator"],
+                dimension_name=spec["dimension_name"],
+                dimension_values=spec["dimension_values"],
+                time_period_array=time_period_array,
+                page_size=per_page,
+            )
+            main_list = main_list + records
+
+        unsdg_indicator_list = main_list
 
         # Save raw data locally
         if runtime.get("save_raw", True):
