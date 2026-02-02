@@ -63,13 +63,19 @@ class DataPlotter(ABC):
         pass
     
     @abstractmethod
-    def get_indicator_data(self, indicator: str, series_code: Optional[str] = None) -> pd.DataFrame:
+    def get_indicator_data(
+        self,
+        indicator: str,
+        series_code: Optional[str] = None,
+        class_code: Optional[str] = None,
+    ) -> pd.DataFrame:
         """
-        Extract data for a specific indicator (and optionally series code).
+        Extract data for a specific indicator (and optionally series code / class code).
         
         Args:
             indicator: Indicator code or identifier
             series_code: Optional series code for data sources that use it
+            class_code: Optional class code for dimension-based indicators (e.g. IHR01–IHR13 for 3.d.1)
             
         Returns:
             DataFrame with filtered data, sorted appropriately

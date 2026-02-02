@@ -63,7 +63,19 @@ class UNSDGDomain1Plotter(DataPlotter):
                     {"indicator": "3.7.2", "series_code": "SP_DYN_ADKL", "name": "Adolescent birth rate"}
                 ],
                 "Health risk reduction and management": [
-                    {"indicator": "3.d.1", "series_code": "SH_IHR_CAPS", "name": "International Health Regulations (IHR) capacity"}
+                    {"indicator": "3.d.1", "series_code": "SH_IHR_CAPS", "class_code": "IHR01", "name": "IHR01: Legislation and financing"},
+                    {"indicator": "3.d.1", "series_code": "SH_IHR_CAPS", "class_code": "IHR02", "name": "IHR02: IHR Coordination and National Focal Point Functions"},
+                    {"indicator": "3.d.1", "series_code": "SH_IHR_CAPS", "class_code": "IHR03", "name": "IHR03: Zoonotic events and the Human-Animal Health Interface"},
+                    {"indicator": "3.d.1", "series_code": "SH_IHR_CAPS", "class_code": "IHR04", "name": "IHR04: Food safety"},
+                    {"indicator": "3.d.1", "series_code": "SH_IHR_CAPS", "class_code": "IHR05", "name": "IHR05: Laboratory"},
+                    {"indicator": "3.d.1", "series_code": "SH_IHR_CAPS", "class_code": "IHR06", "name": "IHR06: Surveillance"},
+                    {"indicator": "3.d.1", "series_code": "SH_IHR_CAPS", "class_code": "IHR07", "name": "IHR07: Human resources"},
+                    {"indicator": "3.d.1", "series_code": "SH_IHR_CAPS", "class_code": "IHR08", "name": "IHR08: National Health Emergency Framework"},
+                    {"indicator": "3.d.1", "series_code": "SH_IHR_CAPS", "class_code": "IHR09", "name": "IHR09: Health Service Provision"},
+                    {"indicator": "3.d.1", "series_code": "SH_IHR_CAPS", "class_code": "IHR10", "name": "IHR10: Risk communication"},
+                    {"indicator": "3.d.1", "series_code": "SH_IHR_CAPS", "class_code": "IHR11", "name": "IHR11: Points of entry"},
+                    {"indicator": "3.d.1", "series_code": "SH_IHR_CAPS", "class_code": "IHR12", "name": "IHR12: Chemical events"},
+                    {"indicator": "3.d.1", "series_code": "SH_IHR_CAPS", "class_code": "IHR13", "name": "IHR13: Radiation emergencies"},
                 ]
             },
             "Sector 2: Agriculture": {
@@ -131,8 +143,13 @@ class UNSDGDomain1Plotter(DataPlotter):
         """
         Filter data for a specific country.
         
+        Uses exact match on country name (case-insensitive) or country code so that
+        substring searches (e.g. "Guinea" or "Congo") do not combine multiple
+        countries (Guinea vs Equatorial Guinea vs Guinea-Bissau vs Papua New Guinea,
+        or Congo vs Democratic Republic of the Congo).
+        
         Args:
-            country: Country name or country code to filter by
+            country: Country name or country code to filter by (exact match)
             
         Returns:
             Filtered DataFrame for the specified country
@@ -140,30 +157,42 @@ class UNSDGDomain1Plotter(DataPlotter):
         if self.data is None:
             self.load_data()
         
-        # Try filtering by country name first, then by country code
-        country_data = self.data[
-            (self.data['country'].str.contains(country, case=False, na=False)) |
-            (self.data['country_code'].astype(str) == str(country))
-        ].copy()
+        country_clean = str(country).strip()
+        country_lower = country_clean.lower()
+        # Exact match: country name (case-insensitive) or country code
+        by_name = (
+            self.data['country'].astype(str).str.strip().str.lower() == country_lower
+        )
+        by_code = (self.data['country_code'].astype(str) == country_clean)
+        country_data = self.data[by_name | by_code].copy()
         
         if len(country_data) == 0:
             self.log.warning(f"No data found for country: {country}")
         else:
             self.log.info(f"Filtered to {len(country_data)} rows for country: {country}")
-            # Get the actual country name from the data
             actual_country = country_data['country'].iloc[0]
             self.log.info(f"Using country name: {actual_country}")
         
         self.country_data = country_data
         return country_data
     
-    def get_indicator_data(self, indicator: str, series_code: Optional[str] = None) -> pd.DataFrame:
+    def get_indicator_data(
+        self,
+        indicator: str,
+        series_code: Optional[str] = None,
+        class_code: Optional[str] = None,
+    ) -> pd.DataFrame:
         """
-        Extract data for a specific indicator and series code combination.
+        Extract data for a specific indicator and optional series_code / class_code.
+        
+        For indicators with multiple classes per country-year (e.g. 3.d.1 IHR capacities),
+        pass class_code so only one time series is returned. Otherwise all class values
+        are returned and plotting produces a nonsensical zigzag.
         
         Args:
             indicator: Indicator code (e.g., "3.8.1")
-            series_code: Series code (e.g., "SH_ACS_UNHC_25")
+            series_code: Optional series code (e.g., "SH_ACS_UNHC_25")
+            class_code: Optional class code for dimension-based indicators (e.g., "IHR01" for 3.d.1)
             
         Returns:
             DataFrame with filtered data, sorted by year
@@ -182,6 +211,10 @@ class UNSDGDomain1Plotter(DataPlotter):
         # If series_code is provided, filter by it as well
         if series_code is not None:
             filtered = filtered[filtered['series_code'] == series_code].copy()
+        
+        # If class_code is provided (e.g. for 3.d.1 IHR capacities), filter to one time series
+        if class_code is not None and 'class_code' in filtered.columns:
+            filtered = filtered[filtered['class_code'] == class_code].copy()
         
         # Sort by year
         filtered = filtered.sort_values('year').reset_index(drop=True)
@@ -211,13 +244,14 @@ class UNSDGDomain1Plotter(DataPlotter):
         for idx, ind_info in enumerate(indicators):
             indicator = ind_info.get('indicator')
             series_code = ind_info.get('series_code')
+            class_code = ind_info.get('class_code')
             name = ind_info.get('name', f"{indicator} / {series_code}")
             
             # Skip if indicator/series_code is None (not available)
             if indicator is None or series_code is None:
                 continue
             
-            data = self.get_indicator_data(indicator, series_code)
+            data = self.get_indicator_data(indicator, series_code, class_code)
             
             if len(data) == 0:
                 self.log.warning(f"No data for {indicator} / {series_code} in group {group_name}")
@@ -334,19 +368,6 @@ class UNSDGDomain1Plotter(DataPlotter):
         
         self.log.info(f"Completed plotting Domain 1 for {country_name}")
         return all_plots
-    
-    def plot_domain1(self, country: str) -> Dict[str, List[Path]]:
-        """
-        Convenience method for backward compatibility.
-        Delegates to plot_domain().
-        
-        Args:
-            country: Country name or code to plot
-            
-        Returns:
-            Dictionary mapping sector names to lists of saved plot file paths
-        """
-        return self.plot_domain(country, "domain1")
 
 
 def main():
@@ -358,7 +379,7 @@ def main():
     # Setup logging
     logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
     
-    # Create plotter using factory (or directly for backward compatibility)
+    # Create plotter using factory
     from src.plotting.plot_factory import DataPlotterFactory
     
     factory = DataPlotterFactory()

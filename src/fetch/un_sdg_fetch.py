@@ -88,15 +88,7 @@ class UNSDGFetcher(DataFetcher):
                 break
             page += 1
 
-        flat_records = []
-        for record in all_data.get('data', []):
-            flat_rec = {k: v for k, v in record.items() if k != 'dimensions'}
-            dims = record.get('dimensions', {})
-            if dims and isinstance(dims, dict):
-                flat_rec.update(dims)
-            
-            flat_records.append(flat_rec)
-        
+        flat_records = [self._flatten_record(r) for r in all_data.get('data', [])]
         all_data['data'] = flat_records
         filtered_data = []
 
@@ -170,10 +162,7 @@ class UNSDGFetcher(DataFetcher):
                 if not data or not data.get("data"):
                     break
                 for record in data["data"]:
-                    flat = {k: v for k, v in record.items() if k != "dimensions"}
-                    dims = record.get("dimensions") or {}
-                    if isinstance(dims, dict):
-                        flat.update(dims)
+                    flat = self._flatten_record(record)
                     if valid_countries and str(flat.get("geoAreaCode", "")) not in valid_countries:
                         continue
                     all_records.append(flat)
@@ -189,7 +178,18 @@ class UNSDGFetcher(DataFetcher):
     """ ################################################################## 
     ### CLIENT-SPECIFIC METHODS ###
     ################################################################## """
-    
+
+    def _flatten_record(self, record: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Flatten a single API record by merging the 'dimensions' dict into the top level.
+        Used by fetch_indicator_data and fetch_indicator_by_dimension.
+        """
+        flat = {k: v for k, v in record.items() if k != "dimensions"}
+        dims = record.get("dimensions") or {}
+        if isinstance(dims, dict):
+            flat.update(dims)
+        return flat
+
     def _get_country_codes(self) -> set[str]:
         """
         Fetches the GeoArea Tree and extracts all codes that are of type 'Country'.
