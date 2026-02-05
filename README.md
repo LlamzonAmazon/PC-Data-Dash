@@ -7,6 +7,11 @@ We're building an interactive dashboard for [PlanCatalyst](https://www.PlanCatal
 
 We are exploring ML **regression** techniques using scikit-learn to forecast country-level development and NumPy to construct **composite indexes**. **Azure** automates the data pipeline, while **Microsoft Power BI** delivers the interactive frontend.
 
+## About PlanCatalyst
+PlanCatalyst is a subsidiary of [Plan International Canada](https://plan-international.org/) (a major international humanitarian and development organization) that provides consulting services in international development, corporate sustainability, and social investment. PlanCatalyst provides consultancy services for topics such as disaster reduction, humanitarian relief, gender equality, education, health, and economic empowerment. The organization maximizes the impact of social investments and ESG initiative by leveraging the extensive field experience of Plan International Canada. It operates in tandem with Plan International Canada, which is a recognized humanitarian organization that responds to emergencies (such as food crises, conflicts, and natural disasters) with a focus on children and girls. 
+
+PlanCatalyst acts as a specialized arm for providing strategic, technical, and evaluation expertise to maximize the global impact Plan International Canada makes.
+
 ## ☁️ Azure Architecture
 ***The Azure architecture of this project is still being designed & developed.***
 ![Azure Architecture Diagram](./Azure-Arch.png)
