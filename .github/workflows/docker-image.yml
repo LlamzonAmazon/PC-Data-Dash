@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-  ACR_LOGIN_SERVER: TSIcontainers.azurecr.io
+  ACR_LOGIN_SERVER: tsicontainers-ftd4exffe0b2h4e7.azurecr.io
   IMAGE_NAME: pc-data-dash
 
 jobs:
