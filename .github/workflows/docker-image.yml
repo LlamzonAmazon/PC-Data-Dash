@@ -29,7 +29,7 @@ jobs:
 
       - name: Log in to Azure Container Registry
         run: |
-          az acr login --name TSIcontainers
+          az acr login --name tsicontainers-ftd4exffe0b2h4e7
 
       - name: Build and push Docker image
         run: |
