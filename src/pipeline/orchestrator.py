@@ -12,6 +12,7 @@ from src.pipeline.utils import project_root
 
 from src.fetch.fetch_data import FetchData
 from src.clean.clean_data import CleanData
+from src.processing.process_data import ProcessData
 
 class Orchestrator:
     def __init__(self, config_path: str = project_root() / "src/config/settings.yaml") -> None:
@@ -39,6 +40,9 @@ class Orchestrator:
         cleanData = CleanData(self.config_path)
         cleanData.clean(fetched_data)
         
+        processData = ProcessData(self.config_path)
+        processData.process()
+
         # ============================================================
         # PROCESS
         # ============================================================
@@ -47,7 +51,7 @@ class Orchestrator:
         # This is because we want to be able to resume the pipeline if it fails without having to re-run the pipeline
         # and we want to be able to inspect the intermediate files
 
-        sys.exit(0)
+        # sys.exit(0)
         # raise NotImplementedError
 
 
