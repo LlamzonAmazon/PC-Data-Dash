@@ -182,7 +182,8 @@ class CleanData:
             self.upload_to_azure(
                 container_client=container_client,
                 csv_path=wb_csv_path,
-                blob_name="raw/worldbank/world_bank_raw.json",
+                #blob_name="raw/worldbank/world_bank_raw.json",
+                blob_name="interim/worldbank/world_bank_interim.csv",
                 log=log
             )
 
