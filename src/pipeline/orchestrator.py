@@ -12,12 +12,13 @@ from src.pipeline.utils import project_root
 
 from src.fetch.fetch_data import FetchData
 from src.clean.clean_data import CleanData
+from src.upload.upload_validated import UploadValidated
 
 class Orchestrator:
     def __init__(self, config_path: str = project_root() / "src/config/settings.yaml") -> None:
 
         load_dotenv()
-        self.config_path = config_path
+        self.config_path = Path(config_path)
 
     def run(self) -> None:
 
@@ -38,7 +39,14 @@ class Orchestrator:
         # Writing to Blob then immediately reading it back doubles memory usage temporarily and adds I/O cost 
         cleanData = CleanData(self.config_path)
         cleanData.clean(fetched_data)
-        
+
+        # ============================================================
+        # UPLOAD (validated only, not raw)
+        # ============================================================
+        # Upload runs only on validated/interim output; layout from config (Power BI).
+        upload = UploadValidated(self.config_path)
+        upload.upload()
+
         # ============================================================
         # PROCESS
         # ============================================================
