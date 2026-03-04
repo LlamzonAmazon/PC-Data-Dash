@@ -39,37 +39,3 @@ indicator_classes:
       IHR12: Chemical events
       IHR13: Radiation emergencies
   
-  # 2.1.2: Prevalence of moderate or severe food insecurity
-  # Uses series codes to distinguish classes
-  2.1.2:
-    dimension_field: "series_code"
-    classes:
-      AG_PRD_FIESMS: Prevalence of moderate or severe food insecurity in the population
-      AG_PRD_FIESMSN: Population in moderate or severe food insecurity (number)
-      AG_PRD_FIESS: Prevalence of severe food insecurity in the population
-      AG_PRD_FIESSN: Population in severe food insecurity (number)
-  
-  # 2.2.1: Prevalence of stunting
-  # Uses series codes to distinguish classes
-  2.2.1:
-    dimension_field: "series_code"
-    classes:
-      SH_STA_STNT: Proportion of children moderately or severely stunted
-      SH_STA_STNTN: Children moderately or severely stunted (number)
-  
-  # 2.2.2: Prevalence of malnutrition (overweight)
-  # Uses series codes to distinguish classes
-  2.2.2:
-    dimension_field: "series_code"
-    classes:
-      SN_STA_OVWGT: Proportion of children moderately or severely overweight
-      SN_STA_OVWGTN: Children moderately or severely overweight (number)
-  
-  # 2.2.3: Prevalence of anaemia in women
-  # Uses series codes to distinguish classes
-  2.2.3:
-    dimension_field: "series_code"
-    classes:
-      SH_STA_ANEM: Proportion of women aged 15-49 years with anaemia
-      SH_STA_ANEM_NPRG: Proportion of women aged 15-49 years with anaemia, non-pregnant
-      SH_STA_ANEM_PREG: Proportion of women aged 15-49 years with anaemia, pregnantd
