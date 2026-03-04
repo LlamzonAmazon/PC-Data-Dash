@@ -21,8 +21,10 @@ class UNSDGFetcher(DataFetcher):
         base: str,
         credentials: Optional[dict] = None,
         handler_config: Optional[FetchHandlerConfig] = None,
+        geo_area_tree_url: Optional[str] = None,
     ):
         super().__init__(base, credentials)
+        self._geo_area_tree_url = geo_area_tree_url
         # Use provided config or defaults (robust for autonomous execution)
         self._handler = FetchHandler(handler_config or FetchHandlerConfig())
     
@@ -195,8 +197,8 @@ class UNSDGFetcher(DataFetcher):
         Fetches the GeoArea Tree and extracts all codes that are of type 'Country'.
         Returns a set of country codes (as strings).
         """
-        url = "https://unstats.un.org/sdgs/UNSDGAPIV5/v1/sdg/GeoArea/Tree"
-        
+        url = self._geo_area_tree_url if self._geo_area_tree_url else f"{self.base}/GeoArea/Tree"
+
         try:
             response = self._handler.get(url, context="GeoArea/Tree")
             tree_data = response.json()

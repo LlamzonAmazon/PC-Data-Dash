@@ -45,8 +45,10 @@ unsdg: # name must be same as in client_factory.py
   end_year: 2024
 
   api_paths: 
-    # Base URL for UN SDG API
-    base: "https://unstats.un.org/sdgs/UNSDGAPIV5/v1/sdg"
+    # Base URL for UN SDG API (sdgapi returns full dimensions: Age, Sex, Reporting Type, etc.)
+    base: "https://unstats.un.org/sdgapi/v1/sdg"
+    # GeoArea/Tree must use UNSDGAPIV5 for country-code filtering
+    geo_area_tree_url: "https://unstats.un.org/sdgs/UNSDGAPIV5/v1/sdg/GeoArea/Tree"
     # Indicator endpoints
     indicator_list_endpoint: "/Indicator/List"
     indicator_data_endpoint: "/Indicator/Data"
