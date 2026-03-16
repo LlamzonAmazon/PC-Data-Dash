@@ -12,7 +12,7 @@ from src.pipeline.utils import project_root
 
 from src.fetch.fetch_data import FetchData
 from src.clean.clean_data import CleanData
-from src.upload.upload_validated import UploadValidated
+from src.processing.process_data import ProcessData
 
 class Orchestrator:
     def __init__(self, config_path: str = project_root() / "src/config/settings.yaml") -> None:
@@ -39,13 +39,9 @@ class Orchestrator:
         # Writing to Blob then immediately reading it back doubles memory usage temporarily and adds I/O cost 
         cleanData = CleanData(self.config_path)
         cleanData.clean(fetched_data)
-
-        # ============================================================
-        # UPLOAD (validated only, not raw)
-        # ============================================================
-        # Upload runs only on validated/interim output; layout from config (Power BI).
-        upload = UploadValidated(self.config_path)
-        upload.upload()
+        
+        processData = ProcessData(self.config_path)
+        processData.process()
 
         # ============================================================
         # PROCESS
@@ -55,7 +51,7 @@ class Orchestrator:
         # This is because we want to be able to resume the pipeline if it fails without having to re-run the pipeline
         # and we want to be able to inspect the intermediate files
 
-        sys.exit(0)
+        # sys.exit(0)
         # raise NotImplementedError
 
 
