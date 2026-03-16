@@ -18,7 +18,7 @@ class Orchestrator:
     def __init__(self, config_path: str = project_root() / "src/config/settings.yaml") -> None:
 
         load_dotenv()
-        self.config_path = config_path
+        self.config_path = Path(config_path)
 
     def run(self) -> None:
 

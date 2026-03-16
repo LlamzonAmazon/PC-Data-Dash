@@ -9,7 +9,8 @@ on:
       - main
 
 env:
-  ACR_LOGIN_SERVER: tsicontainers-ftd4exffe0b2h4e7.azurecr.io
+  # From GitHub Secrets (e.g. ACR_LOGIN_SERVER=tsicontainers-ftd4exffe0b2h4e7.azurecr.io)
+  ACR_LOGIN_SERVER: ${{ secrets.ACR_LOGIN_SERVER }}
   IMAGE_NAME: pc-data-dash
 
 jobs:
@@ -29,7 +30,7 @@ jobs:
 
       - name: Log in to Azure Container Registry
         run: |
-          az acr login --name tsicontainers-ftd4exffe0b2h4e7
+          az acr login --name "${{ secrets.ACR_NAME }}"
 
       - name: Build and push Docker image
         run: |

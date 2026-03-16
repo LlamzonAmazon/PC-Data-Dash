@@ -65,11 +65,17 @@ class DataFetcherFactory:
         source = 'api_paths'
         if client_type_lower == 'ndgain':
             source = 'zip_path'
-        
+
+        extra_kwargs = dict(kwargs)
+        if client_type_lower == 'unsdg':
+            api_paths = client_config.get('api_paths') or {}
+            if api_paths.get('geo_area_tree_url') is not None:
+                extra_kwargs['geo_area_tree_url'] = api_paths['geo_area_tree_url']
+
         return data_fetcher(
             base=client_config[source]['base'],  # Passing in base API URL upon instantiation
             credentials=None,  # Use None for now; None of the APIs require keys
-            **kwargs,
+            **extra_kwargs,
         )
     
     def create_all_clients(self) -> Dict[str, DataFetcher]:
