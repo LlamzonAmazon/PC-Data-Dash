@@ -106,4 +106,4 @@ class DataPlotter(ABC):
         Returns:
             Path to output directory
         """
-        return self.root / "data" / "processed" / "plots" / domain
+        return self.root / "data" / "plots" / domain
