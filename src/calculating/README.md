@@ -35,6 +35,13 @@ Currently 3.d.1 calculates an individual score for all classifications (There is
     - 3.d.1 uses a dynamic weighting strategy
         - This is to ensure that if you prioritize one category, it is strictly maintained for all countries/years
 
+## Zero Meanings
+- **Elimination Reached**: A "True Physical Zero." This represents the absolute eradication of a problem (e.g., Saudi Arabia reporting exactly 0.0 malaria cases) 
+- **Full Success Reached**: A "True Physical 100%." Used for access indicators where the country has achieved universal coverage (e.g., 100% electricity or water access). 
+- **Target Achieved**: The country has met the absolute global goal (like the SDG Maternal Mortality target of 70), even if the problem is not yet at physical zero. 
+- **Harmonized Success**: A "Relative Success." The country still has active cases (like Bhutan’s 9.3 birth rate), but because they are doing better than the Global Average (currently ~38.3), they are scored at 0.0 to focus the dashboard on high-risk areas. 
+- **Data Unavailable**: No empirical data was reported for this specific year or cohort. This prevents "No Data" from being confused with "Good Performance.
+
 ## Naming & ID Rules
 Domain 1: Impact
 - Sector 1.1: Healthcare
