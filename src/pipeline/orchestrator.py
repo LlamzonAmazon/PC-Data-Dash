@@ -7,17 +7,21 @@ Orchestrator class is created and run in run_pipeline.py
 from pathlib import Path
 import sys
 
+import yaml
 from dotenv import load_dotenv
-from src.pipeline.utils import project_root
 
+from src.pipeline.utils import project_root
 from src.fetch.fetch_data import FetchData
 from src.clean.clean_data import CleanData
+from src.calculating.pipeline import run_pipeline as run_scoring_pipeline
+from src.processing.process_data import ProcessData
+from src.upload.upload_validated import UploadValidated
 
 class Orchestrator:
     def __init__(self, config_path: str = project_root() / "src/config/settings.yaml") -> None:
 
         load_dotenv()
-        self.config_path = config_path
+        self.config_path = Path(config_path)
 
     def run(self) -> None:
 
@@ -38,18 +42,37 @@ class Orchestrator:
         # Writing to Blob then immediately reading it back doubles memory usage temporarily and adds I/O cost 
         cleanData = CleanData(self.config_path)
         cleanData.clean(fetched_data)
+
+        # ============================================================
+        # CALCULATING (scores → data/interim/validated/)
+        # ============================================================
+        cfg = yaml.safe_load(self.config_path.read_text(encoding="utf-8")) or {}
+        paths_cfg = cfg.get("paths") or {}
+        runtime_cfg = cfg.get("runtime") or {}
+        root = project_root()
+        unsdg_rel = (runtime_cfg.get("interim_data") or {}).get("unsdg")
+        validated_rel = paths_cfg.get("data_interim_validated", "data/interim/validated/")
+        if unsdg_rel:
+            run_scoring_pipeline(root / unsdg_rel, root / validated_rel)
+            
+        # ============================================================
+        # UPLOAD (validated scoring CSVs to Azure when runtime.upload_azure is true)
+        # ============================================================
+        upload_validated = UploadValidated(self.config_path)
+        upload_validated.upload()
+
+        # ============================================================
+        # PROCESS (indicator progress projections → data/processed/)
+        # ============================================================
+        # processData = ProcessData(self.config_path)
+        # processData.process()
         
+         # ============================================================
+        # UPLOAD PROCESSED (indicator progress projections → data/processed/)
         # ============================================================
-        # PROCESS
-        # ============================================================
-
-        # Using Method B for Clean -> Processing
-        # This is because we want to be able to resume the pipeline if it fails without having to re-run the pipeline
-        # and we want to be able to inspect the intermediate files
-
-        sys.exit(0)
-        # raise NotImplementedError
-
+        # upload_processed = UploadProcessed(self.config_path)
+        # upload_processed.upload()
+        
 
         '''
 

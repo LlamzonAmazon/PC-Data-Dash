@@ -15,9 +15,9 @@ World Bank API data fetching client
 """
 class WorldBankFetcher(DataFetcher):
     
-    def __init__(self, base: str, credentials: Optional[dict] = None):
+    def __init__(self, base: str, credentials: Optional[dict] = None, **kwargs):
                 
-        super().__init__(base, credentials)        
+        super().__init__(base, credentials, **kwargs)        
         
         self.per_page = 1000                    # Records per page (pagination)
         self.session = requests.Session()       # Reusable HTTP session (faster)

@@ -1,0 +1,563 @@
+title: TSI - PlanCatalyst Data Dashboard Draft Indicators
+
+domains:
+  - name: "Domain 1: Impact"
+    scoring: "0 - 100"
+    sectors:
+      - name: "Sector 1: Healthcare"
+        scoring: "0 - 100"
+        subsectors:
+          - name: "Resilient primary healthcare (PHC) systems"
+            scoring: "0 - 100"
+            indicators:
+              - id: "3.8.1"
+                name: "Coverage of essential health services"
+                definition: >
+                  The index of health service coverage is computed as the geometric means of 14 tracer
+                  indicators, organized by four broad categories of service coverage: (1) reproductive,
+                  maternal, newborn and child health; (2) infectious diseases; (3) non-communicable
+                  diseases; (4) service capacity and access.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-03-08-01.pdf
+                available_for_all_countries: "No, 31 reporting, only missing Palestine"
+                unit_or_measure: "Index score, geometric means of 14 tracer indicators, 0 - 100"
+                data_source: "SDG Indicators Database"
+                scoring: "100 - Index score for correct directionality."
+
+          - name: "Infectious disease control"
+            scoring: "0 - 100, arithmetic mean of sub indicators, normalized to 100"
+            indicators:
+              - id: "3.3.2"
+                name: "Tuberculosis incidence per 100,000 population"
+                definition: >
+                  Tuberculosis (TB) incidence is defined as the estimated number of new and relapse TB
+                  cases (all forms of TB, including cases in people living with HIV) arising in a given
+                  year. It is usually expressed as a rate per 100 000 population.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-03-03-02.pdf
+                available_for_all_countries: "Yes"
+                unit_or_measure: "Rate per 100,000 population"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  One minus the ratio of the threshold high incidence of TB of 40 to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+              - id: "3.3.3"
+                name: "Incidence of malaria"
+                definition: >
+                  Incidence of malaria is defined as the number of new cases of malaria per 1,000 people
+                  at risk each year.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-03-03-03.pdf
+                available_for_all_countries: "No, 31 reporting, only missing Palestine"
+                unit_or_measure: "Cases per 1,000 population at risk"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  One minus the ratio of the threshold high transmission of 10 to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+          - name: "Maternal, newborn, and child health"
+            scoring: "0 - 100, arithmetic mean of sub indicators, normalized to 100"
+            indicators:
+              - id: "3.1.1"
+                name: "Maternal Mortality Ratio"
+                definition: >
+                  The maternal mortality ratio (MMR) is defined as the number of maternal deaths during
+                  a given time period per 100,000 live births during the same time period. It depicts
+                  the risk of maternal death relative to the number of live births and essentially
+                  captures the risk of death in a single pregnancy (proxied by a single live birth).
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-03-01-01.pdf
+                available_for_all_countries: "Yes"
+                unit_or_measure: "Maternal deaths per 100,000 live births"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  One minus the ratio of the SDG target of 70 to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+              - id: "3.2.1"
+                name: "Under 5 Mortality Ratio"
+                definition: >
+                  Proportion of births attended by skilled health personnel (generally doctors, nurses
+                  or midwives but can refer to other health professionals providing childbirth care) is
+                  the proportion of childbirths attended by skilled health personnel. According to the
+                  current definition these are competent maternal and newborn health (MNH) professionals
+                  educated, trained and regulated to national and international standards. They are
+                  competent to: (i) provide and promote evidence-based, human-rights based, quality,
+                  socio-culturally sensitive and dignified care to women and newborns; (ii) facilitate
+                  physiological processes during labour and delivery to ensure a clean and positive
+                  childbirth experience; and (iii) identify and manage or refer women and/or newborns
+                  with complications.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-03-01-02.pdf
+                available_for_all_countries: "Yes"
+                unit_or_measure: "Proportion (or percentage (%)"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  One minus the ratio of the SDG target of 25 to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+          - name: "Nutrition"
+            scoring: "0 - 100, arithmetic mean of sub indicators, normalized to 100"
+            indicators:
+              - id: "2.2.1"
+                name: "Prevalence of stunting"
+                definition: >
+                  Prevalence of stunting (height-for-age <-2 standard deviation from the median of the
+                  World Health Organization (WHO) Child Growth Standards) among children under 5 years
+                  of age.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-02-02-01.pdf
+                available_for_all_countries: "Yes"
+                unit_or_measure: "Proportion (or percentage (%)"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  One minus the ratio of the threshold low level of 12% to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results in a continuous variable of scale ~0-1.
+
+              - id: "2.2.2"
+                name: "Prevalence of malnutrition"
+                definition: >
+                  Prevalence of overweight (weight for height >+2 standard deviation from the median
+                  of the World Health Organization (WHO) Child Growth Standards) among children under
+                  5 years of age.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-02-02-02a.pdf
+                available_for_all_countries: "Yes"
+                unit_or_measure: "Proportion (or percentage (%)"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  One minus the ratio of the threshold low level of 2.5% to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+              - id: "2.2.3"
+                name: "Prevalence of anemia in women aged 15 to 49 years"
+                definition: >
+                  Percentage of women aged 15−49 years with a haemoglobin concentration less than
+                  120 g/L for non-pregnant women and lactating women, and less than 110 g/L for
+                  pregnant women, adjusted for altitude and smoking.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-02-02-03.pdf
+                available_for_all_countries: "No, 31 reporting, only missing Palestine"
+                unit_or_measure: "Proportion (or percentage (%)"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  One minus the ratio of the threshold low level of 25% to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+          - name: "Reproductive health and family planning"
+            scoring: "0 - 100, arithmetic mean of sub indicators, normalized to 100"
+            indicators:
+              - id: "3.7.1"
+                name: "Proportion of women of reproductive age (aged 15–49 years) who have their need for family planning satisfied with modern methods"
+                definition: >
+                  The percentage of women of reproductive age (15-49 years) currently using a modern
+                  method of contraception among those who desire either to have no (additional) children
+                  or to postpone the next pregnancy. The indicator is also referred to as the demand for
+                  family planning satisfied with modern methods.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-03-07-01.pdf
+                available_for_all_countries: "No, 30 reporting"
+                unit_or_measure: "Proportion (or percentage (%)"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  100 - original indicator for correct directionality.
+                  One minus the ratio of the global average of 11.5% to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+              - id: "3.7.2"
+                name: "Adolescent birth rate (aged 15–19 years) per 1,000 women in that age group"
+                definition: >
+                  Annual number of births to females aged 15-19 years per 1,000 females in the
+                  respective age group.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-03-07-02.pdf
+                available_for_all_countries: "Yes"
+                unit_or_measure: "Rate per 1000 girls aged 15-19"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  One minus the ratio of a threshold elevated rate of 20 to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+          - name: "Health risk reduction and management"
+            scoring: "0 - 100"
+            indicators:
+              - id: "3.d.1"
+                name: "International Health Regulations (IHR) capacity and health emergency preparedness"
+                definition: >
+                  Under the IHR, States Parties are obliged to develop and maintain minimum core
+                  capacities for surveillance and response, including at points of entry, to detect,
+                  assess, notify, and respond to any potential public health events of international
+                  concern.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-03-0D-01.pdf
+                available_for_all_countries: "No, 31 reporting, only missing Palestine"
+                unit_or_measure: "Index score, 0 - 100"
+                data_source: "SDG Indicators Database"
+                scoring: "100 - Index score, 0 - 100"
+
+      - name: "Sector 2: Agriculture"
+        scoring: "0 - 100"
+        subsectors:
+          - name: "Food security"
+            scoring: "0 - 100, arithmetic mean of sub indicators, normalized to 100"
+            indicators:
+              - id: "2.1.2"
+                name: "Prevalence of moderate or severe food insecurity in the population, based on the Food Insecurity Experience Scale (FIES)"
+                definition: >
+                  The indicator measures the percentage of individuals in the population who have
+                  experienced food insecurity at moderate or severe levels during the reference period.
+                  The severity of food insecurity, defined as a latent trait, is measured on the Food
+                  Insecurity Experience Scale global reference scale, a measurement standard established
+                  by FAO through the application of the Food Insecurity Experience Scale in more than
+                  140 countries worldwide, starting in 2014.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-02-01-02.pdf
+                available_for_all_countries: "No, 27 reporting, added four values from WB"
+                unit_or_measure: "Proportion (or percentage (%)"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  One minus the ratio of the IPC threshold of 20% to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+              - id: "2.4.1"
+                name: "Proportion of agricultural area under productive and sustainable agriculture"
+                definition: >
+                  For each country, scores are assigned to each sub-indicator based on the applicable
+                  method described in Annexes 1 and 2, and the average score determines the
+                  classification of the country into one of five bands with respect to the trend towards
+                  productive and sustainable agriculture as well as status with respect to productive
+                  and sustainable agriculture.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-02-04-01proxy.pdf
+                available_for_all_countries: "No, 31 reporting"
+                unit_or_measure: "Score from 1-5, represents status with respect to sustainable agriculture"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  Inverse of score squared, to have the correct directionality.
+                  One minus the ratio of the optimum score of 5 (with data transformation = 0.04) to
+                  the country value. Any countries having a value less than the global average are
+                  harmonized to 0. Results normalized to 0, 100.
+
+          - name: "Agricultural systems and value chain strengthening"
+            scoring: "0 - 100"
+            indicators:
+              - id: "2.a.2"
+                name: "Total official flows to the agriculture sector"
+                definition: >
+                  Gross disbursements of total ODA and other official flows from all donors to the
+                  agriculture sector.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-02-0A-02.pdf
+                available_for_all_countries: "Yes"
+                unit_or_measure: "Millions of constant 2022 USD"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  Normalized to country GDP to enable for comparison.
+                  One minus the ratio of the country value to a goal of 2% ag flow/GDP (0.02).
+                  Any countries having a value greater than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+      - name: "Sector 3: Social Infrastructure"
+        scoring: "0 - 100"
+        subsectors:
+          - name: "Water, sanitation, and hygiene"
+            scoring: "0 - 100, arithmetic mean of sub indicators, normalized to 100"
+            indicators:
+              - id: "6.1.1"
+                name: "Proportion of population using safely managed drinking water services"
+                definition: >
+                  The proportion of the population using safely managed drinking water services is
+                  defined as the proportion of population using an improved drinking water source which
+                  is accessible on premises and available when needed. The condition that it should be
+                  free from faecal and priority chemical contamination was not included as too few
+                  countries had this data point. 'Improved' drinking water sources include: piped
+                  supplies, boreholes and tubewells, protected dug wells, protected springs, rainwater,
+                  water kiosks, and packaged and delivered water.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-06-01-01.pdf
+                available_for_all_countries: "Without element of water being \"free from contaminants\", 31 reporting, only missing Comoros"
+                unit_or_measure: "Proportion (or percentage (%)"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  100 - original indicator for correct directionality.
+                  One minus the ratio of the global average of 27.1% to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+              - id: "6.2.1"
+                name: "Proportion of population not using safely managed sanitation services"
+                definition: >
+                  The proportion of the population using safely managed sanitation services is defined
+                  as the proportion of the population using an improved sanitation facility which is not
+                  shared with other households and where excreta are safely disposed of in situ or
+                  removed and treated off-site. 'Improved' sanitation facilities are those designed to
+                  hygienically separate human excreta from human contact. These include wet sanitation
+                  technologies such as flush and pour flush toilets connected to sewers, septic tanks or
+                  pit latrines, and dry sanitation technologies such as dry pit latrines with slabs,
+                  ventilated improved pit latrines and composting toilets.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-06-02-01a.pdf
+                available_for_all_countries: "Yes"
+                unit_or_measure: "Proportion (or percentage (%)"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  100 - original indicator for correct directionality.
+                  One minus the ratio of the global average of 43% to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+              - id: "3.9.2"
+                name: "Mortality rate attributed to unsafe water, unsafe sanitation, and lack of hygiene"
+                definition: >
+                  The mortality rate attributed to unsafe water, unsafe sanitation and lack of hygiene
+                  (exposure to unsafe Water, Sanitation and Hygiene for All (WASH) services) as defined
+                  as the number of deaths from unsafe water, unsafe sanitation and lack of hygiene
+                  (exposure to unsafe WASH services) in a year, divided by the population, and
+                  multiplied by 100,000.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-03-09-02.pdf
+                available_for_all_countries: "No, 31 reporting, only missing Palestine"
+                unit_or_measure: "Rate per 100,000 population"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  One minus the ratio of the threshold of 10 to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+          - name: "Off-grid power"
+            scoring: "0 - 100, arithmetic mean of sub indicators, normalized to 100"
+            indicators:
+              - id: "7.1.1"
+                name: "Proportion of population with access to electricity"
+                definition: >
+                  Proportion of population with access to electricity is the percentage of population
+                  with access to electricity. SDG7 ensures access to affordable, reliable, sustainable
+                  and modern energy for all. Specifically, Indicator 7.1.1 refers to the proportion of
+                  population with access to electricity. This is expressed in percentage figures and is
+                  disaggregated by total, urban and rural access rates per country, as well as by UN
+                  regional and global classifications.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-07-01-01.pdf
+                available_for_all_countries: "Yes"
+                unit_or_measure: "Proportion (or percentage (%)"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  100 - original indicator for correct directionality.
+                  One minus the ratio of the global average of 9.8% to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+              - id: "7.1.2"
+                name: "Proportion of population with primary reliance on clean fuels and technology"
+                definition: >
+                  Proportion of population with primary reliance on clean fuels and technology is
+                  calculated as the number of people using clean fuels and technologies for cooking,
+                  heating and lighting divided by total population reporting that any cooking, heating
+                  or lighting, expressed as percentage. "Clean" is defined by the emission rate targets
+                  and specific fuel recommendations (i.e. against unprocessed coal and kerosene)
+                  included in the normative guidance WHO guidelines for indoor air quality: household
+                  fuel combustion.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-07-01-02.pdf
+                available_for_all_countries: "Yes"
+                unit_or_measure: "Proportion (or percentage (%)"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  100 - original indicator for correct directionality.
+                  One minus the ratio of the global average of 30.4% to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+              - id: "7.2.1"
+                name: "Renewable energy share in the total final energy consumption"
+                definition: >
+                  The renewable energy share in total final consumption is the percentage of final
+                  consumption of energy that is derived from renewable resources. Renewable energy
+                  consumption includes consumption of energy derived from: hydro, wind, solar, solid
+                  biofuels, liquid biofuels, biogas, geothermal, marine and renewable waste. Total
+                  final energy consumption is calculated from balances as total final consumption minus
+                  non-energy use.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-07-02-01.pdf
+                available_for_all_countries: "Yes"
+                unit_or_measure: "Percentage of final consumption energy"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  100 - original indicator for correct directionality.
+                  One minus the ratio of a goal of 20% to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+          - name: "Digital financial inclusion"
+            scoring: "0 - 100, arithmetic mean of sub indicators, normalized to 100"
+            indicators:
+              - id: "8.10.2"
+                name: "Proportion of adults (15 years and older) with an account at a bank or other financial institution or with a mobile-money-service provider"
+                definition: >
+                  The percentage of adults (ages 15+) who report having an account (by themselves or
+                  together with someone else) at a bank or another type of financial institution or
+                  personally using a mobile money service in the past 12 months.
+                  Consult the metadata for more information:
+                  https://unstats.un.org/sdgs/metadata/files/Metadata-08-10-02.pdf
+                available_for_all_countries: "No, 31 reporting"
+                unit_or_measure: "Proportion (or percentage (%)"
+                data_source: "SDG Indicators Database"
+                scoring: >
+                  100 - original indicator for correct directionality.
+                  One minus the ratio of the global average of 45% to the country value.
+                  Any countries having a value less than the global average are harmonized to 0.
+                  Results normalized to 0, 100.
+
+    cross_cutting_themes:
+      - name: "Cross-Cutting Theme 1: Women's Empowerment"
+        scoring: "0 - 100"
+        indicators:
+          - id: null
+            name: "Gender Inequality Index"
+            definition: >
+              GII is a composite metric of gender inequality using three dimensions: reproductive
+              health, empowerment and the labour market. A low GII value indicates low inequality
+              between women and men, and vice-versa.
+              Consult the documentation:
+              https://hdr.undp.org/sites/default/files/2023-24_HDR/hdr2023-24_technical_notes.pdf
+            available_for_all_countries: "No, 31 reporting, only missing Palestine"
+            unit_or_measure: "Index score, 0 - 100, represents inequality level"
+            data_source: "UNDP Human Development Reports"
+            scoring: >
+              One minus the ratio of the min group value of 0.32 to the country value.
+              Any countries having a value less than the global average are harmonized to 0.
+              Results normalized to 0, 100.
+
+      - name: "Cross-Cutting Theme 1: Climate Adaptation"
+        scoring: "0 - 100"
+        indicators:
+          - id: null
+            name: "ND-GAIN Vulnerability Index"
+            definition: >
+              Measures the exposure, sensitivity and adaptive capacity in six life-supporting sectors:
+              food, water, health, ecosystem services, human habitat, and infrastructure. The
+              vulnerability score takes the simple mean of the sector scores, which are the average
+              scores of component indicators. All measures are weighted equally.
+              Consult the technical documentation:
+              https://gain.nd.edu/assets/522870/nd_gain_countryindextechreport_2023_01.pdf
+            available_for_all_countries: "No, 29 reporting"
+            unit_or_measure: "Index score, 0 - 100, represents vulnerability level"
+            data_source: "University of Notre Dame"
+            scoring: >
+              One minus the ratio of the global average of 0.46 to the country value.
+              Any countries having a value less than the global average are harmonized to 0.
+              Results normalized to 0, 100.
+
+    additional_country_considerations:
+      name: "Additional Country Considerations"
+      scoring: "0 - 100"
+      indicators:
+        - id: null
+          name: "Population density"
+          definition: >
+            Population density is midyear population divided by land area in square kilometers.
+            Population is based on the de facto definition of population, which counts all residents
+            regardless of legal status or citizenship--except for refugees not permanently settled in
+            the country of asylum, who are generally considered part of the population of their country
+            of origin. Land area is a country's total area, excluding area under inland water bodies,
+            national claims to continental shelf, and exclusive economic zones. In most cases the
+            definition of inland water bodies includes major rivers and lakes.
+          available_for_all_countries: "No, 31 reporting, only missing Palestine"
+          unit_or_measure: "Number of people per square km"
+          data_source: "World Bank"
+          scoring: |
+            100: Country has a density of >=250
+            75: Country has a density of >=100 and <250
+            50: Country has a density >=75 and <100
+            25: Country has a density >=25 and <75
+            0: Country has a density <25
+
+        - id: "1.2.1"
+          name: "Proportion of the population living below the national poverty line by sex, age, employment status and geographic location (urban/rural)"
+          definition: >
+            The national poverty rate is the percentage of the total population living below the
+            national poverty line. The rural poverty rate is the percentage of the rural population
+            living below the national poverty line (or in cases where a separate, rural poverty line
+            is used, the rural poverty line). Urban poverty rate is the percentage of the urban
+            population living below the national poverty line (or in cases where a separate, urban
+            poverty line is used, the urban poverty line).
+            Consult the metadata for more information:
+            https://unstats.un.org/sdgs/metadata/files/Metadata-01-02-01.pdf
+          available_for_all_countries: "Yes"
+          unit_or_measure: "Proportion (or percentage (%)"
+          data_source: "SDG Indicators Database"
+          scoring: >
+            One minus the ratio of the threshold of 10 to the country value.
+            Any countries having a value less than the global average are harmonized to 0.
+            Results normalized to 0, 100.
+
+        - id: null
+          name: "Global Multidimensional Poverty Index (MPI)"
+          definition: >
+            The Multidimensional Poverty Index (MPI) is a measure that captures acute poverty by
+            assessing multiple deprivations that people face in health, education, and standard of
+            living. A person is considered multidimensionally poor if they are deprived in at least
+            one-third of the weighted indicators.
+            Consult the documentation:
+            https://hdr.undp.org/mpi-2024-faqs
+          available_for_all_countries: "No, 30 reporting, Djibouti and Somalia missing."
+          unit_or_measure: "Multidimensional index score, higher score represents a greater level of multidimensional poverty"
+          data_source: "UNDP Human Development Reports"
+          scoring: >
+            One minus the ratio of the average of developing countries of 0.089 to the country value.
+            Any countries having a value less than the global average are harmonized to 0.
+            Results normalized to 0, 100.
+
+  - name: "Domain 2: Feasibility"
+    scoring: "0 - 100"
+    sectors:
+      - name: "Partner Capacity"
+        scoring: "0 - 100"
+        subsectors:
+          - name: null
+            indicators:
+              - id: null
+                name: "State Capacity Index"
+                definition: >
+                  Measures state capacity by combining 21 different indicators related to three key
+                  dimensions: extractive capacity, coercive capacity, and administrative capacity.
+                  Higher values indicate greater state capacity.
+                  Consult the documentation:
+                  http://www-personal.umich.edu/~jkhanson/state_capacity.html
+                available_for_all_countries: "No, 31 reporting, only missing Palestine"
+                unit_or_measure: "Index score, higher scores mean more capacity"
+                data_source: "Our World in Data"
+                scoring: >
+                  Ratio of the country value to the global average of 0.7, adjusting the scale to
+                  positive values. Results normalized to 0, 100.
+
+  - name: "Domain 3: Priority Alignment"
+    scoring: "0 - 100"
+    sectors:
+      - name: "Country Macro Socio-Economic Performance"
+        scoring: "0 - 100"
+        subsectors:
+          - name: null
+            indicators:
+              - id: null
+                name: "Concessionality Index"
+                definition: |
+                  1 - Country per capita income (6 indicators)
+                  2 - Degree of vulnerability and fragility (6 indicators)
+                  3 - Risk of debt distress (5 indicators)
+                  4 - Noncessionality external debt (3 indicators)
+                available_for_all_countries: "Yes, though indicates that Palestine is missing data"
+                unit_or_measure: "Index score"
+                data_source: "Multiple (WorldBank, IMF)"
+                scoring: "Index score used directly. Results normalized to 0, 100."

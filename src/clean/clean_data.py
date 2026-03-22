@@ -2,82 +2,34 @@
 This module cleans data from all sources.
 Cleaning involves extracting the relevant data and transforming it into a standardized format.
 
-Responsible for cleaning data and uploading it to Azure Blob Storage.
+Cleaned (interim) output is saved locally; upload to Azure Blob is a separate pipeline stage
+(see src.upload.upload_validated) and runs only on this validated output, not raw.
 '''
 
-
+ 
 from __future__ import annotations
 
+import sys
 import pandas as pd
-from typing import List, Dict, Optional
+from typing import Dict, Optional
 from pathlib import Path
 import logging
-from src.pipeline.utils import setup_logger
 from src.pipeline.terminal_output import clean_header, TerminalOutput
 
 from src.clean.clean_factory import DataCleanFactory
 
-from azure.identity import ClientSecretCredential
-from azure.storage.blob import BlobServiceClient
-
-from dotenv import load_dotenv
-import os
 
 class CleanData:
     """
-    Essentially the main of the module.
+    Cleans raw data and saves validated (interim) CSVs locally.
+    Upload to Blob is handled by the Upload stage (see pipeline orchestrator).
     """
     
     def __init__(self, config_path):
-        
-        load_dotenv()
-
-        self.AZURE_TENANT_ID = os.getenv("AZURE_TENANT_ID")
-        self.AZURE_CLIENT_ID = os.getenv("AZURE_CLIENT_ID")
-        self.AZURE_CLIENT_SECRET = os.getenv("AZURE_CLIENT_SECRET")
-        self.AZURE_STORAGE_ACCOUNT_URL = os.getenv("AZURE_STORAGE_ACCOUNT_URL")
-
-        self.credential = ClientSecretCredential(
-            tenant_id=self.AZURE_TENANT_ID,
-            client_id=self.AZURE_CLIENT_ID,
-            client_secret=self.AZURE_CLIENT_SECRET
-        )
-
         self.config_path = config_path
-
         self.cleanFactory = DataCleanFactory(self.config_path)
-
-        # Load config
-        # Cleaner Factory uses config for runtime settings NOT for file paths, indicator settings, etc.
         self.cfg = self.cleanFactory.get_config()
-
         self.logger = logging.getLogger(__name__)
-
-    def upload_to_azure(self, container_client, csv_path: Path, blob_name: str, log) -> None:
-        """
-        
-        Uploads cleaned CSV files to Azure Blob Storage container.
-        
-        Args:
-            container_client: Azure container client
-            csv_path: Local path to the CSV file
-            blob_name: Name/path for the blob in Azure (e.g., "interim/unsdg/un_sdg_interim.csv")
-            log: Logger instance
-        """
-        try:
-            if not csv_path.exists():
-                log.warning(f"CSV file not found: {csv_path}, skipping upload")
-                return
-            
-            blob_client = container_client.get_blob_client(blob_name)
-            
-            # Read the CSV file and upload
-            with open(csv_path, "rb") as data:
-                blob_client.upload_blob(data, overwrite=True)
-            
-            log.info(f"Successfully uploaded {csv_path.name} to Azure as {blob_name}")
-        except Exception as e:
-            log.error(f"Failed to upload {csv_path.name} to Azure: {e}")
 
     def to_wide(df: pd.DataFrame) -> pd.DataFrame:
         return df.pivot_table(index=["country","iso3","year"], columns="indicator", values="value").reset_index()
@@ -99,27 +51,12 @@ class CleanData:
             self.logger.info("DEBUGGING MODE – LOADING DATA FROM LOCAL")
             df = self.load_raw_data()
 
-        log = setup_logger()
-
-        container_name = "unprocessed-data" # where raw data is stored
-
-        blob_service_client = BlobServiceClient(
-            account_url=self.AZURE_STORAGE_ACCOUNT_URL,
-            credential=self.credential
-        )
-
-        container_client = blob_service_client.get_container_client(container_name)
-
-        # Path to your configuration file
-        cfg_path = self.config_path
-
-        # Stop if config file is missing
+        cfg_path = Path(self.config_path)
         if not cfg_path.exists():
-            log.error("Missing config at %s", cfg_path)
+            self.logger.error("Missing config at %s", cfg_path)
             sys.exit(1)
 
-        # Load configs
-        paths, runtime = self.cfg["paths"], self.cfg["runtime"]
+        runtime = self.cfg["runtime"]
         
         """ ################################################################## 
         ### UN SDG CLEANING ###
@@ -140,15 +77,6 @@ class CleanData:
         if runtime["save_cleaned"]:
             unsdgCleaner.save_interim(unsdg_cleaned, unsdg_csv_path)
 
-        # Upload cleaned CSV to Azure
-        if runtime["upload_azure"]:
-            self.upload_to_azure(
-                container_client=container_client, 
-                csv_path=unsdg_csv_path, 
-                blob_name="interim/unsdg/un_sdg_interim.csv",
-                log=log
-            )
-
         """ ################################################################## 
         ### WORLD BANK CLEANING ###
         ################################################################## """
@@ -167,15 +95,6 @@ class CleanData:
 
         if runtime["save_cleaned"]:
             wbCleaner.save_interim(wb_cleaned, wb_csv_path)
-
-        # Upload CSV to Azure
-        if runtime["upload_azure"]:
-            self.upload_to_azure(
-                container_client=container_client,
-                csv_path=wb_csv_path,
-                blob_name="raw/worldbank/world_bank_raw.json",
-                log=log
-            )
 
         """ ################################################################## 
         ### ND-GAIN CLEANING ###
@@ -196,15 +115,6 @@ class CleanData:
         if runtime["save_cleaned"]:
             ndGainClient.save_interim(ndgain_cleaned, ndgain_csv_path)
 
-        # Upload CSV to Azure
-        if runtime["upload_azure"]:
-            self.upload_to_azure(
-                container_client=container_client,
-                csv_path=ndgain_csv_path,
-                blob_name="interim/ndgain/ndgain_interim.csv",
-                log=log
-            )
-        
         print("\n" + "="*60)
         TerminalOutput.complete("All data sources cleaned successfully")
         print("="*60 + "\n")
@@ -212,7 +122,7 @@ class CleanData:
         return {
             "unsdg": unsdg_cleaned,
             "worldbank": wb_cleaned,
-            "ndgain": ndgain_cleaned
+            "ndgain": ndgain_cleaned,
         }
 
     def load_raw_data(self) -> Dict[str, list]:
@@ -246,7 +156,7 @@ class CleanData:
         return {
             "unsdg": unsdg_data,
             "worldbank": wb_data,
-            "ndgain": ndgain_data
+            "ndgain": ndgain_data,
         }
 
 

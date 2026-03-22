@@ -3,12 +3,14 @@
 ## Overview
 This module is responsible for orchestrating the data pipeline.
 
-It runs 3 major modules in sequence:
-1. **Fetch** – Fetching and structuring the data from the various sources.
-2. **Clean** – Cleaning and uploading the cleaned data to Azure Blob Storage.
-3. **Process** – Creating projections based on the cleaned data, and uploading them in Azure Blob Storage.
+It runs the pipeline in sequence, including:
+1. **Fetch** – Fetch and structure data from each source.
+2. **Clean** – Write cleaned interim CSVs under `data/interim/cleaned/`.
+3. **Calculating** – Score indicators and write `data/interim/validated/`.
+4. **Upload** – Push validated scoring outputs to Azure for Power BI.
+5. **Process** – Build **projections of indicator progress** (actuals + forecast rows) under `data/processed/`, and optionally upload those blobs.
 
-These are the 3 major steps in the **data pipeline**. After the data pipeline is complete, the processed data is then visualized using Power BI.
+After a run, Power BI typically consumes **validated** scores from Blob; **processed** holds projection series (e.g. World Bank actuals/forecasts) for forward-looking views.
 
 ## Running the code
 

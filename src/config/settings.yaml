@@ -45,8 +45,10 @@ unsdg: # name must be same as in client_factory.py
   end_year: 2024
 
   api_paths: 
-    # Base URL for UN SDG API
-    base: "https://unstats.un.org/sdgs/UNSDGAPIV5/v1/sdg"
+    # Base URL for UN SDG API (sdgapi returns full dimensions: Age, Sex, Reporting Type, etc.)
+    base: "https://unstats.un.org/sdgapi/v1/sdg"
+    # GeoArea/Tree must use UNSDGAPIV5 for country-code filtering
+    geo_area_tree_url: "https://unstats.un.org/sdgs/UNSDGAPIV5/v1/sdg/GeoArea/Tree"
     # Indicator endpoints
     indicator_list_endpoint: "/Indicator/List"
     indicator_data_endpoint: "/Indicator/Data"
@@ -94,10 +96,14 @@ unsdg: # name must be same as in client_factory.py
     # === ADDITIONAL CONSIDERATIONS ===
     - { code: "1.2.1", alias: "proportion_of_population_below_the_international_poverty_line" }
 
+  # FetchHandler settings for robust autonomous retry handling
   settings:
-    request_timeout: 30  # in seconds
-    max_retries: 3
-    retry_backoff_factor: 0.3
+    request_timeout: 90           # Request timeout in seconds (UN SDG API is slow)
+    max_retries: 10               # Max retry attempts per request before giving up
+    initial_backoff: 2.0          # Initial backoff in seconds
+    max_backoff: 180.0            # Maximum backoff cap (3 minutes)
+    backoff_multiplier: 2.0       # Exponential backoff multiplier (2s -> 4s -> 8s -> ...)
+    delay_between_requests: 0.75  # Delay between successful requests (reduces server load)
 
 
 # ==================================================================== 
@@ -131,10 +137,13 @@ paths:
   # FOR DEBUGGING: Where to store raw data locally
   data_raw: "data/raw/"
 
-  # Where to store cleaned, interim data
-  data_interim: "data/interim/"
+  # Cleaned outputs from src/clean (UN SDG, ND-GAIN, World Bank interim CSVs)
+  data_interim_cleaned: "data/interim/cleaned/"
 
-  # Where to store polished, model-ready or Power BI–ready outputs (optional).
+  # Scoring outputs from src/calculating (Indicator_Scores_Full, composites, indicatorscores/)
+  data_interim_validated: "data/interim/validated/"
+
+  # Indicator progress projections (actuals + forecast rows); see src/processing/process_data.py
   data_processed: "data/processed/"
 
 runtime:
@@ -143,16 +152,16 @@ runtime:
   save_raw: true
 
   # Save cleaned data locally?
-  save_cleaned: true
+  save_cleaned: true 
 
   # If true: save data to Azure Blob Storage (paths above).
-  upload_azure: false # """ <-- @ANTHONY change to true to verify azure upload works"""
+  upload_azure: true
 
-  # Path of where cleaned interim data is stored locally
+  # Paths to cleaned interim CSVs (under data/interim/cleaned/)
   interim_data:
-    unsdg: "data/interim/un_sdg_interim.csv"
-    ndgain: "data/interim/nd_gain_interim.csv"
-    worldbank: "data/interim/world_bank_interim.csv"
+    unsdg: "data/interim/cleaned/un_sdg_interim.csv"
+    ndgain: "data/interim/cleaned/nd_gain_interim.csv"
+    worldbank: "data/interim/cleaned/world_bank_interim.csv"
 
   # Page size for World Bank API pagination. 1000 is a good max that reduces round-trips.
   # The client will auto-paginate until all pages are fetched.
@@ -175,3 +184,16 @@ runtime:
   # - Decrease in CI if you want faster failures.
   max_retries: 4
 
+azure:
+  container_name: "validated-data"
+  # Optional prefix for all blob names (e.g. "scores/" → scores/Indicator_Scores_Full.csv)
+  blob_prefix: ""
+  # Optional: only upload these paths relative to data_interim_validated (files or directories).
+  # Omit or use null to upload every file under validated/ (recommended for Power BI).
+  # Example (omit this key to upload everything under data_interim_validated):
+  # validated_upload_paths:
+  #   - Indicator_Scores_Full.csv
+  #   - domainscores.csv
+  #   - sectorscores.csv
+  #   - subsectorscores.csv
+  #   - indicatorscores
