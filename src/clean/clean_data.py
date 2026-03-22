@@ -96,16 +96,6 @@ class CleanData:
         if runtime["save_cleaned"]:
             wbCleaner.save_interim(wb_cleaned, wb_csv_path)
 
-        # Upload CSV to Azure
-        if runtime["upload_azure"]:
-            self.upload_to_azure(
-                container_client=container_client,
-                csv_path=wb_csv_path,
-                #blob_name="raw/worldbank/world_bank_raw.json",
-                blob_name="interim/worldbank/world_bank_interim.csv",
-                log=log
-            )
-
         """ ################################################################## 
         ### ND-GAIN CLEANING ###
         ################################################################## """

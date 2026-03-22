@@ -13,6 +13,7 @@ from src.pipeline.utils import project_root
 from src.fetch.fetch_data import FetchData
 from src.clean.clean_data import CleanData
 from src.processing.process_data import ProcessData
+from src.upload.upload_validated import UploadValidated
 
 class Orchestrator:
     def __init__(self, config_path: str = project_root() / "src/config/settings.yaml") -> None:
@@ -39,13 +40,18 @@ class Orchestrator:
         # Writing to Blob then immediately reading it back doubles memory usage temporarily and adds I/O cost 
         cleanData = CleanData(self.config_path)
         cleanData.clean(fetched_data)
-        
-        processData = ProcessData(self.config_path)
-        processData.process()
+
+        # ============================================================
+        # UPLOAD (interim CSVs to Azure when runtime.upload_azure is true)
+        # ============================================================
+        upload_validated = UploadValidated(self.config_path)
+        upload_validated.upload()
 
         # ============================================================
         # PROCESS
         # ============================================================
+        processData = ProcessData(self.config_path)
+        processData.process()
 
         # Using Method B for Clean -> Processing
         # This is because we want to be able to resume the pipeline if it fails without having to re-run the pipeline
