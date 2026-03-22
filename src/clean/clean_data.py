@@ -17,6 +17,7 @@ import logging
 from src.pipeline.terminal_output import clean_header, TerminalOutput
 
 from src.clean.clean_factory import DataCleanFactory
+from src.upload.upload_validated import UploadValidated
 
 
 class CleanData:
@@ -159,11 +160,16 @@ class CleanData:
             "ndgain": ndgain_data,
         }
 
-
 if __name__ == "__main__":
     # For debugging: loads data from /raw directory instead of requiring FetchData
-    cleanData = CleanData(Path("src/config/settings.yaml"))
-    
+    from src.pipeline.utils import project_root
+    config = project_root() / "src" / "config" / "settings.yaml"
+    cleanData = CleanData(config)
+
     # Clean the loaded data
     cleaned_data = cleanData.clean()
     print(f"\nCleaned data sources: {list(cleaned_data.keys())}")
+
+    # Test Azure upload
+    uploader = UploadValidated(config)
+    uploader.upload()

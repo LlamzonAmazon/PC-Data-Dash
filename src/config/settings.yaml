@@ -185,8 +185,8 @@ runtime:
   max_retries: 4
 
 azure:
-  container_name: "validated-data"
-  # Optional prefix for all blob names (e.g. "scores/" → scores/Indicator_Scores_Full.csv)
+  container_name: "powerbi-data-indicators"
+  # Optional prefix for all blob names
   blob_prefix: ""
   # Optional: only upload these paths relative to data_interim_validated (files or directories).
   # Omit or use null to upload every file under validated/ (recommended for Power BI).
