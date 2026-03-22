@@ -1,3 +1,11 @@
+"""
+Processing stage: writes **projections of indicator progress** under ``data/processed/``.
+
+Today this is implemented for World Bank interim data only: historical actuals plus
+simple forward-year projections (baseline last-value carry-forward). Those CSVs are
+what the pipeline treats as *processed* outputs—distinct from cleaned interim files
+and from scored *validated* outputs under ``data/interim/validated/``.
+"""
 from __future__ import annotations
 from pathlib import Path
 import logging
@@ -11,6 +19,9 @@ import os
 from azure.storage.blob import BlobServiceClient
 from azure.identity import ClientSecretCredential
 from dotenv import load_dotenv
+
+from src.pipeline.utils import project_root
+
 
 def upload_to_azure(container_client, csv_path: Path, blob_name: str, log) -> None:
     try:
@@ -28,6 +39,8 @@ def upload_to_azure(container_client, csv_path: Path, blob_name: str, log) -> No
         log.error(f"Failed to upload {csv_path.name} to Azure: {e}")
 
 class ProcessData:
+    """Build indicator progress projections (actuals + forecast rows) for supported sources."""
+
     def __init__(self, config_path: str):
         self.config_path = Path(config_path)
         self.log = logging.getLogger(__name__)
@@ -42,10 +55,12 @@ class ProcessData:
         paths = self.cfg.get("paths", {})
         runtime = self.cfg.get("runtime", {})
 
-        # Where interim WB is (your repo uses this naming)
-        wb_interim_path = Path(paths.get("data_interim", "data/interim/")) / "world_bank_interim.csv"
+        wb_rel = (runtime.get("interim_data") or {}).get("worldbank")
+        if not wb_rel:
+            raise ValueError("settings.yaml missing runtime.interim_data.worldbank")
+        wb_interim_path = project_root() / wb_rel
 
-        # Output folders
+        # Projections / processed outputs (see module docstring)
         processed_root = Path(paths.get("data_processed", "data/processed/")) / "worldbank"
         actuals_path = processed_root / "actuals" / "world_bank_actuals.csv"
         forecasts_path = processed_root / "forecasts" / "world_bank_forecasts.csv"

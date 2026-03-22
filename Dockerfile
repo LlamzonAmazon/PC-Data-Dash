@@ -22,7 +22,7 @@ COPY data/ ./data/
 COPY data/external/ ./data/external/
 
 # Create data directories (if needed)
-RUN mkdir -p data/raw data/interim data/processed
+RUN mkdir -p data/raw data/interim/cleaned data/interim/validated data/processed
 
 # Set Python path
 ENV PYTHONPATH=/app

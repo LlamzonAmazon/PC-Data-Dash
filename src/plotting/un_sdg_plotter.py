@@ -124,7 +124,7 @@ class UNSDGDomain1Plotter(DataPlotter):
         }
         
         # Set data paths
-        self.data_path = self.root / "data" / "interim" / "un_sdg_interim.csv"
+        self.data_path = self.root / "data" / "interim" / "cleaned" / "un_sdg_interim.csv"
     
     def load_data(self) -> pd.DataFrame:
         """

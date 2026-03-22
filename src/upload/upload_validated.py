@@ -13,9 +13,15 @@ from src.pipeline.utils import project_root, setup_logger
 
 class UploadValidated:
     """
-    Upload validated (interim) CSVs to Azure Blob Storage.
-    Uses paths from config; does not upload raw data.
-    Azure credentials are read from the project .env file (see .env.example for keys).
+    Upload validated scoring outputs (src/calculating) to Azure Blob Storage.
+
+    Reads files under paths.data_interim_validated (default data/interim/validated/):
+    composite CSVs, Indicator_Scores_Full.csv, and indicatorscores/*.csv.
+
+    Blob names preserve relative paths under that folder (optionally under azure.blob_prefix)
+    for straightforward Power BI folder connections.
+
+    Azure credentials come from the project .env (see .env.example).
 
     Instance variables (set in __init__ / _load_config):
       config_path      Path to settings.yaml
@@ -24,8 +30,9 @@ class UploadValidated:
       credential       ClientSecretCredential if all AZURE_* set, else None
       azure_enabled    True if credential is set
       cfg              Full parsed settings.yaml dict
-      runtime          cfg["runtime"] (upload_azure, interim_data, ...)
-      azure_cfg        cfg["azure"] (container_name, blob_prefix)
+      runtime          cfg["runtime"] (upload_azure, ...)
+      paths_cfg        cfg["paths"] (data_interim_validated, ...)
+      azure_cfg        cfg["azure"] (container_name, blob_prefix, validated_upload_paths)
     """
 
     def __init__(self, config_path: Path) -> None:
@@ -34,13 +41,11 @@ class UploadValidated:
         self.config_path = Path(config_path)
         self.log = setup_logger()
 
-        # credentials from .env file
         self.AZURE_TENANT_ID = os.getenv("AZURE_TENANT_ID")
         self.AZURE_CLIENT_ID = os.getenv("AZURE_CLIENT_ID")
         self.AZURE_CLIENT_SECRET = os.getenv("AZURE_CLIENT_SECRET")
         self.AZURE_STORAGE_ACCOUNT_URL = os.getenv("AZURE_STORAGE_ACCOUNT_URL")
 
-        # all azure credentials that are required
         has_all_azure_creds = all(
             [
                 self.AZURE_TENANT_ID,
@@ -50,7 +55,6 @@ class UploadValidated:
             ]
         )
 
-        # If credentials are set, create credential object + enable Azure upload
         if has_all_azure_creds:
             self.credential = ClientSecretCredential(
                 tenant_id=self.AZURE_TENANT_ID,
@@ -58,8 +62,6 @@ class UploadValidated:
                 client_secret=self.AZURE_CLIENT_SECRET,
             )
             self.azure_enabled = True
-        
-        # Handle when credentials aren't set
         else:
             self.credential = None
             self.azure_enabled = False
@@ -69,58 +71,86 @@ class UploadValidated:
 
         self._load_config()
 
-    # loads configs + set instance vars
     def _load_config(self) -> None:
         if not self.config_path.exists():
             raise FileNotFoundError(f"Config not found: {self.config_path}")
-        
-        # open and load config file (f)
+
         with open(self.config_path, "r", encoding="utf-8") as f:
             self.cfg = yaml.safe_load(f) or {}
-        
-        # get respective setions of settings.yaml
+
         self.runtime = self.cfg.get("runtime") or {}
+        self.paths_cfg = self.cfg.get("paths") or {}
         self.azure_cfg = self.cfg.get("azure") or {}
 
-    # upload files to azure blob storage
+    def _iter_local_files(self, validated_root: Path) -> list[Path]:
+        """
+        Return files to upload, sorted for deterministic order.
+        If azure.validated_upload_paths is set, only those entries (files or dirs);
+        otherwise all files under validated_root recursively.
+        """
+        if "validated_upload_paths" not in self.azure_cfg:
+            return sorted(p for p in validated_root.rglob("*") if p.is_file())
+
+        explicit = self.azure_cfg.get("validated_upload_paths") or []
+        if not explicit:
+            return []
+
+        out: list[Path] = []
+        for entry in explicit:
+            local = validated_root / str(entry).strip("/")
+            if local.is_file():
+                out.append(local)
+            elif local.is_dir():
+                out.extend(sorted(p for p in local.rglob("*") if p.is_file()))
+            else:
+                self.log.warning("Skipping validated_upload_paths entry (not found): %s", entry)
+        return sorted(set(out))
+
     def upload(self) -> None:
-        # if upload_azure is false, skip upload
         if not self.runtime.get("upload_azure", False):
             self.log.info("upload_azure is false; skipping upload.")
             return
-        
-        # if azure is disabled, skip upload
+
         if not self.azure_enabled:
             self.log.warning("Azure disabled; skipping upload.")
             return
 
-        # get interim data paths from settings.yaml
-        interim_data = self.runtime.get("interim_data") or {}
-        sources_to_upload = self.azure_cfg.get("sources_to_upload") or list(interim_data.keys())
+        validated_rel = self.paths_cfg.get("data_interim_validated", "data/interim/validated/")
         container_name = self.azure_cfg.get("container_name") or "unprocessed-data"
         blob_prefix = self.azure_cfg.get("blob_prefix") or ""
         if blob_prefix and not blob_prefix.endswith("/"):
             blob_prefix = blob_prefix + "/"
 
         root = project_root()
+        validated_root = (root / validated_rel).resolve()
+
+        if not validated_root.is_dir():
+            self.log.warning(
+                "Validated data directory missing at %s; skipping upload.", validated_root
+            )
+            return
+
+        files = self._iter_local_files(validated_root)
+        if not files:
+            self.log.warning("No files to upload under %s", validated_root)
+            return
+
         blob_service_client = BlobServiceClient(
             account_url=self.AZURE_STORAGE_ACCOUNT_URL,
             credential=self.credential,
         )
         container_client = blob_service_client.get_container_client(container_name)
 
-        for source_key in sources_to_upload:
-            if source_key not in interim_data:
+        for local_path in files:
+            try:
+                rel = local_path.relative_to(validated_root)
+            except ValueError:
+                self.log.warning("Skipping path outside validated root: %s", local_path)
                 continue
-            relative_path = interim_data[source_key]
-            local_path = root / relative_path
-            if not local_path.exists():
-                self.log.warning("Skipping %s: file not found at %s", source_key, local_path)
-                continue
-            blob_name = blob_prefix + Path(relative_path).name
+            blob_name = blob_prefix + rel.as_posix()
             self._upload_file(container_client, local_path, blob_name)
 
-        self.log.info("Upload stage finished.")
+        self.log.info("Upload stage finished (%d files).", len(files))
 
     def _upload_file(
         self,

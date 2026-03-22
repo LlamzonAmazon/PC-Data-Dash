@@ -1,7 +1,7 @@
 ## World Bank Blob Output Documentation 
 # Overview
 
-The processing stage generates two separate CSV files for World Bank data:
+The **processed** data folder holds **projections of indicator progress** (alongside historical actuals for the same indicators). The processing stage generates two CSV files for World Bank data:
 
 - Historical actuals
 - Forecasted projections

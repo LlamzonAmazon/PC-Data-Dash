@@ -28,15 +28,20 @@ PC-DATA-DASH/
 │   ├── external/                     # Static external data
 │   │   └── nd_gain_countryindex_2025.zip
 │   │
-│   ├── processed/                    # Processed data (in development)
-│   │   ├── 
-│   │   ├── 
-│   │   └── 
+│   ├── processed/                    # Indicator progress projections (actuals + forecasts)
+│   │   └── worldbank/...
 │   │
-│   ├── interim/                      # Cleaned/processed data
-│   │   ├── nd_gain_interim.csv
-│   │   ├── un_sdg_interim.csv
-│   │   └── world_bank_interim.csv
+│   ├── interim/
+│   │   ├── cleaned/                  # Cleaned interim CSVs (after fetch → clean)
+│   │   │   ├── nd_gain_interim.csv
+│   │   │   ├── un_sdg_interim.csv
+│   │   │   └── world_bank_interim.csv
+│   │   └── validated/                # Scoring outputs (src/calculating)
+│   │       ├── Indicator_Scores_Full.csv
+│   │       ├── domainscores.csv
+│   │       ├── sectorscores.csv
+│   │       ├── subsectorscores.csv
+│   │       └── indicatorscores/
 │   └── raw/                          # Raw fetched data
 │       ├── nd_gain_raw.csv
 │       ├── un_sdg_raw.json

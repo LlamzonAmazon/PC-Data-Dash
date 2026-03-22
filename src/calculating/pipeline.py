@@ -35,8 +35,8 @@ def score_indicators(interim_path: Path) -> pd.DataFrame:
     return df
 
 
-def write_indicator_files(scored_df: pd.DataFrame, processed_dir: Path) -> None:
-    indicators_dir = processed_dir / "indicatorscores"
+def write_indicator_files(scored_df: pd.DataFrame, validated_dir: Path) -> None:
+    indicators_dir = validated_dir / "indicatorscores"
     indicators_dir.mkdir(parents=True, exist_ok=True)
 
     for series_code, group in scored_df.groupby("series_code", dropna=False):
@@ -49,18 +49,18 @@ def write_indicator_files(scored_df: pd.DataFrame, processed_dir: Path) -> None:
 
 def run_pipeline(
     interim_csv: Path,
-    processed_dir: Path,
+    validated_dir: Path,
 ) -> None:
-    processed_dir.mkdir(parents=True, exist_ok=True)
+    validated_dir.mkdir(parents=True, exist_ok=True)
 
     scored_df = score_indicators(interim_csv)
 
     # Phase 1 – full indicator scores with all disaggregations.
-    scored_path = processed_dir / "Indicator_Scores_Full.csv"
+    scored_path = validated_dir / "Indicator_Scores_Full.csv"
     scored_df.to_csv(scored_path, index=False)
 
     # Per-indicator files.
-    write_indicator_files(scored_df, processed_dir)
+    write_indicator_files(scored_df, validated_dir)
 
     # Phase 2 – composites using aggregate rows only.
     subsector_scores = compute_subsector_scores(scored_df)
@@ -93,14 +93,26 @@ def run_pipeline(
     subsector_scores = subsector_scores.drop(columns=["domain_id", "sector_id"], errors="ignore")
     sector_scores = sector_scores.drop(columns=["domain_id"], errors="ignore")
 
-    subsector_scores.to_csv(processed_dir / "subsectorscores.csv", index=False)
-    sector_scores.to_csv(processed_dir / "sectorscores.csv", index=False)
-    domain_scores.to_csv(processed_dir / "domainscores.csv", index=False)
+    subsector_scores.to_csv(validated_dir / "subsectorscores.csv", index=False)
+    sector_scores.to_csv(validated_dir / "sectorscores.csv", index=False)
+    domain_scores.to_csv(validated_dir / "domainscores.csv", index=False)
 
 
 if __name__ == "__main__":
+    import yaml
+
     repo_root = Path(__file__).resolve().parents[2]
-    interim_csv = repo_root / "data" / "interim" / "un_sdg_interim.csv"
-    processed_dir = repo_root / "data" / "processed"
-    run_pipeline(interim_csv, processed_dir)
+    settings_path = repo_root / "src" / "config" / "settings.yaml"
+    with open(settings_path, encoding="utf-8") as f:
+        cfg = yaml.safe_load(f) or {}
+    paths = cfg.get("paths") or {}
+    runtime = cfg.get("runtime") or {}
+    interim_data = runtime.get("interim_data") or {}
+    unsdg_rel = interim_data.get("unsdg")
+    validated_rel = paths.get("data_interim_validated", "data/interim/validated/")
+    if not unsdg_rel:
+        raise ValueError("settings.yaml missing runtime.interim_data.unsdg")
+    interim_csv = repo_root / unsdg_rel
+    validated_dir = repo_root / validated_rel
+    run_pipeline(interim_csv, validated_dir)
 

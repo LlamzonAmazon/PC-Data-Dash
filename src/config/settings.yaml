@@ -137,10 +137,13 @@ paths:
   # FOR DEBUGGING: Where to store raw data locally
   data_raw: "data/raw/"
 
-  # Where to store cleaned, interim data
-  data_interim: "data/interim/"
+  # Cleaned outputs from src/clean (UN SDG, ND-GAIN, World Bank interim CSVs)
+  data_interim_cleaned: "data/interim/cleaned/"
 
-  # Where to store polished, model-ready or Power BI–ready outputs (optional).
+  # Scoring outputs from src/calculating (Indicator_Scores_Full, composites, indicatorscores/)
+  data_interim_validated: "data/interim/validated/"
+
+  # Indicator progress projections (actuals + forecast rows); see src/processing/process_data.py
   data_processed: "data/processed/"
 
 runtime:
@@ -154,11 +157,11 @@ runtime:
   # If true: save data to Azure Blob Storage (paths above).
   upload_azure: true
 
-  # Path of where cleaned interim data is stored locally
+  # Paths to cleaned interim CSVs (under data/interim/cleaned/)
   interim_data:
-    unsdg: "data/interim/un_sdg_interim.csv"
-    ndgain: "data/interim/nd_gain_interim.csv"
-    worldbank: "data/interim/world_bank_interim.csv"
+    unsdg: "data/interim/cleaned/un_sdg_interim.csv"
+    ndgain: "data/interim/cleaned/nd_gain_interim.csv"
+    worldbank: "data/interim/cleaned/world_bank_interim.csv"
 
   # Page size for World Bank API pagination. 1000 is a good max that reduces round-trips.
   # The client will auto-paginate until all pages are fetched.
@@ -183,7 +186,14 @@ runtime:
 
 azure:
   container_name: "validated-data"
-  # Optional prefix for all blob names
+  # Optional prefix for all blob names (e.g. "scores/" → scores/Indicator_Scores_Full.csv)
   blob_prefix: ""
-  # Only upload these sources (keys from runtime.interim_data). Omit or leave empty to upload all.
-  sources_to_upload: [unsdg, worldbank, ndgain]
+  # Optional: only upload these paths relative to data_interim_validated (files or directories).
+  # Omit or use null to upload every file under validated/ (recommended for Power BI).
+  # Example (omit this key to upload everything under data_interim_validated):
+  # validated_upload_paths:
+  #   - Indicator_Scores_Full.csv
+  #   - domainscores.csv
+  #   - sectorscores.csv
+  #   - subsectorscores.csv
+  #   - indicatorscores

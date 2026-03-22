@@ -2,7 +2,7 @@
 """Comprehensive CSV analysis script."""
 import pandas as pd
 
-df = pd.read_csv('data/interim/un_sdg_interim.csv')
+df = pd.read_csv("data/interim/cleaned/un_sdg_interim.csv")
 
 print("=" * 80)
 print("COMPREHENSIVE CSV ANALYSIS")

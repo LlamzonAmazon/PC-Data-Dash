@@ -55,14 +55,16 @@ Domain 1: Impact
     - 1.5.1: Additional country considerations (Poverty, Density, etc.)
 
 ## Data Output Structure
-├── processed/
-│    ├── domainscores.csv               # Stores Domain composite scores 
-│    ├── sectorscores.csv               # Stores Sector composite scores
-│    ├── subsectorscores.csv            # Stores Sub-Sector composite scores
-│    ├── indicator_Scores_Full.csv      # Stroes the full indicator scores 
-│    ├── indicatorscores/               # Stores per-indicator cleaned values
-│    │    ├── indicator-3-8-1.csv       # Each indicator has its own value CSV file containing all region/reporting types, 
-│    │    ├── indicator-3-3-2.csv         original values, etc.  
+Paths come from `paths.data_interim_validated` in `src/config/settings.yaml` (default `data/interim/validated/`).
+
+├── validated/
+│    ├── domainscores.csv               # Domain composite scores
+│    ├── sectorscores.csv               # Sector composite scores
+│    ├── subsectorscores.csv            # Sub-sector composite scores
+│    ├── Indicator_Scores_Full.csv      # Full scored indicator rows (all disaggregations)
+│    ├── indicatorscores/               # Per-series scored slices
+│    │    ├── indicator-3-8-1.csv
+│    │    ├── indicator-3-3-2.csv
 │    │    ├── ...
 
 
