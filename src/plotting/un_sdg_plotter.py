@@ -161,7 +161,7 @@ class UNSDGDomain1Plotter(DataPlotter):
         country_lower = country_clean.lower()
         # Exact match: country name (case-insensitive) or country code
         by_name = (
-            self.data['country'].astype(str).str.strip().str.lower() == country_lower
+            self.data['country_name'].astype(str).str.strip().str.lower() == country_lower
         )
         by_code = (self.data['country_code'].astype(str) == country_clean)
         country_data = self.data[by_name | by_code].copy()
@@ -170,7 +170,7 @@ class UNSDGDomain1Plotter(DataPlotter):
             self.log.warning(f"No data found for country: {country}")
         else:
             self.log.info(f"Filtered to {len(country_data)} rows for country: {country}")
-            actual_country = country_data['country'].iloc[0]
+            actual_country = country_data['country_name'].iloc[0]
             self.log.info(f"Using country name: {actual_country}")
         
         self.country_data = country_data
@@ -355,7 +355,7 @@ class UNSDGDomain1Plotter(DataPlotter):
             self.log.error(f"Cannot plot: No data found for country {country}")
             return {}
         
-        country_name = country_data['country'].iloc[0]
+        country_name = country_data['country_name'].iloc[0]
         self.log.info(f"Plotting Domain 1 data for: {country_name}")
         
         # Plot each sector

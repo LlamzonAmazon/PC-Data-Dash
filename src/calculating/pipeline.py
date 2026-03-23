@@ -75,15 +75,15 @@ def run_pipeline(
     # Sort outputs for deterministic, human-friendly ordering.
     # (We sort before dropping redundant columns so order is stable.)
     subsector_scores = subsector_scores.sort_values(
-        by=["country", "year", "domain_id", "sector_id", "subsector_id"],
+        by=["country_name", "year", "domain_id", "sector_id", "subsector_id"],
         kind="mergesort",
     )
     sector_scores = sector_scores.sort_values(
-        by=["country", "year", "domain_id", "sector_id"],
+        by=["country_name", "year", "domain_id", "sector_id"],
         kind="mergesort",
     )
     domain_scores = domain_scores.sort_values(
-        by=["country", "year", "domain_id"],
+        by=["country_name", "year", "domain_id"],
         kind="mergesort",
     )
 

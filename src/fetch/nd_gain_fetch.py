@@ -166,7 +166,7 @@ class NDGAINFetcher(DataFetcher):
                 # Display all countries for this indicator
                 for country_idx, country_code in enumerate(countries, 1):
                     country_data = indicator_data[indicator_data['country_code'] == country_code]
-                    country_name = country_data['country'].iloc[0]
+                    country_name = country_data['country_name'].iloc[0]
                     
                     print(f"\n  [{country_idx:3d}] {country_name} ({country_code})")
                     print(f"      {'-'*94}")

@@ -33,7 +33,11 @@ class CleanData:
         self.logger = logging.getLogger(__name__)
 
     def to_wide(df: pd.DataFrame) -> pd.DataFrame:
-        return df.pivot_table(index=["country","iso3","year"], columns="indicator", values="value").reset_index()
+        return df.pivot_table(
+            index=["country_code", "country_name", "year"],
+            columns="indicator",
+            values="value",
+        ).reset_index()
 
     def clean(self, df: Optional[Dict[str, list]] = None) -> Dict[str, pd.DataFrame]:
         """
@@ -171,5 +175,5 @@ if __name__ == "__main__":
     print(f"\nCleaned data sources: {list(cleaned_data.keys())}")
 
     # Test Azure upload
-    uploader = UploadValidated(config)
-    uploader.upload()
+    # uploader = UploadValidated(config)
+    # uploader.upload()

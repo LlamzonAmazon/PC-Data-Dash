@@ -33,7 +33,7 @@ class NDGAINCleaner(DataCleaner):
                 indicator_data (List[Dict[str, Any]]): Raw data from ZIP file as list of dictionaries
                 
             Returns:
-                pd.DataFrame: Tidy DataFrame with columns: country_code, country, indicator, year, value
+                pd.DataFrame: Tidy DataFrame with columns: country_code, country_name, indicator, year, value
             """
             if not indicator_data:
                 TerminalOutput.info("No indicator data found", indent=1)
@@ -57,7 +57,7 @@ class NDGAINCleaner(DataCleaner):
             # Rename columns to match standard schema
             df_long = df_long.rename(columns={
                 'ISO3': 'country_code',
-                'Name': 'country'
+                'Name': 'country_name'
             })
             
             # Convert data types
@@ -71,7 +71,7 @@ class NDGAINCleaner(DataCleaner):
             df_long = df_long.sort_values(['country_code', 'indicator', 'year']).reset_index(drop=True)
             
             # Reorder columns for consistency with other clients
-            df_long = df_long[['country_code', 'country', 'indicator', 'year', 'value']]
+            df_long = df_long[['country_code', 'country_name', 'indicator', 'year', 'value']]
             
             TerminalOutput.summary("  Extracted", f"{len(df_long)} rows")
             TerminalOutput.complete("Converted to DataFrame")

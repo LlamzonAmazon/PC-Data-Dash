@@ -60,7 +60,7 @@ def _filter_for_composites(df: pd.DataFrame) -> pd.DataFrame:
     """
     groups = []
     for _, g in df.groupby(
-        ["country_code", "country", "year", "series_code"],
+        ["country_code", "country_name", "year", "series_code"],
         dropna=False,
     ):
         # Prefer BOTHSEX when present; otherwise keep MALE/FEMALE/etc.
@@ -92,7 +92,7 @@ def compute_subsector_scores(scored_df: pd.DataFrame) -> pd.DataFrame:
 
     group_cols = [
         "country_code",
-        "country",
+        "country_name",
         "year",
         "series_code",
         "indicator_id",
@@ -136,7 +136,7 @@ def compute_subsector_scores(scored_df: pd.DataFrame) -> pd.DataFrame:
 
     subsector_group_cols = [
         "country_code",
-        "country",
+        "country_name",
         "year",
         "domain_id",
         "sector_id",
@@ -145,7 +145,7 @@ def compute_subsector_scores(scored_df: pd.DataFrame) -> pd.DataFrame:
 
     # Aggregate indicators to subsector using configurable weights.
     records = []
-    for (country_code, country, year, domain_id, sector_id, subsector_id), group in indicator_means.groupby(
+    for (country_code, country_name, year, domain_id, sector_id, subsector_id), group in indicator_means.groupby(
         subsector_group_cols,
         dropna=False,
     ):
@@ -158,7 +158,7 @@ def compute_subsector_scores(scored_df: pd.DataFrame) -> pd.DataFrame:
         records.append(
             {
                 "country_code": country_code,
-                "country": country,
+                "country_name": country_name,
                 "year": year,
                 "domain_id": domain_id,
                 "sector_id": sector_id,
@@ -194,8 +194,8 @@ def compute_sector_scores(subsector_scores: pd.DataFrame) -> pd.DataFrame:
     Aggregate subsector scores to sector level using configurable weights.
     """
     records = []
-    for (country_code, country, year, domain_id, sector_id), group in subsector_scores.groupby(
-        ["country_code", "country", "year", "domain_id", "sector_id"],
+    for (country_code, country_name, year, domain_id, sector_id), group in subsector_scores.groupby(
+        ["country_code", "country_name", "year", "domain_id", "sector_id"],
         dropna=False,
     ):
         weights = SECTOR_WEIGHTS.get(sector_id, {})
@@ -207,7 +207,7 @@ def compute_sector_scores(subsector_scores: pd.DataFrame) -> pd.DataFrame:
         records.append(
             {
                 "country_code": country_code,
-                "country": country,
+                "country_name": country_name,
                 "year": year,
                 "domain_id": domain_id,
                 "sector_id": sector_id,
@@ -223,8 +223,8 @@ def compute_domain_scores(sector_scores: pd.DataFrame) -> pd.DataFrame:
     Aggregate sector scores to domain level using configurable weights.
     """
     records = []
-    for (country_code, country, year, domain_id), group in sector_scores.groupby(
-        ["country_code", "country", "year", "domain_id"],
+    for (country_code, country_name, year, domain_id), group in sector_scores.groupby(
+        ["country_code", "country_name", "year", "domain_id"],
         dropna=False,
     ):
         weights = DOMAIN_WEIGHTS.get(str(domain_id), {})
@@ -236,7 +236,7 @@ def compute_domain_scores(sector_scores: pd.DataFrame) -> pd.DataFrame:
         records.append(
             {
                 "country_code": country_code,
-                "country": country,
+                "country_name": country_name,
                 "year": year,
                 "domain_id": domain_id,
                 "domain_score": score,

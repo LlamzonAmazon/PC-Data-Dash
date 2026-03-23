@@ -155,7 +155,7 @@ runtime:
   save_cleaned: true 
 
   # If true: save data to Azure Blob Storage (paths above).
-  upload_azure: true
+  upload_azure: false
 
   # Paths to cleaned interim CSVs (under data/interim/cleaned/)
   interim_data:
