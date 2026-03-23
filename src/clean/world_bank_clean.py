@@ -31,7 +31,8 @@ class WorldBankCleaner(DataCleaner):
             alias (str): User-friendly name for the indicator
 
         Returns:
-            pd.DataFrame: Cleaned DataFrame with country, iso3, indicator, year, and value columns.
+            pd.DataFrame: Cleaned DataFrame with country_code (ISO3), country_name, indicator-code,
+            indicator, year, and value (aligned with other interim CSVs).
         """
 
         # Debug: Check first few records
@@ -48,24 +49,29 @@ class WorldBankCleaner(DataCleaner):
         rows = []
         for rec in indicator_data or []:
             rows.append({
-                "country": (rec.get("country") or {}).get("value"),
-                "iso3": rec.get("countryiso3code"),
+                "country_code": rec.get("countryiso3code"),
+                "country_name": (rec.get("country") or {}).get("value"),
                 "indicator-code": (rec.get("indicator") or {}).get("id"),
                 "indicator": (rec.get("indicator") or {}).get("value"),
                 "year": int(rec.get("date")) if str(rec.get("date")).isdigit() else rec.get("date"),
                 "value": rec.get("value")
             })
 
-        # Build DataFrame and sort for readability
-        df = pd.DataFrame(rows, columns=["country","iso3","indicator-code","indicator","year","value"])
+        df = pd.DataFrame(
+            rows,
+            columns=[
+                "country_code",
+                "country_name",
+                "indicator-code",
+                "indicator",
+                "year",
+                "value",
+            ],
+        )
 
-        # indicator: User-friendly indicator name
-        # iso3: country code
-        # year: year recorded from
-        # value: numerical value of the indicator (NaN if null)
-        # country: User-friendly country name
-        # Sort by country (ascending) then by year (ascending)
-        df = df.sort_values(["country", "year"], ascending=[True, True], na_position="last")
+        df = df.sort_values(
+            ["country_name", "year"], ascending=[True, True], na_position="last"
+        )
 
         TerminalOutput.summary("  Records", f"{len(df):,}")
         

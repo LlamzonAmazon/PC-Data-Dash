@@ -73,8 +73,14 @@ class ProcessData:
 
         wb = pd.read_csv(wb_interim_path)
 
-        # EXPECTED minimum columns (adjust if your cleaner uses different names)
-        needed = {"country", "iso3", "year", "indicator-code", "indicator", "value"}
+        needed = {
+            "country_code",
+            "country_name",
+            "year",
+            "indicator-code",
+            "indicator",
+            "value",
+        }
         missing = needed - set(wb.columns)
         if missing:
             raise ValueError(f"World Bank interim missing columns: {missing}. Found: {list(wb.columns)}")
@@ -84,7 +90,9 @@ class ProcessData:
         wb.loc[:, "value"] = pd.to_numeric(wb["value"], errors="coerce")
 
         # 3) Write ACTUALS (just the cleaned series)
-        actuals = wb.dropna(subset=["country", "iso3", "year", "indicator", "value"]).copy()
+        actuals = wb.dropna(
+            subset=["country_code", "country_name", "year", "indicator", "value"]
+        ).copy()
         actuals["record_type"] = "actual"
         actuals["generated_at"] = datetime.utcnow().isoformat()
         actuals = actuals.copy()
@@ -99,11 +107,16 @@ class ProcessData:
         forecast_horizon = int(runtime.get("forecast_horizon_years", 5))
 
         last_obs = (
-            actuals.sort_values(["country", "iso3", "indicator_code", "year"])
-                .groupby(["country", "iso3", "indicator_code"], as_index=False)
-                .tail(1)
-                .rename(columns={"year": "last_year", "value": "last_value"})
-)
+            actuals.sort_values(
+                ["country_code", "country_name", "indicator_code", "year"]
+            )
+            .groupby(
+                ["country_code", "country_name", "indicator_code"],
+                as_index=False,
+            )
+            .tail(1)
+            .rename(columns={"year": "last_year", "value": "last_value"})
+        )
 
         # Build rows for (last_year+1 ... last_year+forecast_horizon)
         forecast_rows = []
@@ -111,15 +124,16 @@ class ProcessData:
             base_year = int(row.last_year)
             for y in range(base_year + 1, base_year + 1 + forecast_horizon):
                 forecast_rows.append({
-                    "country": row.country,
-                    "iso3": row.iso3,
-                    "indicator-code": getattr(row, "indicator_code", None) or getattr(row, "indicator-code", None),
+                    "country_code": row.country_code,
+                    "country_name": row.country_name,
+                    "indicator-code": getattr(row, "indicator_code", None)
+                    or getattr(row, "indicator-code", None),
                     "indicator": getattr(row, "indicator", None),
                     "year": y,
                     "value": row.last_value,
                     "record_type": "forecast",
                     "generated_at": datetime.utcnow().isoformat(),
-                    "model_name": "baseline_last_value"
+                    "model_name": "baseline_last_value",
                 })
 
         forecasts = pd.DataFrame(forecast_rows)

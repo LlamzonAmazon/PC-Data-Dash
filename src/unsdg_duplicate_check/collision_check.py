@@ -2,7 +2,7 @@
 Detect collision duplicates in the UN SDG interim CSV.
 
 A collision duplicate is when every dimension is the same (year, indicator,
-series_code, country, nature, reporting_type, age, sex, location, class_code,
+series_code, country_name, nature, reporting_type, age, sex, location, class_code,
 class_name, and any other columns in the CSV) but the numeric 'value' differs.
 So we use all columns except 'value' as the dimension key.
 """
@@ -66,14 +66,14 @@ def check_unsdg_collision_duplicates(
     Detect collision duplicates: same on every dimension, different numeric value.
 
     Dimension key = all columns in df except 'value' (year, indicator, series_code,
-    country, nature, reporting_type, age, sex, location, class_code, class_name,
+    country_name, nature, reporting_type, age, sex, location, class_code, class_name,
     country_code, etc.). Collision = group with at least 2 non-null values and
     at least 2 distinct values whose range is > tolerance.
 
     Returns:
         detail_df: one row per collision group (dimension key + n_rows, value_min,
                    value_max, value_range, value_std, values_sample).
-        summary_df: aggregated by (indicator, country): collision_group_count,
+        summary_df: aggregated by (indicator, country_name): collision_group_count,
                     rows_impacted, max_value_range, mean_value_range.
     """
     if VALUE_COL not in df.columns:
@@ -133,7 +133,7 @@ def check_unsdg_collision_duplicates(
         summary_df = pd.DataFrame(
             columns=[
                 "indicator",
-                "country",
+                "country_name",
                 "collision_group_count",
                 "rows_impacted",
                 "max_value_range",
@@ -144,7 +144,7 @@ def check_unsdg_collision_duplicates(
 
     detail_df = pd.DataFrame(rows)
     summary_df = (
-        detail_df.groupby(["indicator", "country"], as_index=False)
+        detail_df.groupby(["indicator", "country_name"], as_index=False)
         .agg(
             collision_group_count=("indicator", "size"),
             rows_impacted=("n_rows", "sum"),
@@ -213,7 +213,7 @@ def run_unsdg_duplicate_check(
     by_series = (
         colliding.groupby(["indicator", SERIES_COL], as_index=False)
         .agg(
-            countries_affected=("country", "nunique"),
+            countries_affected=("country_name", "nunique"),
             rows_in_collisions=("indicator", "size"),
         )
     )
