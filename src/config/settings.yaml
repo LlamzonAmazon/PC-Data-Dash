@@ -148,6 +148,10 @@ paths:
 
 runtime:
 
+  # When false, skip API/ZIP fetch and load existing files under paths.data_raw (same as
+  # `python3 -m src.clean.clean_data`): un_sdg_raw.json, world_bank_raw.json, nd_gain_raw.csv.
+  fetch_raw: false
+
   # Save raw data locally?
   save_raw: true
 
@@ -155,7 +159,7 @@ runtime:
   save_cleaned: true 
 
   # If true: save data to Azure Blob Storage (paths above).
-  upload_azure: false
+  upload_azure: true
 
   # Paths to cleaned interim CSVs (under data/interim/cleaned/)
   interim_data:

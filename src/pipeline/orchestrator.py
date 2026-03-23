@@ -25,30 +25,29 @@ class Orchestrator:
 
     def run(self) -> None:
 
+        cfg = yaml.safe_load(self.config_path.read_text(encoding="utf-8")) or {}
+        runtime_cfg = cfg.get("runtime") or {}
+        fetch_raw = runtime_cfg.get("fetch_raw", True)
+
         # ============================================================
         # FETCH
         # ============================================================
-        
-        # Fetch data from all sources and upload raw data to Azure Blob Storage or local files.
-        fetchData = FetchData(self.config_path)
-        fetched_data = fetchData.fetch() # Dictionary containing ALL fetched indicator data by source
+        if fetch_raw:
+            fetchData = FetchData(self.config_path)
+            fetched_data = fetchData.fetch()  # in-memory dict by source
+        else:
+            fetched_data = None  # CleanData.clean(None) loads from data/raw via load_raw_data()
 
         # ============================================================
         # CLEAN
         # ============================================================
-        
-        # Using Method A for Fetch -> Clean
-        # This is because Fetched data is already in memory
-        # Writing to Blob then immediately reading it back doubles memory usage temporarily and adds I/O cost 
         cleanData = CleanData(self.config_path)
         cleanData.clean(fetched_data)
 
         # ============================================================
         # CALCULATING (scores → data/interim/validated/)
         # ============================================================
-        cfg = yaml.safe_load(self.config_path.read_text(encoding="utf-8")) or {}
         paths_cfg = cfg.get("paths") or {}
-        runtime_cfg = cfg.get("runtime") or {}
         root = project_root()
         unsdg_rel = (runtime_cfg.get("interim_data") or {}).get("unsdg")
         validated_rel = paths_cfg.get("data_interim_validated", "data/interim/validated/")
