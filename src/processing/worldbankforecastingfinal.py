@@ -16,12 +16,12 @@ warnings.simplefilter('ignore', ConvergenceWarning)
 
 from src.pipeline.utils import project_root
 project_root = project_root()
-df = pd.read_csv(project_root / 'data/interim/world_bank_interim.csv')
+df = pd.read_csv(project_root / 'data/interim/cleaned/world_bank_interim.csv')
 future_predictions = []
 
-for country in df["country"].unique():
+for iso3 in df["iso3"].unique():
     # 1. Clean and Prepare
-    df_subset = df[df["country"] == country].sort_values("year").dropna(subset=["value"])
+    df_subset = df[df["iso3"] == iso3].sort_values("year").dropna(subset=["value"])
     
     # Need enough history to train ARIMA(1,1,0)
     if len(df_subset) < 5: 
@@ -45,7 +45,7 @@ for country in df["country"].unique():
 
         for year, val in zip(years, forecast_values):
             future_predictions.append({
-                "country": country,
+                "iso3": iso3,
                 "year": year,
                 "predicted_value": round(val, 4)
             })
