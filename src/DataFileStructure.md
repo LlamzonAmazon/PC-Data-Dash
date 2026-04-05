@@ -47,8 +47,16 @@ data/
 │       │   │   
 │       │   └── vulnerability.csv
 │       │
-│       └── worldbank
-│           └── world_bank_validated.csv
+│       ├── worldbank
+│       │   └── world_bank_validated.csv
+│       │
+│       ├── undp
+│       │   ├── 
+│       │   └── ...
+│       │
+│       └── gii
+│           ├── 
+│           └── ...
 │
 ├── processed/                         # Projections of indicator progress (src/processing)
 │   └── worldbank/
