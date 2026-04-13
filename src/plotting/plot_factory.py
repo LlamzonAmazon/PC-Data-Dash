@@ -5,7 +5,7 @@ This factory creates the appropriate plotter instance based on the data source
 and domain, following the abstract factory pattern used throughout the codebase.
 """
 
-from typing import Dict, Type, Optional
+from typing import Dict, Optional, Type
 from pathlib import Path
 import logging
 import yaml
@@ -13,6 +13,8 @@ import yaml
 from src.plotting.base_plotter import DataPlotter
 from src.plotting.un_sdg_plotter import UNSDGDomain1Plotter
 from src.pipeline.utils import project_root
+from src.plotting.dashboard_plotter import HeatmapModePlotter, CountryModePlotter
+from src.plotting.dashboard_data import DashboardDataLoader
 
 
 class DataPlotterFactory:
@@ -52,6 +54,23 @@ class DataPlotterFactory:
             # ('ndgain', 'domain1'): NDGAINDomain1Plotter,
             # ('worldbank', 'domain1'): WorldBankDomain1Plotter,
         }
+
+        # Dashboard plotters (not DataPlotter subclasses — different interface)
+        self._dashboard_loader: Optional[DashboardDataLoader] = None
+
+    def _get_dashboard_loader(self) -> DashboardDataLoader:
+        """Lazily initialise the shared DashboardDataLoader."""
+        if self._dashboard_loader is None:
+            self._dashboard_loader = DashboardDataLoader(config_path=self.config_path)
+        return self._dashboard_loader
+
+    def create_heatmap_plotter(self) -> HeatmapModePlotter:
+        """Create the Heatmap Mode plotter (reads validated scored data)."""
+        return HeatmapModePlotter(self._get_dashboard_loader())
+
+    def create_country_plotter(self) -> CountryModePlotter:
+        """Create the Country Selector Mode plotter (reads validated scored data)."""
+        return CountryModePlotter(self._get_dashboard_loader())
     
     def create_plotter(self, source: str, domain: str) -> DataPlotter:
         """

@@ -10,3 +10,5 @@ azure-storage-blob==12.26.0
 azure-core==1.37.0
 python-dotenv==1.0.0
 matplotlib==3.8.4
+seaborn>=0.13.0
+ipywidgets>=8.0.0

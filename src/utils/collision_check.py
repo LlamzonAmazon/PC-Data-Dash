@@ -5,6 +5,9 @@ A collision duplicate is when every dimension is the same (year, indicator,
 series_code, country_name, nature, reporting_type, age, sex, location, class_code,
 class_name, and any other columns in the CSV) but the numeric 'value' differs.
 So we use all columns except 'value' as the dimension key.
+
+Moved from src/clean/collision_check.py — src/clean/collision_check.py now
+re-exports everything from here for backward compatibility.
 """
 
 from __future__ import annotations
@@ -15,7 +18,7 @@ from typing import List, Optional, Sequence, Tuple
 import pandas as pd
 import yaml
 
-from src.pipeline.utils import project_root, setup_logger
+from src.utils.helpers import project_root, setup_logger
 
 logger = setup_logger("unsdg-duplicate-check")
 
@@ -78,7 +81,6 @@ def check_unsdg_collision_duplicates(
     """
     if VALUE_COL not in df.columns:
         raise ValueError(f"DataFrame must have a '{VALUE_COL}' column")
-    # Every column except value is a dimension; same dims + different value = collision
     dimension_cols = [c for c in df.columns if c != VALUE_COL]
 
     work = df.copy()
@@ -194,7 +196,6 @@ def run_unsdg_duplicate_check(
         logger.info("No collision duplicates detected.")
         return detail_df, summary_df
 
-    # Attribute colliding rows to indicator + series_code using original df
     if SERIES_COL not in df.columns:
         logger.info("'series_code' not in CSV; cannot report per-series_code.")
         return detail_df, summary_df
@@ -203,7 +204,6 @@ def run_unsdg_duplicate_check(
     df_work["year"] = pd.to_numeric(df_work["year"], errors="coerce").astype("Int64")
     df_work[VALUE_COL] = pd.to_numeric(df_work[VALUE_COL], errors="coerce")
     collision_keys = detail_df[dimension_cols_used].drop_duplicates().copy()
-    # Align dtypes so merge works (e.g. class_code/class_name can be object vs float)
     for col in dimension_cols_used:
         if col == "year":
             continue
