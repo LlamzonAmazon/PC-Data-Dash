@@ -63,15 +63,14 @@ class NDGAINCleaner(DataCleaner):
             # Convert data types
             df_long['year'] = pd.to_numeric(df_long['year'], errors='coerce').astype('Int64')
             df_long['value'] = pd.to_numeric(df_long['value'], errors='coerce')
-            
-            # Remove rows with missing values
-            df_long = df_long.dropna(subset=['value'])
+            # Mirror UN-SDG schema so ND-GAIN can flow through scoring factory.
+            df_long['series_code'] = df_long['indicator']
             
             # Sort by country, indicator, and year
             df_long = df_long.sort_values(['country_code', 'indicator', 'year']).reset_index(drop=True)
             
             # Reorder columns for consistency with other clients
-            df_long = df_long[['country_code', 'country_name', 'indicator', 'year', 'value']]
+            df_long = df_long[['country_code', 'country_name', 'year', 'value', 'indicator', 'series_code']]
             
             TerminalOutput.summary("  Extracted", f"{len(df_long)} rows")
             TerminalOutput.complete("Converted to DataFrame")

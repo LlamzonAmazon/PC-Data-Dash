@@ -1,11 +1,34 @@
 from __future__ import annotations
 
-from typing import Dict, Iterable, Tuple
+from typing import Dict, Iterable, List, Tuple
 
 import pandas as pd
 
 from .hierarchy import INDICATORS, IndicatorMeta
 from .weights import DOMAIN_WEIGHTS, SECTOR_WEIGHTS, SUBSECTOR_WEIGHTS, get_ihr_component_weights
+
+INDICATOR_CORE_COLUMNS: List[str] = [
+    "iso3",
+    "country_name",
+    "year",
+    "pillar_key",
+    "subdomain_key",
+    "series_code",
+    "value",
+    "score",
+]
+
+DISAGG_COLUMNS: List[str] = [
+    "nature",
+    "reporting_type",
+    "age",
+    "sex",
+    "location",
+    "quantile",
+    "education_level",
+    "class_code",
+    "class_name",
+]
 
 
 def _available_case_mean(series: pd.Series) -> float:
@@ -81,6 +104,67 @@ def _filter_for_composites(df: pd.DataFrame) -> pd.DataFrame:
         return df.iloc[0:0]
 
     return pd.concat(groups, axis=0)
+
+
+def filter_for_composites(df: pd.DataFrame) -> pd.DataFrame:
+    """Public wrapper for composite-row filtering (BOTHSEX, ALLAREA, etc.)."""
+    return _filter_for_composites(df)
+
+
+def format_output_df(df: pd.DataFrame, level: str) -> pd.DataFrame:
+    """
+    Rename internal columns to dashboard schema and enforce column order.
+    """
+    out = df.copy()
+
+    if level == "indicator":
+        if "pillar_key" not in out.columns and "series_code" in out.columns:
+            out = _attach_hierarchy(out)
+        rename = {
+            "country_code": "iso3",
+            "domain_id": "pillar_key",
+            "subsector_id": "subdomain_key",
+        }
+        out = out.rename(columns={k: v for k, v in rename.items() if k in out.columns})
+        cols = [c for c in INDICATOR_CORE_COLUMNS if c in out.columns]
+        cols += [c for c in DISAGG_COLUMNS if c in out.columns]
+        return out[cols]
+
+    if level == "subsector":
+        out = out.rename(
+            columns={
+                "country_code": "iso3",
+                "domain_id": "pillar_key",
+                "subsector_id": "subdomain_key",
+                "subsector_score": "score",
+            }
+        )
+        cols = ["iso3", "country_name", "year", "pillar_key", "subdomain_key", "score"]
+        return out[[c for c in cols if c in out.columns]]
+
+    if level == "sector":
+        out = out.rename(
+            columns={
+                "country_code": "iso3",
+                "domain_id": "pillar_key",
+                "sector_score": "score",
+            }
+        )
+        cols = ["iso3", "country_name", "year", "pillar_key", "sector_id", "score"]
+        return out[[c for c in cols if c in out.columns]]
+
+    if level == "pillar":
+        out = out.rename(
+            columns={
+                "country_code": "iso3",
+                "domain_id": "pillar_key",
+                "domain_score": "score",
+            }
+        )
+        cols = ["iso3", "country_name", "year", "pillar_key", "score"]
+        return out[[c for c in cols if c in out.columns]]
+
+    raise ValueError(f"Unknown output level: {level!r}")
 
 
 def compute_subsector_scores(scored_df: pd.DataFrame) -> pd.DataFrame:
@@ -174,6 +258,10 @@ def _weighted_mean(
     values: Iterable[Tuple[str, float]],
     weights: Dict[str, float],
 ) -> float:
+    """
+    Weighted mean over available components only; missing scores (NaN / pd.NA)
+    and unknown or zero weights are skipped so aggregates stay well-defined.
+    """
     num = 0.0
     den = 0.0
     for key, val in values:

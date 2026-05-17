@@ -27,7 +27,7 @@ data/
 │       │
 │       ├── ndgain
 │       │   ├── ecosystem
-│       │   │   ├── id_ecos_01.csv
+│       │   │   ├── id_ecos_01.csvi
 │       │   │   └── ...
 │       │   ├── food
 │       │   │   ├── id_food_01.csv
@@ -45,10 +45,10 @@ data/
 │       │   │   ├── id_wate_01.csv
 │       │   │   └── ...
 │       │   │   
-│       │   └── vulnerability.csv
+│       │   └── nd_vulnerability.csv
 │       │
 │       └── worldbank
-│           └── world_bank_validated.csv
+│           └── wb_population_density.csv
 │
 ├── processed/                         # Projections of indicator progress (src/processing)
 │   └── worldbank/

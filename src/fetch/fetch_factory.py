@@ -62,11 +62,15 @@ class DataFetcherFactory:
         
         print(f'now returning {client_type_lower} instance.')
         
+        extra_kwargs = dict(kwargs)
         source = 'api_paths'
         if client_type_lower == 'ndgain':
             source = 'zip_path'
-
-        extra_kwargs = dict(kwargs)
+            zip_cfg = client_config.get(source) or {}
+            if zip_cfg.get('composite_source') is not None:
+                extra_kwargs['composite_source'] = zip_cfg['composite_source']
+            if zip_cfg.get('indicator_root') is not None:
+                extra_kwargs['indicator_root'] = zip_cfg['indicator_root']
         if client_type_lower == 'unsdg':
             api_paths = client_config.get('api_paths') or {}
             if api_paths.get('geo_area_tree_url') is not None:

@@ -20,6 +20,22 @@ from src.pipeline.utils import project_root, setup_logger
 from src.pipeline.terminal_output import fetch_header, TerminalOutput
 
 
+def _flatten_ndgain_vulnerability_config(vulnerability_cfg: Any) -> List[str]:
+    """
+    Support both legacy ND-GAIN indicator prefix lists and the newer nested
+    sector -> indicator-id mapping.
+    """
+    if isinstance(vulnerability_cfg, list):
+        return [str(x) for x in vulnerability_cfg]
+    if isinstance(vulnerability_cfg, dict):
+        flattened: List[str] = []
+        for values in vulnerability_cfg.values():
+            if isinstance(values, list):
+                flattened.extend(str(x) for x in values)
+        return flattened
+    return []
+
+
 def _unsdg_dimension_fetch_specs(
     indicator_codes: List[str],
     classes_path: Path,
@@ -85,7 +101,7 @@ class FetchData:
         # Load full configuration file
         cfg = fetcher_factory.get_config()  
         paths, runtime = cfg["paths"], cfg["runtime"]
-
+        
         """ ################################################################## 
         ### UN SDG FETCHING ###
         ################################################################## """
@@ -195,7 +211,6 @@ class FetchData:
                 "world_bank_raw.json"
             )
         
-        
         """ ################################################################## 
         ### ND-GAIN FETCHING ###
         ################################################################## """
@@ -204,7 +219,9 @@ class FetchData:
         
         ndGainClient = fetcher_factory.create_client('ndgain')
         
-        ndgain_vulnerability_indicators = cfg['ndgain']['indicators']['vulnerability']
+        ndgain_vulnerability_indicators = _flatten_ndgain_vulnerability_config(
+            cfg['ndgain']['indicators']['vulnerability']
+        )
         
         # Get vulnerability scores as a list of dictionaries
         # fetch_indicator_data() returns a LIST of indicator records

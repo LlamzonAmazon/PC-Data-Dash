@@ -200,14 +200,40 @@ INDICATORS: Dict[str, IndicatorMeta] = {
         sector_id="1.3",
         subsector_id="1.3.3",
     ),
-    # Sector 1.5 - Additional Country Considerations
+    # Sector 1.4 - Cross-Cutting Theme 1: Women's Empowerment (no UNDP data yet)
+    "GII_INDEX": IndicatorMeta(
+        indicator_id="GII_INDEX",
+        series_code="GII_INDEX",
+        name="Gender Inequality Index",
+        domain_id="1",
+        sector_id="1.4",
+        subsector_id="1.4.1",
+    ),
+    # Sector 1.5 - Cross-Cutting Theme 1: Climate Adaptation
+    "nd_vulnerability": IndicatorMeta(
+        indicator_id="nd_vulnerability",
+        series_code="nd_vulnerability",
+        name="ND-GAIN Vulnerability Index",
+        domain_id="1",
+        sector_id="1.5",
+        subsector_id="1.5.1",
+    ),
+    # Sector 1.6 - Additional Country Considerations
     "SI_POV_NAHC": IndicatorMeta(
         indicator_id="1.2.1",
         series_code="SI_POV_NAHC",
         name="Population living below national poverty line",
         domain_id="1",
-        sector_id="1.5",
-        subsector_id="1.5.1",
+        sector_id="1.6",
+        subsector_id="1.6.1",
+    ),
+    "EN.POP.DNST": IndicatorMeta(
+        indicator_id="EN.POP.DNST",
+        series_code="EN.POP.DNST",
+        name="Population density",
+        domain_id="1",
+        sector_id="1.6",
+        subsector_id="1.6.2",
     ),
 }
 
@@ -236,7 +262,17 @@ SERIES_CODE_TO_FILENAME: Dict[str, str] = {
     "EG_EGY_CLEAN": "indicator-7-1-2.csv",
     "EG_FEC_RNEW": "indicator-7-2-1.csv",
     "FB_BNK_ACCSS": "indicator-8-10-2.csv",
+    "nd_vulnerability": "ndgain/nd_vulnerability.csv",
+    "EN.POP.DNST": "worldbank/wb_population_density.csv",
 }
+
+for i in range(1, 7):
+    SERIES_CODE_TO_FILENAME[f"id_ecos_{i:02d}"] = f"ndgain/ecosystem/id_ecos_{i:02d}.csv"
+    SERIES_CODE_TO_FILENAME[f"id_food_{i:02d}"] = f"ndgain/food/id_food_{i:02d}.csv"
+    SERIES_CODE_TO_FILENAME[f"id_habi_{i:02d}"] = f"ndgain/habitat/id_habi_{i:02d}.csv"
+    SERIES_CODE_TO_FILENAME[f"id_heal_{i:02d}"] = f"ndgain/health/id_heal_{i:02d}.csv"
+    SERIES_CODE_TO_FILENAME[f"id_infr_{i:02d}"] = f"ndgain/infrastructure/id_infr_{i:02d}.csv"
+    SERIES_CODE_TO_FILENAME[f"id_wate_{i:02d}"] = f"ndgain/water/id_wate_{i:02d}.csv"
 
 
 def list_indicators_for_subsector(subsector_id: str) -> List[IndicatorMeta]:

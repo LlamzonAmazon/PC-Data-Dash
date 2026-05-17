@@ -153,10 +153,14 @@ class CleanData:
         with open(wb_path, 'r') as f:
             wb_data = json.load(f)
         
-        # Load ND-GAIN data (saved as JSON despite .csv extension)
+        # Load ND-GAIN data from wide raw CSV and convert to records.
+        # Backward compatible: older runs stored JSON content in a `.csv` file.
         ndgain_path = raw_dir / "nd_gain_raw.csv"
-        with open(ndgain_path, 'r') as f:
-            ndgain_data = json.load(f)
+        try:
+            ndgain_data = pd.read_csv(ndgain_path).to_dict("records")
+        except Exception:
+            with open(ndgain_path, "r", encoding="utf-8") as f:
+                ndgain_data = json.load(f)
         
         return {
             "unsdg": unsdg_data,

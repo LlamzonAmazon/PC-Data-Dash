@@ -121,10 +121,40 @@ class GoalRatioScorer(IndicatorScorer):
         return scores
 
 
-class DensityScorer(IndicatorScorer):
-    """Continuous scoring for population density."""
+class NDGainScorer(IndicatorScorer):
+    """
+    ND-GAIN vulnerability scoring (see indicators.yaml).
+
+    Score = (1 - 0.46 / value) * 100, clamped to [0, 100].
+    Values below 0.46 harmonize to 0. Missing values remain NaN.
+    """
+
+    _THRESH = 0.46
 
     def score(self, df: pd.DataFrame) -> pd.Series:
-        v = df["value"].astype(float)
-        scores = (v / 0.7) * 100.0
-        return self.clamp_0_100(scores)
+        values = df["value"].astype(float)
+        missing = values.isna()
+        with np.errstate(divide="ignore", invalid="ignore"):
+            raw = 1.0 - (self._THRESH / values)
+        harmonized = np.where(values < self._THRESH, 0.0, raw)
+        scores = self.clamp_0_100(pd.Series(harmonized, index=df.index, dtype=float) * 100.0)
+        return scores.where(~missing, other=pd.NA).astype(pd.Float64Dtype())
+
+
+class PopulationDensityScorer(IndicatorScorer):
+    """World Bank population density tiers (see indicators.yaml); nulls preserved."""
+
+    def score(self, df: pd.DataFrame) -> pd.Series:
+        values = df["value"].astype(float)
+        missing = values.isna()
+        conditions = [
+            values >= 250,
+            (values >= 100) & (values < 250),
+            (values >= 75) & (values < 100),
+            (values >= 25) & (values < 75),
+            values < 25,
+        ]
+        choices = [100, 75, 50, 25, 0]
+        scored = np.select(conditions, choices, default=np.nan)
+        result = pd.Series(scored, index=df.index, dtype="Float64")
+        return result.where(~missing, other=pd.NA)

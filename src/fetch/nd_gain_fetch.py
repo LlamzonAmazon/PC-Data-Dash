@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path, PurePosixPath
 from typing import Any, Dict, List, Optional
-import json, zipfile, pandas as pd
+import zipfile
+import pandas as pd
 
 from src.pipeline.utils import ensure_dir
 from src.pipeline.terminal_output import TerminalOutput
@@ -16,9 +17,10 @@ Extracts indicator data from local ZIP file containing CSV files
 class NDGAINFetcher(DataFetcher):
 
     def __init__(self, base: str, credentials: Optional[dict] = None, **kwargs):
-        
         super().__init__(base, credentials, **kwargs)
         self.base = Path(base)
+        self.composite_source = kwargs.get("composite_source", "resources/vulnerability/vulnerability.csv")
+        self.indicator_root = kwargs.get("indicator_root", "resources/indicators/")
         
         # Validate ZIP file exists
         if not self.base.exists():
@@ -28,13 +30,14 @@ class NDGAINFetcher(DataFetcher):
             )
     
     def save_raw_data(self, records: List[Dict[str, Any]], out_dir: Path, filename: str) -> None:
-        """Saves the unmodified data to JSON (raw data)."""
+        """Saves wide ND-GAIN rows to a CSV file."""
         ensure_dir(out_dir)
-        (out_dir / filename).write_text(json.dumps(records, indent=2), encoding="utf-8")
+        pd.DataFrame.from_records(records).to_csv(out_dir / filename, index=False)
 
-    def fetch_indicator_data(self, indicator_codes: List[str] = None, chunkSize: int = 10000) -> List[Dict[str, Any]]:
+    def fetch_indicator_data(self, indicator_codes: Optional[List[str]] = None, chunkSize: int = 10000) -> List[Dict[str, Any]]:
         """
-        Fetches all indicator score data from the ND-GAIN ZIP file.
+        Fetches indicator score data and composite vulnerability time-series
+        from the ND-GAIN ZIP file.
         Returns raw data as list of dictionaries (similar to API response format).
         
         Args:
@@ -44,15 +47,14 @@ class NDGAINFetcher(DataFetcher):
         Returns:
             List[Dict[str, Any]]: List of records with indicator data
         """
-        # Get list of all score files in ZIP
+        # Get list of all indicator score files in ZIP
         score_files = self._list_indicator_score_files()
         
         if not score_files:
             TerminalOutput.info("No indicator score files found", indent=1)
             return []
         
-        # Load all indicator data
-        all_records = []
+        all_records: List[Dict[str, Any]] = []
         
         # Extract ZIP file
         with zipfile.ZipFile(self.base, "r") as zf:
@@ -66,30 +68,45 @@ class NDGAINFetcher(DataFetcher):
                 except IndexError:
                     continue
                 
-                # Skip if filtering and this indicator not in filter list
-                if indicator_codes and indicator_name[:7] not in indicator_codes:
-                    continue
-                
+                # Skip if filtering and this indicator not in filter list.
+                # Accept both exact indicator IDs and legacy 7-char prefixes.
+                if indicator_codes:
+                    if indicator_name not in indicator_codes and indicator_name[:7] not in indicator_codes:
+                        continue
+
                 TerminalOutput.print_progress(idx, len(score_files), prefix="  Loading indicators: ")
-                
+
                 try:
-                    # Open file from zip file object at current iteration path
                     with zf.open(path) as f:
-                        # Read data in chunks to avoid memory issues
                         chunk_list = []
                         for chunk in pd.read_csv(f, chunksize=chunkSize):
                             chunk["indicator"] = indicator_name
                             chunk_list.append(chunk)
-                        
-                        # Combine chunks and convert to records
+
                         if chunk_list:
                             df = pd.concat(chunk_list, ignore_index=True)
-                            records = df.to_dict('records')
+                            records = df.to_dict("records")
                             all_records.extend(records)
-                            
+
                 except Exception as e:
                     TerminalOutput.info(f"Error loading {indicator_name}: {e}", indent=1)
                     continue
+
+            # Composite vulnerability time-series is loaded as a pseudo-indicator
+            # so it can flow through cleaning/scoring with the same schema.
+            if self.composite_source in zf.namelist():
+                try:
+                    with zf.open(self.composite_source) as f:
+                        composite_df = pd.read_csv(f)
+                        composite_df["indicator"] = "nd_vulnerability"
+                        all_records.extend(composite_df.to_dict("records"))
+                except Exception as e:
+                    TerminalOutput.info(f"Error loading composite vulnerability series: {e}", indent=1)
+            else:
+                TerminalOutput.info(
+                    f"Composite source not found in archive: {self.composite_source}",
+                    indent=1,
+                )
         
         TerminalOutput.summary("  Records", f"{len(all_records):,}")
         return all_records
@@ -108,10 +125,11 @@ class NDGAINFetcher(DataFetcher):
         with zipfile.ZipFile(self.base, "r") as zf:
             all_names = zf.namelist()
         
+        indicator_root = self.indicator_root.rstrip("/") + "/"
         # Filter for only indicator score.csv files
         score_files = [
             name for name in all_names
-            if name.startswith("resources/indicators/")
+            if name.startswith(indicator_root)
             and name.endswith("/score.csv")
         ]
         

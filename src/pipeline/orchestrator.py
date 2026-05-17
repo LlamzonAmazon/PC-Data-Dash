@@ -41,19 +41,20 @@ class Orchestrator:
         # ============================================================
         # CLEAN
         # ============================================================
-        cleanData = CleanData(self.config_path)
-        cleanData.clean(fetched_data)
+        # cleanData = CleanData(self.config_path)
+        #cleanData.clean(fetched_data)
 
         # ============================================================
         # CALCULATING (scores → data/interim/validated/)
         # ============================================================
+        '''
         paths_cfg = cfg.get("paths") or {}
         root = project_root()
         unsdg_rel = (runtime_cfg.get("interim_data") or {}).get("unsdg")
         validated_rel = paths_cfg.get("data_interim_validated", "data/interim/validated/")
         if unsdg_rel:
             run_scoring_pipeline(root / unsdg_rel, root / validated_rel)
-            
+        '''   
         # ============================================================
         # UPLOAD (validated scoring CSVs to Azure when runtime.upload_azure is true)
         # ============================================================
